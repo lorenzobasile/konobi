@@ -1,7 +1,12 @@
-public class Tile {
+public class Cell {
+    Position position;
     Color color;
 
-    public Tile(Color inputColor) {
-        this.color = inputColor;
+
+    public Cell(Position position, Color color) {
+        this.position = position;
+        this.color = color;
     }
+
+
 }
