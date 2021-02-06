@@ -1,6 +1,6 @@
 public class Tile {
-    Position position;
-    Color color;
+    private Position position;
+    private Color color;
 
 
     public Tile(Position position, Color color) {
@@ -12,5 +12,11 @@ public class Tile {
         return this.position.equals(position);
     }
 
+    public void setColor(Color color) {
+        this.color = color;
+    }
 
+    public Color getColor() {
+        return color;
+    }
 }

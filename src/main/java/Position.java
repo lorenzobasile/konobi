@@ -10,4 +10,8 @@ public class Position {
     public boolean equals(Position otherPosition) {
         return this.x == otherPosition.x && this.y == otherPosition.y;
     }
+
+    public static Position At(int x, int y){
+        return new Position(x,y);
+    }
 }

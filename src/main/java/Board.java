@@ -23,7 +23,8 @@ public class Board {
         return null;
     }
 
-    public void placeTileAt(Position position) {
-
+    public void placeTileAt(Position position, Color color) {
+        Tile retrievedTile = findTileAt(position);
+        retrievedTile.setColor(color);
     }
 }
