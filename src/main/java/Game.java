@@ -1,22 +1,31 @@
 public class Game {
 
     Board board;
-    Color lastTurn;
+    Player player1;
+    Player player2;
+    Player currentPlayer;
 
     public Game(int inputDimension) {
         this.board = new Board(inputDimension);
-        this.lastTurn = Color.NONE;
+        this.player1  = new Player(Color.BLACK);
+        this.player2  = new Player(Color.WHITE);
+        this.currentPlayer = player1;
     }
 
-    public void play(Color color, Position position) throws Exception{
-        if(lastTurn == Color.NONE && color == Color.WHITE){
-            throw new Exception("invalid first player");
-        }
-        if(lastTurn == color) {
-            throw new Exception("invalid next player");
-        }
 
-        board.placeTileAt(color, position);
-        lastTurn = color;
+    public void play(Position position) throws Exception{
+
+        board.placeTileAt(currentPlayer.getColor(), position);
+
+        changeTurn();
+    }
+
+    private void changeTurn() {
+        if (currentPlayer == player1){
+            currentPlayer = player2;
+        }
+        else{
+            currentPlayer = player1;
+        }
     }
 }
