@@ -12,6 +12,9 @@ public class Game {
         if(lastTurn == Color.NONE && color == Color.WHITE){
             throw new Exception("invalid first player");
         }
+        if(lastTurn == color) {
+            throw new Exception("invalid next player");
+        }
         board.placeTileAt(color, position);
         lastTurn = color;
     }
