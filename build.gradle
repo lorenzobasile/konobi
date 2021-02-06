@@ -1,19 +1,18 @@
+
 plugins {
     id 'java'
+    id 'application'
 }
 
-group 'konobi'
-version '1.0'
-
 repositories {
-    mavenCentral()
+    jcenter()
 }
 
 dependencies {
-    testImplementation(platform('org.junit:junit-bom:5.6.2'))
-    testImplementation('org.junit.jupiter:junit-jupiter')
+    implementation 'com.google.guava:guava:29.0-jre'
+    testImplementation 'junit:junit:4.13'
 }
 
-test {
-    useJUnitPlatform()
+application {
+    mainClassName = 'konobi.App'
 }

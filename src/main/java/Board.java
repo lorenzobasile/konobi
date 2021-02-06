@@ -9,7 +9,7 @@ public class Board {
         this.dimension = dimension;
         for (int i = 0; i<dimension; ++i){
             for(int j = 0; j<dimension; ++j){
-                tiles.add(new Tile(new Position(i, j), Color.NONE));
+                tiles.add(Tile.empty(Position.at(i,j)));
             }
         }
     }
@@ -23,7 +23,7 @@ public class Board {
         return null;
     }
 
-    public void placeTileAt(Position position, Color color) {
+    public void placeTileAt(Color color, Position position) {
         Tile retrievedTile = findTileAt(position);
         retrievedTile.setColor(color);
     }

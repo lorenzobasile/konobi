@@ -8,6 +8,10 @@ public class Tile {
         this.color = color;
     }
 
+    public static Tile empty(Position position){
+        return new Tile(position, Color.NONE);
+    }
+
     public boolean isAt(Position position) {
         return this.position.equals(position);
     }

@@ -1,6 +1,6 @@
 public class Position {
-    int x;
-    int y;
+    private int x;
+    private int y;
 
     public Position(int x, int y) {
         this.x = x;
@@ -11,7 +11,7 @@ public class Position {
         return this.x == otherPosition.x && this.y == otherPosition.y;
     }
 
-    public static Position At(int x, int y){
+    public static Position at(int x, int y){
         return new Position(x,y);
     }
 }
