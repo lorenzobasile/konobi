@@ -15,6 +15,7 @@ public class Game {
         if(lastTurn == color) {
             throw new Exception("invalid next player");
         }
+
         board.placeTileAt(color, position);
         lastTurn = color;
     }

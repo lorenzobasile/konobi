@@ -12,7 +12,7 @@ public class testBoard {
     }
 
     @Test
-    public void placeBlackTileAndVerifyColor(){
+    public void placeBlackTileAndVerifyColor() throws Exception {
        board.placeTileAt(Color.BLACK, Position.at(0,0));
        Tile placedTile = board.findTileAt(Position.at(0,0));
        assertEquals(Color.BLACK,placedTile.getColor());

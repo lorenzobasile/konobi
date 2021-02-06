@@ -23,8 +23,10 @@ public class Board {
         return null;
     }
 
-    public void placeTileAt(Color color, Position position) {
+    public void placeTileAt(Color color, Position position) throws Exception {
         Tile retrievedTile = findTileAt(position);
+        if(retrievedTile.getColor() != Color.NONE)
+            throw new Exception("Already played position");
         retrievedTile.setColor(color);
     }
 }
