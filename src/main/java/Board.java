@@ -14,13 +14,13 @@ public class Board {
         }
     }
 
-    public Tile findTileAt(Position position) {
+    public Tile findTileAt(Position position) throws Exception {
         for(Tile t : tiles) {
             if(t.isAt(position)) {
                 return t;
             }
         }
-        return null;
+        throw new Exception("Position outside board");
     }
 
     public void placeTileAt(Color color, Position position) throws Exception {

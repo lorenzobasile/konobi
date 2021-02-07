@@ -5,10 +5,9 @@ import static org.junit.Assert.assertEquals;
 public class testBoard {
     Board board = new Board(3);
 
-    @Test
-    public void positionOutsideBoardNotFound(){
+    @Test (expected=Exception.class)
+    public void positionOutsideBoardNotFound() throws Exception{
         Tile retrievedTile = board.findTileAt(Position.at(0,3));
-        assertEquals(null,retrievedTile);
     }
 
     @Test
