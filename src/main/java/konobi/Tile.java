@@ -1,3 +1,5 @@
+package konobi;
+
 public class Tile {
     private Position position;
     private Color color;

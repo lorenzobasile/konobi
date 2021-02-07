@@ -1,8 +1,8 @@
+package konobi;
+
 import java.util.Scanner;
 
-
 public class InputHandler {
-
 
 
     public Position inputMove() {

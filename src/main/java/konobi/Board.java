@@ -1,5 +1,9 @@
+package konobi;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import static konobi.Position.at;
 
 public class Board {
     int dimension;
@@ -9,7 +13,7 @@ public class Board {
         this.dimension = dimension;
         for (int i = 0; i<dimension; ++i){
             for(int j = 0; j<dimension; ++j){
-                tiles.add(Tile.empty(Position.at(i,j)));
+                tiles.add(Tile.empty(at(i,j)));
             }
         }
     }
@@ -20,7 +24,7 @@ public class Board {
                 return t;
             }
         }
-        throw new Exception("Position outside board");
+        throw new Exception("konobi.Position outside board");
     }
 
     public void placeTileAt(Color color, Position position) throws Exception {

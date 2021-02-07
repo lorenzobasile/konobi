@@ -1,3 +1,5 @@
+package konobi;
+
 public class Player {
     private Color color;
 
