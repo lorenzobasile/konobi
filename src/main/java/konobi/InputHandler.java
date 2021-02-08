@@ -1,8 +1,20 @@
 package konobi;
 
+import java.io.InputStream;
 import java.util.Scanner;
 
 public class InputHandler {
+
+    public void welcomeMessage(){
+        System.out.println("Welcome to Konobi!");
+    }
+
+    public int inputDimension(){
+        Scanner stdIn = new Scanner(System.in);
+        System.out.print("Please, insert the dimension of the board: ");
+        int dimension = stdIn.nextInt();
+        return dimension;
+    }
 
 
     public Position inputMove() {
