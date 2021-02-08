@@ -1,33 +1,35 @@
 package konobi;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static konobi.Position.at;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 public class testGame {
     private Game game;
 
-    @Before
+    @BeforeEach
     public void initialize(){
 
         game = new Game(10);
     }
 
 
-    @Test(expected=Exception.class)
-    public void shouldNotPlayInOccupiedPosition() throws Exception {
+    @Test
+    public void shouldNotPlayInOccupiedPosition(){
+
+        assertThrows(Exception.class, ()->
+        {game.makeMove(at(1,1));
         game.makeMove(at(1,1));
-        game.makeMove(at(1,1));
+        });
     }
 
     @Test
     public void afterPieRulePlayer1IsWhite() {
         game.applyPieRule();
-        Assert.assertEquals(game.player1.getColor(), Color.WHITE);
+        assertEquals(game.player1.getColor(), Color.WHITE);
 
     }
 
@@ -35,7 +37,7 @@ public class testGame {
     public void afterPieRuleCurrentPlayerIsPlayer1() throws Exception{
         game.makeMove(at(2,1));
         game.applyPieRule();
-        Assert.assertEquals(game.currentPlayer, game.player1);
+        assertEquals(game.currentPlayer, game.player1);
 
     }
 
