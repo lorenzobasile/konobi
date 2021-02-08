@@ -33,4 +33,12 @@ public class Position {
     public static Position at(int x, int y){
         return new Position(x,y);
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 }

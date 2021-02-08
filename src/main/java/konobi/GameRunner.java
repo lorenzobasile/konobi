@@ -9,8 +9,12 @@ public class GameRunner {
         this.game = game;
     }
 
-    public  void play(){
-        // inputhandler.messaggio iniziale del gioco
-        // esecuzione gioco.....
-    }
+    /*
+    public void play() throws Exception{
+        makeMove();
+        pieRule();
+        //while(true){
+            //makeMove();
+        //}
+    }*/
 }
