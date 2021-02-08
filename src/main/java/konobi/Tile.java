@@ -30,6 +30,10 @@ public class Tile {
         return color;
     }
 
+    public boolean hasSameColorAs(Tile tile) {
+        return this.getColor() == tile.getColor();
+    }
+
     private boolean isOnTheSameColumnOf(Tile tile){
         return this.position.getX()== tile.getPosition().getX();
     }
@@ -38,19 +42,23 @@ public class Tile {
         return this.position.getY()== tile.getPosition().getY();
     }
 
-    public boolean isStronglyConnectedWith(Tile tile){
-        return (this.isOnTheSameColumnOf(tile) || this.isOnTheSameRowOf(tile))
-                &&
-                (this.isVerticallyAdjacentTo(tile) || this.isHorizontallyAdjacentTo(tile));
+    public boolean isStronglyConnectedWith(Tile tile) {
+        return (this.isHorizontallyAdjacentTo(tile) || this.isVerticallyAdjacentTo(tile)) && this.hasSameColorAs(tile);
     }
 
     private boolean isHorizontallyAdjacentTo(Tile tile) {
-        if (Math.abs(this.position.getX() - tile.getPosition().getX()) == 1) return true;
-        return false;
+        return this.isOnTheSameRowOf(tile) && this.hasHorizontalDistanceOneFrom(tile);
     }
 
     private boolean isVerticallyAdjacentTo(Tile tile) {
-        if (Math.abs(this.position.getY() - tile.getPosition().getY()) == 1) return true;
-        return false;
+        return this.isOnTheSameColumnOf(tile) && this.hasVerticalDistanceOneFrom(tile);
+    }
+
+    private boolean hasHorizontalDistanceOneFrom(Tile tile) {
+        return Math.abs(this.position.getX() - tile.getPosition().getX()) == 1;
+    }
+
+    private boolean hasVerticalDistanceOneFrom(Tile tile) {
+        return Math.abs(this.position.getY() - tile.getPosition().getY()) == 1;
     }
 }
