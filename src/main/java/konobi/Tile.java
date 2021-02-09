@@ -1,8 +1,11 @@
 package konobi;
 
+import java.util.List;
+
 public class Tile {
-    private Position position;
+    public Position position;
     private Color color;
+
 
 
     public Tile(Position position, Color color) {
@@ -61,4 +64,9 @@ public class Tile {
     private boolean hasVerticalDistanceOneFrom(Tile tile) {
         return Math.abs(this.position.getY() - tile.getPosition().getY()) == 1;
     }
+
+    public boolean isDiagonallyAdjacentTo(Tile tile) {
+        return this.hasHorizontalDistanceOneFrom(tile) && this.hasVerticalDistanceOneFrom(tile);
+    }
+
 }
