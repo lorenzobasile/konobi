@@ -35,16 +35,20 @@ public class Board {
         return retrievedTile;
     }
 
-    public boolean areWeaklyConnected(Tile tile1, Tile tile2) throws Exception {
-        if (tile1.getColor()!=tile2.getColor())
-            return false;
-        if (!tile1.isDiagonallyAdjacentTo(tile2))
-            return false;
-        Tile potentialCommonStrongNeighbor1 = findTileAt(at(tile1.position.getX(), tile2.position.getY()));
-        Tile potentialCommonStrongNeighbor2 = findTileAt(at(tile2.position.getX(), tile1.position.getY()));
-        if (potentialCommonStrongNeighbor1.getColor() == tile1.getColor() || potentialCommonStrongNeighbor2.getColor() == tile1.getColor())
-            return false;
-        else
-            return true;
+    public boolean areWeaklyConnected(Tile tile1, Tile tile2) {
+        return (tile1.isDiagonallyAdjacentTo(tile2) && commonStrongNeighborsOf(tile1,tile2).isEmpty());
+    }
+
+    public boolean areStronglyConnected(Tile tile1, Tile tile2) {
+        return tile1.isStronglyConnectedWith(tile2);
+    }
+
+    public List<Tile> commonStrongNeighborsOf(Tile tile1, Tile tile2) {
+        List<Tile> commonStrongNeighbors = new ArrayList<>();
+        for(Tile t : tiles){
+            if(areStronglyConnected(tile1,t) && areStronglyConnected(tile2,t))
+                commonStrongNeighbors.add(t);
+        }
+        return commonStrongNeighbors;
     }
 }

@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.util.concurrent.ExecutionException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static konobi.Position.at;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -27,6 +29,23 @@ public class testBoard {
         assertEquals(Color.BLACK,placedTile.getColor());
     }
 
+    @ParameterizedTest
+    @CsvSource({"0, 0, 1, 0", "1, 1, 1, 2"})
+    public void areStronglyConnected(int x1, int y1, int x2, int y2) throws Exception {
+        Board board = new Board(8);
+        Tile tile1 = board.placeTileAt(Color.BLACK, at(x1,y1));
+        Tile tile2 = board.placeTileAt(Color.BLACK, at(x2,y2));
+        assertEquals(true, tile1.isStronglyConnectedWith(tile2));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"2, 2, 4, 4", "0, 1, 3, 1"})
+    public void areNotStronglyConnected(int x1, int y1, int x2, int y2) throws Exception {
+        Board board = new Board(8);
+        Tile tile1 = board.placeTileAt(Color.BLACK, at(x1,y1));
+        Tile tile2 = board.placeTileAt(Color.BLACK, at(x2,y2));
+        assertEquals(false, tile1.isStronglyConnectedWith(tile2));
+    }
 
     @ParameterizedTest
     @CsvSource({"0, 0, 1, 1", "5, 2, 6, 1"})
@@ -45,6 +64,5 @@ public class testBoard {
         Tile tile3 = board.placeTileAt(Color.BLACK, at(1,0));
         assertEquals(false, board.areWeaklyConnected(tile1, tile2));
     }
-
 
 }
