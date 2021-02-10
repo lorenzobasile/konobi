@@ -7,48 +7,45 @@ import static konobi.Position.at;
 
 public class Board {
     int dimension;
-    List<Tile> tiles = new ArrayList<>();
+    List<Cell> cells = new ArrayList<>();
 
     public Board(int dimension) {
         this.dimension = dimension;
         for (int i = 0; i<dimension; ++i){
             for(int j = 0; j<dimension; ++j){
-                tiles.add(Tile.empty(at(i,j)));
+                cells.add(new Cell(at(i,j)));
             }
         }
     }
 
-    public Tile findTileAt(Position position) throws Exception {
-        for(Tile t : tiles) {
-            if(t.isAt(position)) {
-                return t;
+    public Cell getCellAt(Position position) throws Exception{
+        for (Cell cell : cells){
+            if (cell.isAt(position)){
+                return cell;
             }
         }
-        throw new Exception("konobi.Position outside board");
+        throw new Exception("Position outside board");
     }
 
-    public Tile placeTileAt(Color color, Position position) throws Exception {
-        Tile retrievedTile = findTileAt(position);
-        if(retrievedTile.getColor() != Color.NONE)
-            throw new Exception("Already played position");
-        retrievedTile.setColor(color);
-        return retrievedTile;
+    public void placeStoneAt(Stone stone, Position position) throws Exception{
+        Cell cellToOccupy = this.getCellAt(position);
+        cellToOccupy.setCurrentStone(stone);
+    }
+/*
+    public boolean areWeaklyConnected(Stone stone1, Stone stone2) {
+        return (stone1.isDiagonallyAdjacentTo(stone2) && commonStrongNeighborsOf(stone1, stone2).isEmpty());
     }
 
-    public boolean areWeaklyConnected(Tile tile1, Tile tile2) {
-        return (tile1.isDiagonallyAdjacentTo(tile2) && commonStrongNeighborsOf(tile1,tile2).isEmpty());
+    public boolean areStronglyConnected(Stone stone1, Stone stone2) {
+        return stone1.isStronglyConnectedWith(stone2);
     }
 
-    public boolean areStronglyConnected(Tile tile1, Tile tile2) {
-        return tile1.isStronglyConnectedWith(tile2);
-    }
-
-    public List<Tile> commonStrongNeighborsOf(Tile tile1, Tile tile2) {
-        List<Tile> commonStrongNeighbors = new ArrayList<>();
-        for(Tile t : tiles){
-            if(areStronglyConnected(tile1,t) && areStronglyConnected(tile2,t))
+    public List<Stone> commonStrongNeighborsOf(Stone stone1, Stone stone2) {
+        List<Stone> commonStrongNeighbors = new ArrayList<>();
+        for(Stone t : stones){
+            if(areStronglyConnected(stone1,t) && areStronglyConnected(stone2,t))
                 commonStrongNeighbors.add(t);
         }
         return commonStrongNeighbors;
-    }
+    }*/
 }

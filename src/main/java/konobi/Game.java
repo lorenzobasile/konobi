@@ -2,6 +2,7 @@ package konobi;
 
 public class Game {
 
+
     Board board;
     Player player1;
     Player player2;
@@ -25,7 +26,7 @@ public class Game {
 
     public void makeMove(Position position) throws Exception{
 
-        board.placeTileAt(currentPlayer.getColor(), position);
+        board.placeStoneAt(new Stone(currentPlayer.getColor()), position);
 
         changeTurn();
     }

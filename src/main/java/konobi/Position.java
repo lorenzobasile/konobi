@@ -3,18 +3,21 @@ package konobi;
 import java.util.Objects;
 
 public class Position {
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
     public Position(int x, int y) {
         this.x = x;
         this.y = y;
     }
-/*
-    public boolean equals(Position otherPosition) {
-        return this.x == otherPosition.x && this.y == otherPosition.y;
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
     }
-    */
 
     @Override
     public boolean equals(Object o) {
