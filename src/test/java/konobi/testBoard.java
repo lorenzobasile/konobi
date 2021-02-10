@@ -26,6 +26,8 @@ public class testBoard {
         Cell occupiedCell = board.getCellAt(at(0, 0));
         assertEquals(true, occupiedCell.isOccupied());
     }
+
+
 /*
     @ParameterizedTest
     @CsvSource({"0, 0, 1, 0", "1, 1, 1, 2"})

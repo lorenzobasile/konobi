@@ -31,6 +31,26 @@ public class Board {
         Cell cellToOccupy = this.getCellAt(position);
         cellToOccupy.setCurrentStone(stone);
     }
+
+    public List<Cell> orthogonalNeighborsOf(Cell cell) throws Exception {
+
+        List<Cell> neighbors = new ArrayList<>();
+
+        Cell cellAtLeft = getCellAt(cell.getPosition().atLeft());
+        neighbors.add(cellAtLeft);
+
+        Cell cellAtRight = getCellAt(cell.getPosition().atRight());
+        neighbors.add(cellAtRight);
+
+        Cell cellAbove = getCellAt(cell.getPosition().top());
+        neighbors.add(cellAbove);
+
+        Cell cellBelow = getCellAt(cell.getPosition().bottom());
+        neighbors.add(cellBelow);
+
+        return neighbors;
+    }
+
 /*
     public boolean areWeaklyConnected(Stone stone1, Stone stone2) {
         return (stone1.isDiagonallyAdjacentTo(stone2) && commonStrongNeighborsOf(stone1, stone2).isEmpty());

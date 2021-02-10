@@ -44,4 +44,22 @@ public class Position {
     public int getY() {
         return y;
     }
+
+    public Position atRight(){
+        return new Position(this.x+1,this.y);
+    }
+
+    public Position atLeft(){
+        return new Position(this.x-1,this.y);
+    }
+
+    public Position top(){
+        return new Position(this.x,this.y+1);
+    }
+
+    public Position bottom(){
+        return new Position(this.x,this.y-1);
+    }
+
+
 }
