@@ -63,6 +63,39 @@ public class Board {
         return neighbors;
     }
 
+    public List<Cell> diagonalNeighborsOf(Cell cell) {
+
+        List<Cell> neighbors = new ArrayList<>();
+
+        try {
+            Cell cellAtUpperLeft = getCellAt(cell.getPosition().upperLeft());
+            neighbors.add(cellAtUpperLeft);
+        }
+        catch(Exception cellOutOfBoard){}
+
+        try {
+            Cell cellAtUpperRight = getCellAt(cell.getPosition().upperRight());
+            neighbors.add(cellAtUpperRight);
+        }
+        catch(Exception cellOutOfBoard){}
+
+        try {
+            Cell cellAtLowerLeft = getCellAt(cell.getPosition().lowerLeft());
+            neighbors.add(cellAtLowerLeft);
+        }
+        catch(Exception cellOutOfBoard){}
+
+        try {
+            Cell cellAtLowerRight = getCellAt(cell.getPosition().lowerRight());
+            neighbors.add(cellAtLowerRight);
+        }
+        catch(Exception cellOutOfBoard){}
+
+        return neighbors;
+    }
+
+
+
 /*
     public boolean areWeaklyConnected(Stone stone1, Stone stone2) {
         return (stone1.isDiagonallyAdjacentTo(stone2) && commonStrongNeighborsOf(stone1, stone2).isEmpty());

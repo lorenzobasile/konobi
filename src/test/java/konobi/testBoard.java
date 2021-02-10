@@ -41,6 +41,16 @@ public class testBoard {
         assertEquals(neighborsList,board.orthogonalNeighborsOf(cell));
     }
 
+    @Test
+    public void verifyDiagonalNeighbors() throws Exception{
+        Board board = new Board(3);
+        Cell cell = board.getCellAt(at(0,1));
+        Cell upperRight = board.getCellAt(at(1,2));
+        Cell lowerRight = board.getCellAt(at(1,0));
+        List<Cell> neighborsList = Arrays.asList(upperRight, lowerRight);
+        assertEquals(neighborsList,board.diagonalNeighborsOf(cell));
+    }
+
 /*
     @ParameterizedTest
     @CsvSource({"0, 0, 1, 0", "1, 1, 1, 2"})

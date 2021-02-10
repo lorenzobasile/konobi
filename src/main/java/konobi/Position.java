@@ -61,5 +61,19 @@ public class Position {
         return new Position(this.x,this.y-1);
     }
 
+    public Position upperLeft() {
+        return new Position(this.x-1,this.y+1);
+    }
 
+    public Position upperRight() {
+        return new Position(this.x+1,this.y+1);
+    }
+
+    public Position lowerLeft() {
+        return new Position(this.x-1,this.y-1);
+    }
+
+    public Position lowerRight() {
+        return new Position(this.x+1,this.y-1);
+    }
 }
