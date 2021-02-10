@@ -90,9 +90,7 @@ public class Board {
             if (neighbor.isOccupied()){
                 Stone neighborStone = neighbor.getCurrentStone();
                 if (neighborStone.hasSameColorAs(thisStone)){
-                    Set<Cell> strongNeighborsOfCell = strongNeighborsOf(cell);
-                    Set<Cell> strongNeighborsOfDiagonalCell = strongNeighborsOf(neighbor);
-                    strongNeighborsOfCell.retainAll(strongNeighborsOfDiagonalCell);
+                    Set<Cell> strongNeighborsOfCell = commonStrongNeighbors(cell, neighbor);
                     if (strongNeighborsOfCell.isEmpty()){
                         neighbors.add(neighbor);
                     }
@@ -101,6 +99,13 @@ public class Board {
         }
 
         return neighbors;
+    }
+
+    private Set<Cell> commonStrongNeighbors(Cell cell, Cell neighbor) throws Exception {
+        Set<Cell> strongNeighborsOfCell = strongNeighborsOf(cell);
+        Set<Cell> strongNeighborsOfDiagonalCell = strongNeighborsOf(neighbor);
+        strongNeighborsOfCell.retainAll(strongNeighborsOfDiagonalCell);
+        return strongNeighborsOfCell;
     }
 
     public Set<Cell> diagonalNeighborsOf(Cell cell) {
