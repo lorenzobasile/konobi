@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static konobi.Position.at;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -27,6 +30,16 @@ public class testBoard {
         assertEquals(true, occupiedCell.isOccupied());
     }
 
+    @Test
+    public void verifyOrthogonalNeighbors() throws Exception{
+        Board board = new Board(3);
+        Cell cell = board.getCellAt(at(0,1));
+        Cell right = board.getCellAt(at(1,1));
+        Cell top = board.getCellAt(at(0,2));
+        Cell bottom = board.getCellAt(at(0,0));
+        List<Cell> neighborsList = Arrays.asList(right,top,bottom);
+        assertEquals(neighborsList,board.orthogonalNeighborsOf(cell));
+    }
 
 /*
     @ParameterizedTest

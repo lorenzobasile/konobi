@@ -32,21 +32,33 @@ public class Board {
         cellToOccupy.setCurrentStone(stone);
     }
 
-    public List<Cell> orthogonalNeighborsOf(Cell cell) throws Exception {
+    public List<Cell> orthogonalNeighborsOf(Cell cell) {
 
         List<Cell> neighbors = new ArrayList<>();
 
-        Cell cellAtLeft = getCellAt(cell.getPosition().atLeft());
-        neighbors.add(cellAtLeft);
+        try {
+            Cell cellAtLeft = getCellAt(cell.getPosition().atLeft());
+            neighbors.add(cellAtLeft);
+        }
+        catch(Exception cellOutOfBoard){}
 
-        Cell cellAtRight = getCellAt(cell.getPosition().atRight());
-        neighbors.add(cellAtRight);
+        try {
+            Cell cellAtRight = getCellAt(cell.getPosition().atRight());
+            neighbors.add(cellAtRight);
+        }
+        catch(Exception cellOutOfBoard){}
 
-        Cell cellAbove = getCellAt(cell.getPosition().top());
-        neighbors.add(cellAbove);
+        try {
+            Cell cellAbove = getCellAt(cell.getPosition().top());
+            neighbors.add(cellAbove);
+        }
+        catch(Exception cellOutOfBoard){}
 
-        Cell cellBelow = getCellAt(cell.getPosition().bottom());
-        neighbors.add(cellBelow);
+        try {
+            Cell cellBelow = getCellAt(cell.getPosition().bottom());
+            neighbors.add(cellBelow);
+        }
+        catch(Exception cellOutOfBoard){}
 
         return neighbors;
     }
