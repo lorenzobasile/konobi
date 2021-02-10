@@ -51,6 +51,24 @@ public class testBoard {
         assertEquals(neighborsList,board.diagonalNeighborsOf(cell));
     }
 
+    @Test
+    public void verifyStrongNeighbors() throws Exception{
+        Board board = new Board(3);
+        board.placeStoneAt(new Stone(Color.BLACK), at(0,1));
+
+        board.placeStoneAt(new Stone(Color.BLACK), at(0,0));
+        board.placeStoneAt(new Stone(Color.BLACK), at(1,1));
+        board.placeStoneAt(new Stone(Color.BLACK), at(1,0));
+        board.placeStoneAt(new Stone(Color.WHITE), at(0,2));
+
+        Cell strongNeighborBelow = board.getCellAt(at(0,0));
+        Cell strongNeighborRight = board.getCellAt(at(1,1));
+
+        List<Cell> strongNeighborsList = Arrays.asList(strongNeighborRight, strongNeighborBelow);
+        assertEquals(strongNeighborsList,board.strongNeighborsOf(board.getCellAt(at(0,1))));
+
+    }
+
 /*
     @ParameterizedTest
     @CsvSource({"0, 0, 1, 0", "1, 1, 1, 2"})
