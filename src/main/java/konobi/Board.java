@@ -63,6 +63,23 @@ public class Board {
         return neighbors;
     }
 
+    public List<Cell> strongNeighborsOf(Cell cell) throws Exception {   // TODO: stream filter sameColorAs
+        if(!cell.isOccupied())
+            throw new Exception("cell not occupied");
+        List<Cell> neighbors = new ArrayList<>();
+        Stone thisStone = cell.getCurrentStone();
+
+        for(Cell neighbor : orthogonalNeighborsOf(cell)) {
+            if (neighbor.isOccupied()) {
+                Stone neighborStone = neighbor.getCurrentStone();
+                if (neighborStone.hasSameColorAs(thisStone)) {
+                    neighbors.add(neighbor);
+                }
+            }
+        }
+        return neighbors;
+    }
+
     public List<Cell> diagonalNeighborsOf(Cell cell) {
 
         List<Cell> neighbors = new ArrayList<>();

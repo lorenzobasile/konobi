@@ -14,4 +14,8 @@ public class Stone {
     public Color getColor() {
         return color;
     }
+
+    public boolean hasSameColorAs(Stone stone) {
+        return this.color == stone.getColor();
+    }
 }
