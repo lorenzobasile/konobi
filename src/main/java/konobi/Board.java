@@ -1,7 +1,6 @@
 package konobi;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static konobi.Position.at;
 
@@ -32,9 +31,9 @@ public class Board {
         cellToOccupy.setCurrentStone(stone);
     }
 
-    public List<Cell> orthogonalNeighborsOf(Cell cell) {
+    public Set<Cell> orthogonalNeighborsOf(Cell cell) {
 
-        List<Cell> neighbors = new ArrayList<>();
+        Set<Cell> neighbors = new HashSet<>();
 
         try {
             Cell cellAtLeft = getCellAt(cell.getPosition().atLeft());
@@ -63,10 +62,10 @@ public class Board {
         return neighbors;
     }
 
-    public List<Cell> strongNeighborsOf(Cell cell) throws Exception {   // TODO: stream filter sameColorAs
+    public Set<Cell> strongNeighborsOf(Cell cell) throws Exception {   // TODO: stream filter sameColorAs
         if(!cell.isOccupied())
             throw new Exception("cell not occupied");
-        List<Cell> neighbors = new ArrayList<>();
+        Set<Cell> neighbors = new HashSet<>();
         Stone thisStone = cell.getCurrentStone();
 
         for(Cell neighbor : orthogonalNeighborsOf(cell)) {
@@ -80,9 +79,33 @@ public class Board {
         return neighbors;
     }
 
-    public List<Cell> diagonalNeighborsOf(Cell cell) {
+    public Set<Cell> weakNeighborsOf(Cell cell) throws Exception {
+        if (!cell.isOccupied()){
+            throw new Exception("cell not occupied");
+        }
+        Set<Cell> neighbors = new HashSet<>();
+        Stone thisStone = cell.getCurrentStone();
 
-        List<Cell> neighbors = new ArrayList<>();
+        for(Cell neighbor : diagonalNeighborsOf(cell)){
+            if (neighbor.isOccupied()){
+                Stone neighborStone = neighbor.getCurrentStone();
+                if (neighborStone.hasSameColorAs(thisStone)){
+                    Set<Cell> strongNeighborsOfCell = strongNeighborsOf(cell);
+                    Set<Cell> strongNeighborsOfDiagonalCell = strongNeighborsOf(neighbor);
+                    strongNeighborsOfCell.retainAll(strongNeighborsOfDiagonalCell);
+                    if (strongNeighborsOfCell.isEmpty()){
+                        neighbors.add(neighbor);
+                    }
+                }
+            }
+        }
+
+        return neighbors;
+    }
+
+    public Set<Cell> diagonalNeighborsOf(Cell cell) {
+
+        Set<Cell> neighbors = new HashSet<>();
 
         try {
             Cell cellAtUpperLeft = getCellAt(cell.getPosition().upperLeft());
