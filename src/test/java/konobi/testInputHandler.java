@@ -12,7 +12,7 @@ public class testInputHandler {
 
     @Test
     public void dimensionFiveIsReceived(){
-        InputHandler inputHandler = new InputHandler();
+        IoHandler inputHandler = new IoHandler();
         String dimension = "5";
         InputStream in = new ByteArrayInputStream(dimension.getBytes());
         System.setIn(in);
@@ -21,7 +21,7 @@ public class testInputHandler {
 
     @Test
     public void yesAnswerIsReceived() {
-        InputHandler inputhandler = new InputHandler();
+        IoHandler inputhandler = new IoHandler();
         String input = "y";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
@@ -31,7 +31,7 @@ public class testInputHandler {
 
     @Test
     public void positionIsReceivedInInput() {
-        InputHandler inputhandler = new InputHandler();
+        IoHandler inputhandler = new IoHandler();
         String x = "0 0";
         InputStream in = new ByteArrayInputStream(x.getBytes());
         System.setIn(in);

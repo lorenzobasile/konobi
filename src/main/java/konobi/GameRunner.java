@@ -1,12 +1,14 @@
 package konobi;
 
 public class GameRunner {
-    InputHandler inputhandler;
-    Game game;
 
-    public GameRunner(InputHandler inputhandler, Game game) {
-        this.inputhandler = inputhandler;
-        this.game = game;
+    public static void main(String[] args) {
+        Game game = new Game(10);
+        try {
+            game.singleTurn();
+        }
+        catch(Exception e){}
+        game.ioHandler.printBoard(game.board);
     }
 
     /*
