@@ -1,5 +1,8 @@
 package konobi;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Game {
 
 
@@ -50,5 +53,27 @@ public class Game {
         Color temp = player2.getColor();
         player2.setColor(player1.getColor());
         player1.setColor(temp);
+    }
+
+    public Set<Cell> legalCellsOfCurrentPlayer() throws Exception {
+        Color colorOfCurrentPlayer = currentPlayer.getColor();
+        Set<Cell> setOfLegalCells = new HashSet<>();
+        for (Cell cellOnBoard : this.board.cells){
+            if(cellOnBoard.isOccupied()){
+               continue;
+            }
+            else{
+                Stone availableStone = new Stone(colorOfCurrentPlayer);
+                this.board.placeStoneAt(availableStone, cellOnBoard.getPosition());
+                boolean ruleOne = !(board.isCrosscutPlacement(cellOnBoard));
+                boolean ruleTwo = board.isLegalWeakConnectionPlacement(cellOnBoard);
+                if (ruleOne && ruleTwo){
+                    setOfLegalCells.add(cellOnBoard);
+                }
+                cellOnBoard.reset();
+            }
+        }
+
+        return setOfLegalCells;
     }
 }

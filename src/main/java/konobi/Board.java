@@ -17,6 +17,8 @@ public class Board {
         }
     }
 
+
+
     public Cell getCellAt(Position position) throws Exception{
         for (Cell cell : cells){
             if (cell.isAt(position)){

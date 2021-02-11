@@ -2,6 +2,10 @@ package konobi;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static konobi.Position.at;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -40,6 +44,12 @@ public class testGame {
         game.applyPieRule();
         assertEquals(game.currentPlayer, game.player1);
 
+    }
+
+    @Test
+    public void checkIfInitiallyAllMovesAreLegal() throws Exception{
+        Set<Cell> allCells = new HashSet<Cell>(game.board.cells);
+        assertEquals(allCells, game.legalCellsOfCurrentPlayer());
     }
 
 
