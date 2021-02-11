@@ -139,6 +139,26 @@ public class Board {
         return neighbors;
     }
 
+    public boolean isLegalWeakConnectionPlacement(Cell cell) throws Exception {
+        Set<Cell> weakNeighbors = weakNeighborsOf(cell);
+        Color cellColor = cell.getCurrentStone().getColor();
+        cell.reset();
+        for (Cell weakNeighbor : weakNeighbors) {
+            for (Cell orthogonalNeighborOfWeakNeighbor : orthogonalNeighborsOf(weakNeighbor)) {
+                if (!orthogonalNeighborOfWeakNeighbor.isOccupied()) {
+                    placeStoneAt(new Stone(cellColor), orthogonalNeighborOfWeakNeighbor.getPosition());
+                    boolean weakCondition = weakNeighborsOf(orthogonalNeighborOfWeakNeighbor).isEmpty();
+                    orthogonalNeighborOfWeakNeighbor.reset();
+                    if(weakCondition) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+
+    }
+
 
 
 /*

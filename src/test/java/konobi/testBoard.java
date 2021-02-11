@@ -90,6 +90,18 @@ public class testBoard {
 
     }
 
+    @Test
+    public void verifyLegalWeakConnectionPlacement() throws Exception {
+        Board board = new Board(5);
+        board.placeStoneAt(new Stone(Color.BLACK), at(0,0));
+        board.placeStoneAt(new Stone(Color.WHITE), at(0,1));
+        board.placeStoneAt(new Stone(Color.BLACK), at(2,1));
+        board.placeStoneAt(new Stone(Color.WHITE), at(2,2));
+
+        board.placeStoneAt(new Stone(Color.BLACK), at(1,1));
+        Cell cellToVerify = board.getCellAt(at(1,1));
+        assertEquals(true, board.isLegalWeakConnectionPlacement(cellToVerify));
+    }
 
 
 

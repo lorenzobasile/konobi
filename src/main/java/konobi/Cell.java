@@ -13,6 +13,7 @@ public class Cell {
         this.isOccupied = false;
     }
     public void reset(){
+        this.stone = null;
         this.isOccupied = false;
     }
 
@@ -37,6 +38,8 @@ public class Cell {
     public boolean isAt(Position position){
         return this.position.equals(position);
     }
+
+
 
 
     @Override
