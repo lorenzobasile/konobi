@@ -103,6 +103,46 @@ public class testBoard {
         assertEquals(true, board.isLegalWeakConnectionPlacement(cellToVerify));
     }
 
+    @Test
+    public void verifyIllegalWeakConnectionPlacement() throws Exception {
+        Board board = new Board(5);
+        board.placeStoneAt(new Stone(Color.BLACK), at(0,0));
+        board.placeStoneAt(new Stone(Color.WHITE), at(0,1));
+        board.placeStoneAt(new Stone(Color.BLACK), at(2,1));
+        board.placeStoneAt(new Stone(Color.WHITE), at(2,2));
+
+        board.placeStoneAt(new Stone(Color.BLACK), at(1,0));
+        Cell cellToVerify = board.getCellAt(at(1,0));
+        assertEquals(false, board.isLegalWeakConnectionPlacement(cellToVerify));
+    }
+
+    @Test
+    public void verifyCrosscut() throws Exception {
+        Board board = new Board(5);
+        board.placeStoneAt(new Stone(Color.BLACK), at(0,0));
+        board.placeStoneAt(new Stone(Color.WHITE), at(0,1));
+        board.placeStoneAt(new Stone(Color.BLACK), at(2,1));
+        board.placeStoneAt(new Stone(Color.WHITE), at(2,2));
+        board.placeStoneAt(new Stone(Color.BLACK), at(1,1));
+
+        board.placeStoneAt(new Stone(Color.WHITE), at(1, 0));
+        Cell cellToVerify = board.getCellAt(at(1,0));
+        assertEquals(true, board.isCrosscutPlacement(cellToVerify));
+    }
+
+    @Test
+    public void verifyNotCrosscut() throws Exception {
+        Board board = new Board(5);
+        board.placeStoneAt(new Stone(Color.BLACK), at(0,0));
+        board.placeStoneAt(new Stone(Color.WHITE), at(0,1));
+        board.placeStoneAt(new Stone(Color.BLACK), at(2,1));
+        board.placeStoneAt(new Stone(Color.WHITE), at(2,2));
+        board.placeStoneAt(new Stone(Color.BLACK), at(1,1));
+
+        board.placeStoneAt(new Stone(Color.BLACK), at(1, 0));
+        Cell cellToVerify = board.getCellAt(at(1,0));
+        assertEquals(false, board.isCrosscutPlacement(cellToVerify));
+    }
 
 
 

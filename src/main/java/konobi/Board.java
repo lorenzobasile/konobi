@@ -101,6 +101,13 @@ public class Board {
         return neighbors;
     }
 
+    private Set<Cell> commonOrthogonalNeighbors(Cell cell, Cell neighbor){
+        Set<Cell> orthogonalNeighborsOfCell = orthogonalNeighborsOf(cell);
+        Set<Cell> orthogonalNeighborsOfDiagonalCell = orthogonalNeighborsOf(neighbor);
+        orthogonalNeighborsOfCell.retainAll(orthogonalNeighborsOfDiagonalCell);
+        return orthogonalNeighborsOfCell;
+    }
+
     private Set<Cell> commonStrongNeighbors(Cell cell, Cell neighbor) throws Exception {
         Set<Cell> strongNeighborsOfCell = strongNeighborsOf(cell);
         Set<Cell> strongNeighborsOfDiagonalCell = strongNeighborsOf(neighbor);
@@ -155,7 +162,22 @@ public class Board {
                 }
             }
         }
+        placeStoneAt(new Stone(cellColor), cell.getPosition());
         return true;
+    }
+
+    public boolean isCrosscutPlacement(Cell cell) throws Exception {
+        Set<Cell> weakNeighbors = weakNeighborsOf(cell);
+        Color cellColor = cell.getCurrentStone().getColor();
+        for (Cell weakNeighbor : weakNeighbors){
+            Set<Cell> potentialCrosscut = commonOrthogonalNeighbors(cell, weakNeighbor);
+            List<Boolean> conditionOnCrossCell = new ArrayList<>();
+            for (Cell crossCell : potentialCrosscut){
+                conditionOnCrossCell.add(crossCell.isOccupied() && crossCell.getCurrentStone().getColor()==cellColor.oppositeColor());
+            }
+            if (!Arrays.asList(conditionOnCrossCell).contains(false)) return true;
+        }
+        return false;
 
     }
 

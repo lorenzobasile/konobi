@@ -2,5 +2,11 @@ package konobi;
 
 public enum Color {
     BLACK,
-    WHITE
+    WHITE;
+
+    public Color oppositeColor(){
+        if (this==BLACK) return WHITE;
+        return BLACK;
+    }
 }
+
