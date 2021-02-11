@@ -18,7 +18,7 @@ public class testGame {
     @BeforeEach
     public void initialize(){
 
-        game = new Game(10);
+        game = new Game(3);
     }
 
 
@@ -44,12 +44,6 @@ public class testGame {
         game.applyPieRule();
         assertEquals(game.currentPlayer, game.player1);
 
-    }
-
-    @Test
-    public void checkIfInitiallyAllMovesAreLegal() throws Exception{
-        Set<Cell> allCells = new HashSet<Cell>(game.board.cells);
-        assertEquals(allCells, game.legalCellsOfCurrentPlayer());
     }
 
 

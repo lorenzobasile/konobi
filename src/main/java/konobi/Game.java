@@ -10,12 +10,14 @@ public class Game {
     Player player1;
     Player player2;
     Player currentPlayer;
+    InputHandler inputHandler;
 
     public Game(int inputDimension) {
         this.board = new Board(inputDimension);
         this.player1  = new Player(Color.BLACK);
         this.player2  = new Player(Color.WHITE);
         this.currentPlayer = player1;
+        this.inputHandler =  new InputHandler();
     }
 
     /*
@@ -55,25 +57,20 @@ public class Game {
         player1.setColor(temp);
     }
 
-    public Set<Cell> legalCellsOfCurrentPlayer() throws Exception {
-        Color colorOfCurrentPlayer = currentPlayer.getColor();
-        Set<Cell> setOfLegalCells = new HashSet<>();
-        for (Cell cellOnBoard : this.board.cells){
-            if(cellOnBoard.isOccupied()){
-               continue;
-            }
-            else{
-                Stone availableStone = new Stone(colorOfCurrentPlayer);
-                this.board.placeStoneAt(availableStone, cellOnBoard.getPosition());
-                boolean ruleOne = !(board.isCrosscutPlacement(cellOnBoard));
-                boolean ruleTwo = board.isLegalWeakConnectionPlacement(cellOnBoard);
-                if (ruleOne && ruleTwo){
-                    setOfLegalCells.add(cellOnBoard);
-                }
-                cellOnBoard.reset();
-            }
+    public void singleTurn() throws Exception {
+        Set<Cell> availableCells = board.legalCellsOf(currentPlayer.getColor());
+        if (availableCells.isEmpty()) {
+            changeTurn();
+            return;
         }
-
-        return setOfLegalCells;
+        Cell inputCell;
+        Position inputPosition;
+        do {
+            inputPosition = inputHandler.inputMove();
+            inputCell = board.getCellAt(inputPosition);
+        } while (!availableCells.contains(inputCell));
+        Stone newStone = new Stone(currentPlayer.getColor());
+        board.placeStoneAt(newStone, inputPosition);
+        changeTurn();
     }
 }

@@ -144,6 +144,42 @@ public class testBoard {
         assertEquals(false, board.isCrosscutPlacement(cellToVerify));
     }
 
+    @Test
+    public void checkIfInitiallyAllMovesAreLegal() throws Exception{
+        Board board = new Board(10);
+        Set<Cell> allCells = new HashSet<Cell>(board.cells);
+        assertEquals(allCells, board.legalCellsOf(Color.BLACK));
+    }
+
+    @Test
+    public void checkIfMoveIsLegal() throws Exception{
+        Board board = new Board(5);
+        board.placeStoneAt(new Stone(Color.BLACK), at(0,0));
+        board.placeStoneAt(new Stone(Color.WHITE), at(0,1));
+        board.placeStoneAt(new Stone(Color.BLACK), at(2,1));
+        board.placeStoneAt(new Stone(Color.WHITE), at(2,2));
+        board.placeStoneAt(new Stone(Color.BLACK), at(1,1));
+
+        Cell cellToVerify = board.getCellAt(at(1,0));
+        Set<Cell> availableCellsForBlack = board.legalCellsOf(Color.BLACK);
+        assertEquals(true, availableCellsForBlack.contains(cellToVerify));
+
+    }
+
+    @Test
+    public void checkIfMoveIsIllegal() throws Exception{
+        Board board = new Board(5);
+        board.placeStoneAt(new Stone(Color.BLACK), at(0,0));
+        board.placeStoneAt(new Stone(Color.WHITE), at(0,1));
+        board.placeStoneAt(new Stone(Color.BLACK), at(2,1));
+        board.placeStoneAt(new Stone(Color.WHITE), at(2,2));
+        board.placeStoneAt(new Stone(Color.BLACK), at(1,1));
+
+        Cell cellToVerify = board.getCellAt(at(1,0));
+        Set<Cell> availableCellsForWhite = board.legalCellsOf(Color.WHITE);
+        assertEquals(false, availableCellsForWhite.contains(cellToVerify));
+
+    }
 
 
 /*

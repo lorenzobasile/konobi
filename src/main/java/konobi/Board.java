@@ -183,6 +183,24 @@ public class Board {
 
     }
 
+    public Set<Cell> legalCellsOf(Color color) throws Exception {
+        Set<Cell> setOfLegalCells = new HashSet<>();
+        for (Cell cellOnBoard : this.cells){
+            if(!cellOnBoard.isOccupied()){
+                Stone availableStone = new Stone(color);
+                this.placeStoneAt(availableStone, cellOnBoard.getPosition());
+                boolean ruleOne = !(isCrosscutPlacement(cellOnBoard));
+                boolean ruleTwo = isLegalWeakConnectionPlacement(cellOnBoard);
+                if (ruleOne && ruleTwo){
+                    setOfLegalCells.add(cellOnBoard);
+                }
+                cellOnBoard.reset();
+            }
+        }
+
+        return setOfLegalCells;
+    }
+
 
 
 /*
