@@ -1,5 +1,6 @@
 package konobi;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Game {
@@ -28,6 +29,7 @@ public class Game {
         //}
     }*/
 
+
     public void makeMove(Position position) throws Exception{
 
         board.placeStoneAt(new Stone(currentPlayer.getColor()), position);
@@ -38,10 +40,9 @@ public class Game {
 
     public void applyPieRule() {
             switchColors();
-            changeTurn();
     }
 
-    private void changeTurn() {
+    public void changeTurn() {
         if (currentPlayer == player1){
             currentPlayer = player2;
         }
@@ -56,22 +57,43 @@ public class Game {
         player1.setColor(temp);
     }
 
-    public void singleTurn() throws Exception {
-        Set<Cell> availableCells = board.legalCellsOf(currentPlayer.getColor());
+    public void singleTurn() {
+        Set<Cell> availableCells = new HashSet<>();
+
+        try {
+            availableCells = board.legalCellsOf(currentPlayer.getColor());
+        } catch (Exception e) {}
+
         if (availableCells.isEmpty()) {
             changeTurn();
-            return;
         }
         Cell inputCell;
         Position inputPosition;
+
         do {
             ioHandler.printCurrentPlayer(currentPlayer);
             inputPosition = ioHandler.inputMove();
-            inputCell = board.getCellAt(inputPosition);
+            try {
+                inputCell = board.getCellAt(inputPosition);
+            } catch (Exception positionOutOfBounds){
+                inputCell = null;
+            }
         } while (!availableCells.contains(inputCell));
+
         Stone newStone = new Stone(currentPlayer.getColor());
-        board.placeStoneAt(newStone, inputPosition);
-        changeTurn();
+        try {
+            board.placeStoneAt(newStone, inputPosition);
+        }
+        catch (Exception alreadyStonePlaced){ }
+
+    }
+
+    public void showGameBoard(){
+        ioHandler.printBoard(this.board);
+    }
+
+    public boolean checkWin() throws Exception {
+        return board.checkChain(currentPlayer.getColor());
     }
 
 

@@ -2,13 +2,9 @@ package konobi;
 
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -198,7 +194,7 @@ public class testBoard {
         board.placeStoneAt(new Stone(Color.WHITE), at(4,0));
         board.placeStoneAt(new Stone(Color.BLACK), at(2,4));
 
-        assertEquals(true, board.checkWin(Color.BLACK));
+        assertEquals(true, board.checkChain(Color.BLACK));
     }
 
     @Test
@@ -217,7 +213,7 @@ public class testBoard {
         board.placeStoneAt(new Stone(Color.WHITE), at(3,2));
         board.placeStoneAt(new Stone(Color.WHITE), at(4,0));
 
-        assertEquals(false, board.checkWin(Color.BLACK));
+        assertEquals(false, board.checkChain(Color.BLACK));
     }
 
     @Test
@@ -239,7 +235,7 @@ public class testBoard {
         board.placeStoneAt(new Stone(Color.BLACK), at(3,0));
         board.placeStoneAt(new Stone(Color.BLACK), at(4,2));
 
-        assertEquals(true, board.checkWin(Color.WHITE));
+        assertEquals(true, board.checkChain(Color.WHITE));
     }
 
     @Test
@@ -257,7 +253,7 @@ public class testBoard {
         board.placeStoneAt(new Stone(Color.BLACK), at(0,3));
         board.placeStoneAt(new Stone(Color.BLACK), at(4,3));
 
-        assertEquals(false, board.checkWin(Color.WHITE));
+        assertEquals(false, board.checkChain(Color.WHITE));
     }
 
 

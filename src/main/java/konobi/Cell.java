@@ -29,8 +29,8 @@ public class Cell {
         return stone;
     }
 
-    public void setCurrentStone(Stone currentStone) throws Exception{
-        if(this.isOccupied) throw new Exception("Cell already occupied");
+    public void setStone(Stone currentStone) {
+        //if(this.isOccupied) throw new Exception("Cell already occupied");
         this.stone = currentStone;
         isOccupied = true;
     }

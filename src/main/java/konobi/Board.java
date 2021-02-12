@@ -20,6 +20,7 @@ public class Board {
 
 
     public Cell getCellAt(Position position) throws Exception{
+
         for (Cell cell : cells){
             if (cell.isAt(position)){
                 return cell;
@@ -30,7 +31,7 @@ public class Board {
 
     public void placeStoneAt(Stone stone, Position position) throws Exception{
         Cell cellToOccupy = this.getCellAt(position);
-        cellToOccupy.setCurrentStone(stone);
+        cellToOccupy.setStone(stone);
     }
 
     public Set<Cell> orthogonalNeighborsOf(Cell cell) {
@@ -116,7 +117,7 @@ public class Board {
         return orthogonalNeighborsOfCell;
     }
 
-    private Set<Cell> commonStrongNeighbors(Cell cell, Cell neighbor) throws Exception {
+    private Set<Cell> commonStrongNeighbors(Cell cell, Cell neighbor) throws Exception {   // TODO: call commonOrthogonal and filter same color
         Set<Cell> strongNeighborsOfCell = strongNeighborsOf(cell);
         Set<Cell> strongNeighborsOfDiagonalCell = strongNeighborsOf(neighbor);
         strongNeighborsOfCell.retainAll(strongNeighborsOfDiagonalCell);
@@ -189,7 +190,7 @@ public class Board {
 
     }
 
-    public Set<Cell> legalCellsOf(Color color) throws Exception {
+    public Set<Cell> legalCellsOf(Color color) throws Exception{
         Set<Cell> setOfLegalCells = new HashSet<>();
         for (Cell cellOnBoard : this.cells){
             if(!cellOnBoard.isOccupied()){
@@ -207,7 +208,7 @@ public class Board {
         return setOfLegalCells;
     }
 
-    public boolean checkWin(Color color) throws Exception {
+    public boolean checkChain(Color color) throws Exception {
         HashMap<Position, Boolean> visitedCells = new HashMap<>();
         for(Cell cell: cells){
             visitedCells.put(cell.getPosition(), false);
