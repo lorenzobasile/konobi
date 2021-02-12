@@ -181,6 +181,85 @@ public class testBoard {
 
     }
 
+    @Test
+    public void checkBlackWin() throws Exception{
+        Board board = new Board(5);
+        board.placeStoneAt(new Stone(Color.BLACK), at(0,4));
+        board.placeStoneAt(new Stone(Color.BLACK), at(0,3));
+        board.placeStoneAt(new Stone(Color.BLACK), at(1,3));
+        board.placeStoneAt(new Stone(Color.BLACK), at(1,1));
+        board.placeStoneAt(new Stone(Color.BLACK), at(2,2));
+        board.placeStoneAt(new Stone(Color.BLACK), at(3,3));
+        board.placeStoneAt(new Stone(Color.BLACK), at(3,0));
+        board.placeStoneAt(new Stone(Color.BLACK), at(4,2));
+        board.placeStoneAt(new Stone(Color.BLACK), at(4,1));
+        board.placeStoneAt(new Stone(Color.WHITE), at(0,0));
+        board.placeStoneAt(new Stone(Color.WHITE), at(3,2));
+        board.placeStoneAt(new Stone(Color.WHITE), at(4,0));
+        board.placeStoneAt(new Stone(Color.BLACK), at(2,4));
+
+        assertEquals(true, board.checkWin(Color.BLACK));
+    }
+
+    @Test
+    public void checkNotBlackWin() throws Exception{
+        Board board = new Board(5);
+        board.placeStoneAt(new Stone(Color.BLACK), at(2,3));
+        board.placeStoneAt(new Stone(Color.BLACK), at(0,3));
+        board.placeStoneAt(new Stone(Color.BLACK), at(1,3));
+        board.placeStoneAt(new Stone(Color.BLACK), at(1,1));
+        board.placeStoneAt(new Stone(Color.BLACK), at(2,2));
+        board.placeStoneAt(new Stone(Color.BLACK), at(3,3));
+        board.placeStoneAt(new Stone(Color.BLACK), at(3,0));
+        board.placeStoneAt(new Stone(Color.BLACK), at(4,2));
+        board.placeStoneAt(new Stone(Color.BLACK), at(4,1));
+        board.placeStoneAt(new Stone(Color.WHITE), at(0,0));
+        board.placeStoneAt(new Stone(Color.WHITE), at(3,2));
+        board.placeStoneAt(new Stone(Color.WHITE), at(4,0));
+
+        assertEquals(false, board.checkWin(Color.BLACK));
+    }
+
+    @Test
+    public void checkWhiteWin() throws Exception{
+        Board board = new Board(5);
+        board.placeStoneAt(new Stone(Color.WHITE), at(1,1));
+        board.placeStoneAt(new Stone(Color.WHITE), at(1,2));
+        board.placeStoneAt(new Stone(Color.WHITE), at(1,3));
+        board.placeStoneAt(new Stone(Color.WHITE), at(2,1));
+        board.placeStoneAt(new Stone(Color.WHITE), at(2,3));
+        board.placeStoneAt(new Stone(Color.WHITE), at(3,2));
+        board.placeStoneAt(new Stone(Color.WHITE), at(3,4));
+        board.placeStoneAt(new Stone(Color.WHITE), at(4,0));
+        board.placeStoneAt(new Stone(Color.WHITE), at(4,1));
+        board.placeStoneAt(new Stone(Color.WHITE), at(0,2));
+
+
+        board.placeStoneAt(new Stone(Color.BLACK), at(2,2));
+        board.placeStoneAt(new Stone(Color.BLACK), at(3,0));
+        board.placeStoneAt(new Stone(Color.BLACK), at(4,2));
+
+        assertEquals(true, board.checkWin(Color.WHITE));
+    }
+
+    @Test
+    public void checkNotWhiteWin() throws Exception{
+        Board board = new Board(5);
+        board.placeStoneAt(new Stone(Color.WHITE), at(0,2));
+        board.placeStoneAt(new Stone(Color.WHITE), at(1,1));
+        board.placeStoneAt(new Stone(Color.WHITE), at(1,2));
+        board.placeStoneAt(new Stone(Color.WHITE), at(1,3));
+        board.placeStoneAt(new Stone(Color.WHITE), at(2,2));
+        board.placeStoneAt(new Stone(Color.WHITE), at(2,3));
+        board.placeStoneAt(new Stone(Color.WHITE), at(2,4));
+        board.placeStoneAt(new Stone(Color.WHITE), at(3,3));
+
+        board.placeStoneAt(new Stone(Color.BLACK), at(0,3));
+        board.placeStoneAt(new Stone(Color.BLACK), at(4,3));
+
+        assertEquals(false, board.checkWin(Color.WHITE));
+    }
+
 
 /*
     @ParameterizedTest

@@ -103,6 +103,12 @@ public class Board {
         return neighbors;
     }
 
+    public Set<Cell> neighborsOf(Cell cell) throws Exception {
+        Set<Cell> neighbors = weakNeighborsOf(cell);
+        neighbors.addAll(strongNeighborsOf(cell));
+        return neighbors;
+    }
+
     private Set<Cell> commonOrthogonalNeighbors(Cell cell, Cell neighbor){
         Set<Cell> orthogonalNeighborsOfCell = orthogonalNeighborsOf(cell);
         Set<Cell> orthogonalNeighborsOfDiagonalCell = orthogonalNeighborsOf(neighbor);
@@ -200,6 +206,45 @@ public class Board {
 
         return setOfLegalCells;
     }
+
+    public boolean checkWin(Color color) throws Exception {
+        HashMap<Position, Boolean> visitedCells = new HashMap<>();
+        for(Cell cell: cells){
+            visitedCells.put(cell.getPosition(), false);
+        }
+        if(color==Color.WHITE) {
+            for(int y=0; y<dimension; y++) {
+                if(visitedCells.get(at(0, y))) continue;
+                Cell source = getCellAt(at(0, y));
+                if(source.isOccupied() && source.getCurrentStone().getColor()==color){
+                    if(chainSearch(source, visitedCells)) return true;
+                }
+            }
+        }
+        else {
+            for (int x = 0; x < dimension; x++) {
+                if (visitedCells.get(at(x, dimension - 1))) continue;
+                Cell source = getCellAt(at(x, dimension - 1));
+                if (source.isOccupied() && source.getCurrentStone().getColor() == color) {
+                    if (chainSearch(source, visitedCells)) return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean chainSearch(Cell source, HashMap<Position, Boolean> visitedCells) throws Exception {
+        visitedCells.put(source.getPosition(), true);
+        if(source.getCurrentStone().getColor()==Color.WHITE && source.getPosition().getX()==dimension-1) return true;
+        if(source.getCurrentStone().getColor()==Color.BLACK && source.getPosition().getY()==0) return true;
+        for(Cell cell: neighborsOf(source)){
+            if(visitedCells.get(cell.getPosition())) continue;
+            if(chainSearch(cell, visitedCells)) return true;
+        }
+        return false;
+    }
+
+
 
 
 

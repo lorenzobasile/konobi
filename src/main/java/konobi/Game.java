@@ -73,4 +73,7 @@ public class Game {
         board.placeStoneAt(newStone, inputPosition);
         changeTurn();
     }
+
+
+
 }
