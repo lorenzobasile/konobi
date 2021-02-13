@@ -13,14 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class testBoard {
 
-
-    @Test
-    public void positionOutsideBoardNotFound(){
-        Board board = new Board(3);
-        assertThrows(Exception.class, ()->
-            {board.getCellAt(at(0,3));});
-    }
-
     @Test
     public void placeStoneAndVerifyCellIsOccupied() throws Exception {
         Board board = new Board(3);

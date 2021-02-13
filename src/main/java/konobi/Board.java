@@ -19,55 +19,52 @@ public class Board {
 
 
 
-    public Cell getCellAt(Position position) throws Exception{
+    public Cell getCellAt(Position position) {
 
         for (Cell cell : cells){
             if (cell.isAt(position)){
                 return cell;
             }
         }
-        throw new Exception("Position outside board");
+        return null;
     }
 
-    public void placeStoneAt(Stone stone, Position position) throws Exception{
+    public void placeStoneAt(Stone stone, Position position) {
         Cell cellToOccupy = this.getCellAt(position);
         cellToOccupy.setStone(stone);
     }
 
-    public Set<Cell> orthogonalNeighborsOf(Cell cell) {
+    public Set<Cell> orthogonalNeighborsOf(Cell cell) { //TODO: refactor
 
         Set<Cell> neighbors = new HashSet<>();
 
-        try {
-            Cell cellAtLeft = getCellAt(cell.getPosition().atLeft());
+
+        Cell cellAtLeft = getCellAt(cell.getPosition().atLeft());
+        if(!(cellAtLeft ==null)){
             neighbors.add(cellAtLeft);
         }
-        catch(Exception cellOutOfBoard){}
 
-        try {
-            Cell cellAtRight = getCellAt(cell.getPosition().atRight());
+        Cell cellAtRight = getCellAt(cell.getPosition().atRight());
+        if(!(cellAtRight ==null)){
             neighbors.add(cellAtRight);
         }
-        catch(Exception cellOutOfBoard){}
 
-        try {
-            Cell cellAbove = getCellAt(cell.getPosition().top());
+        Cell cellAbove = getCellAt(cell.getPosition().top());
+        if(!(cellAbove ==null)){
             neighbors.add(cellAbove);
         }
-        catch(Exception cellOutOfBoard){}
 
-        try {
-            Cell cellBelow = getCellAt(cell.getPosition().bottom());
+        Cell cellBelow = getCellAt(cell.getPosition().bottom());
+        if(!(cellBelow ==null)){
             neighbors.add(cellBelow);
         }
-        catch(Exception cellOutOfBoard){}
 
         return neighbors;
     }
 
-    public Set<Cell> strongNeighborsOf(Cell cell) throws Exception {   // TODO: stream filter sameColorAs
+    public Set<Cell> strongNeighborsOf(Cell cell) {   // TODO: stream filter sameColorAs
         if(!cell.isOccupied())
-            throw new Exception("cell not occupied");
+           return new HashSet<>();
         Set<Cell> neighbors = new HashSet<>();
         Stone thisStone = cell.getCurrentStone();
 
@@ -82,10 +79,9 @@ public class Board {
         return neighbors;
     }
 
-    public Set<Cell> weakNeighborsOf(Cell cell) throws Exception {
-        if (!cell.isOccupied()){
-            throw new Exception("cell not occupied");
-        }
+    public Set<Cell> weakNeighborsOf(Cell cell) {
+        if(!cell.isOccupied())
+            return new HashSet<>();
         Set<Cell> neighbors = new HashSet<>();
         Stone thisStone = cell.getCurrentStone();
 
@@ -104,7 +100,7 @@ public class Board {
         return neighbors;
     }
 
-    public Set<Cell> neighborsOf(Cell cell) throws Exception {
+    public Set<Cell> neighborsOf(Cell cell) {
         Set<Cell> neighbors = weakNeighborsOf(cell);
         neighbors.addAll(strongNeighborsOf(cell));
         return neighbors;
@@ -117,7 +113,7 @@ public class Board {
         return orthogonalNeighborsOfCell;
     }
 
-    private Set<Cell> commonStrongNeighbors(Cell cell, Cell neighbor) throws Exception {   // TODO: call commonOrthogonal and filter same color
+    private Set<Cell> commonStrongNeighbors(Cell cell, Cell neighbor) {   // TODO: call commonOrthogonal and filter same color
         Set<Cell> strongNeighborsOfCell = strongNeighborsOf(cell);
         Set<Cell> strongNeighborsOfDiagonalCell = strongNeighborsOf(neighbor);
         strongNeighborsOfCell.retainAll(strongNeighborsOfDiagonalCell);
@@ -128,34 +124,30 @@ public class Board {
 
         Set<Cell> neighbors = new HashSet<>();
 
-        try {
-            Cell cellAtUpperLeft = getCellAt(cell.getPosition().upperLeft());
+        Cell cellAtUpperLeft = getCellAt(cell.getPosition().upperLeft());
+        if(!(cellAtUpperLeft==null)){
             neighbors.add(cellAtUpperLeft);
         }
-        catch(Exception cellOutOfBoard){}
 
-        try {
-            Cell cellAtUpperRight = getCellAt(cell.getPosition().upperRight());
+        Cell cellAtUpperRight = getCellAt(cell.getPosition().upperRight());
+        if(!(cellAtUpperRight==null)){
             neighbors.add(cellAtUpperRight);
         }
-        catch(Exception cellOutOfBoard){}
 
-        try {
-            Cell cellAtLowerLeft = getCellAt(cell.getPosition().lowerLeft());
+        Cell cellAtLowerLeft = getCellAt(cell.getPosition().lowerLeft());
+        if(!(cellAtLowerLeft==null)){
             neighbors.add(cellAtLowerLeft);
         }
-        catch(Exception cellOutOfBoard){}
 
-        try {
-            Cell cellAtLowerRight = getCellAt(cell.getPosition().lowerRight());
+        Cell cellAtLowerRight = getCellAt(cell.getPosition().lowerRight());
+        if(!(cellAtLowerRight==null)){
             neighbors.add(cellAtLowerRight);
         }
-        catch(Exception cellOutOfBoard){}
 
         return neighbors;
     }
 
-    public boolean isLegalWeakConnectionPlacement(Cell cell) throws Exception {
+    public boolean isLegalWeakConnectionPlacement(Cell cell) {
         Set<Cell> weakNeighbors = weakNeighborsOf(cell);
         Color cellColor = cell.getCurrentStone().getColor();
         cell.reset();
@@ -175,7 +167,7 @@ public class Board {
         return true;
     }
 
-    public boolean isCrosscutPlacement(Cell cell) throws Exception {
+    public boolean isCrosscutPlacement(Cell cell) {
         Set<Cell> weakNeighbors = weakNeighborsOf(cell);
         Color cellColor = cell.getCurrentStone().getColor();
         for (Cell weakNeighbor : weakNeighbors){
@@ -190,7 +182,7 @@ public class Board {
 
     }
 
-    public Set<Cell> legalCellsOf(Color color) throws Exception{
+    public Set<Cell> legalCellsOf(Color color) {
         Set<Cell> setOfLegalCells = new HashSet<>();
         for (Cell cellOnBoard : this.cells){
             if(!cellOnBoard.isOccupied()){
@@ -208,7 +200,7 @@ public class Board {
         return setOfLegalCells;
     }
 
-    public boolean checkChain(Color color) throws Exception {
+    public boolean checkChain(Color color) {
         HashMap<Position, Boolean> visitedCells = new HashMap<>();
         for(Cell cell: cells){
             visitedCells.put(cell.getPosition(), false);
@@ -234,7 +226,7 @@ public class Board {
         return false;
     }
 
-    private boolean chainSearch(Cell source, HashMap<Position, Boolean> visitedCells) throws Exception {
+    private boolean chainSearch(Cell source, HashMap<Position, Boolean> visitedCells) {
         visitedCells.put(source.getPosition(), true);
         if(source.getCurrentStone().getColor()==Color.WHITE && source.getPosition().getX()==dimension-1) return true;
         if(source.getCurrentStone().getColor()==Color.BLACK && source.getPosition().getY()==0) return true;

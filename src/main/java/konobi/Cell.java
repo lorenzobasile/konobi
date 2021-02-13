@@ -30,7 +30,6 @@ public class Cell {
     }
 
     public void setStone(Stone currentStone) {
-        //if(this.isOccupied) throw new Exception("Cell already occupied");
         this.stone = currentStone;
         isOccupied = true;
     }

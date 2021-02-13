@@ -30,7 +30,7 @@ public class Game {
     }*/
 
 
-    public void makeMove(Position position) throws Exception{
+    public void makeMove(Position position) {
 
         board.placeStoneAt(new Stone(currentPlayer.getColor()), position);
 
@@ -58,11 +58,7 @@ public class Game {
     }
 
     public void singleTurn() {
-        Set<Cell> availableCells = new HashSet<>();
-
-        try {
-            availableCells = board.legalCellsOf(currentPlayer.getColor());
-        } catch (Exception e) {}
+        Set<Cell> availableCells = board.legalCellsOf(currentPlayer.getColor());
 
         if (availableCells.isEmpty()) {
             changeTurn();
@@ -73,19 +69,12 @@ public class Game {
         do {
             ioHandler.printCurrentPlayer(currentPlayer);
             inputPosition = ioHandler.inputMove();
-            try {
-                inputCell = board.getCellAt(inputPosition);
-            } catch (Exception positionOutOfBounds){
-                inputCell = null;
-            }
+            inputCell = board.getCellAt(inputPosition);
+
         } while (!availableCells.contains(inputCell));
 
         Stone newStone = new Stone(currentPlayer.getColor());
-        try {
-            board.placeStoneAt(newStone, inputPosition);
-        }
-        catch (Exception alreadyStonePlaced){ }
-
+        board.placeStoneAt(newStone, inputPosition);
     }
 
     public void showGameBoard(){

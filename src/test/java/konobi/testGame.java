@@ -23,28 +23,10 @@ public class testGame {
 
 
     @Test
-    public void shouldNotPlayInOccupiedPosition(){
-
-        assertThrows(Exception.class, ()->
-        {game.makeMove(at(1,1));
-        game.makeMove(at(1,1));
-        });
-    }
-
-    @Test
     public void afterPieRulePlayer1IsWhite() {
         game.applyPieRule();
         assertEquals(game.player1.getColor(), Color.WHITE);
 
     }
-
-    @Test
-    public void afterPieRuleCurrentPlayerIsPlayer1() throws Exception{
-        game.makeMove(at(2,1));
-        game.applyPieRule();
-        assertEquals(game.currentPlayer, game.player1);
-
-    }
-
 
 }

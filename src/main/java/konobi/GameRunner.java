@@ -8,6 +8,7 @@ public class GameRunner {
             ioHandler.welcomeMessage();
             int inputDimension = ioHandler.inputDimension();
             Game game = new Game(inputDimension);
+            System.out.println(game);
             game.singleTurn();
             game.changeTurn();
             game.showGameBoard();

@@ -24,9 +24,22 @@ public class IoHandler {
     public Position inputMove() {
         Scanner stdIn = new Scanner(System.in);
         System.out.print("Enter x coordinate: ");
-        int x = stdIn.nextInt();
+        int x, y;
+        if(stdIn.hasNextInt()) {
+            x = stdIn.nextInt();
+        }
+        else{
+            System.out.println("Not an integer: reinsert coordinates");
+            return inputMove();
+        }
         System.out.print("Enter y coordinate: ");
-        int y = stdIn.nextInt();
+        if(stdIn.hasNextInt()) {
+            y = stdIn.nextInt();
+        }
+        else{
+            System.out.println("Not an integer: reinsert coordinates");
+            return inputMove();
+        }
         return Position.at(x,y);
     }
 
