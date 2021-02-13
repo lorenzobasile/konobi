@@ -2,7 +2,6 @@ package konobi;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import static konobi.Position.at;
 
@@ -111,24 +110,27 @@ public class Board {
         return neighbors;*/
     }
 
+
     public boolean isLegalWeakConnectionPlacement(Cell cell) {
         Set<Cell> weakNeighbors = weakNeighborsOf(cell);
         Color cellColor = cell.getCurrentStone().getColor();
         cell.reset();
         for (Cell weakNeighbor : weakNeighbors) {
-            for (Cell orthogonalNeighborOfWeakNeighbor : orthogonalNeighborsOf(weakNeighbor)) {
-                if (!orthogonalNeighborOfWeakNeighbor.isOccupied()) {
-                    placeStoneAt(new Stone(cellColor), orthogonalNeighborOfWeakNeighbor.getPosition());
-                    boolean weakCondition = weakNeighborsOf(orthogonalNeighborOfWeakNeighbor).isEmpty();
-                    orthogonalNeighborOfWeakNeighbor.reset();
-                    if(weakCondition) {
-                        return false;
-                    }
-                }
-            }
+            boolean condition = orthogonalNeighborsOf(weakNeighbor).stream()
+                                                                   .filter(c->!c.isOccupied())
+                                                                   .anyMatch(c-> checkIfThereAreWeakNeighbors(c, cellColor));
+            if (condition) return false;
         }
         placeStoneAt(new Stone(cellColor), cell.getPosition());
         return true;
+    }
+
+
+    private boolean checkIfThereAreWeakNeighbors(Cell cell, Color cellColor){
+        placeStoneAt(new Stone(cellColor), cell.getPosition());
+        boolean weakCondition = weakNeighborsOf(cell).isEmpty();
+        cell.reset();
+        return weakCondition;
     }
 
     public boolean isCrosscutPlacement(Cell cell) {
@@ -147,21 +149,19 @@ public class Board {
     }
 
     public Set<Cell> legalCellsOf(Color color) {
-        Set<Cell> setOfLegalCells = new HashSet<>();
-        for (Cell cellOnBoard : this.cells){
-            if(!cellOnBoard.isOccupied()){
-                Stone availableStone = new Stone(color);
-                this.placeStoneAt(availableStone, cellOnBoard.getPosition());
-                boolean ruleOne = !(isCrosscutPlacement(cellOnBoard));
-                boolean ruleTwo = isLegalWeakConnectionPlacement(cellOnBoard);
-                if (ruleOne && ruleTwo){
-                    setOfLegalCells.add(cellOnBoard);
-                }
-                cellOnBoard.reset();
-            }
-        }
+        return cells.stream()
+                    .filter(c->!c.isOccupied())
+                    .filter(c->checkTheTwoRules(c, color))
+                    .collect(Collectors.toSet());
+    }
 
-        return setOfLegalCells;
+    private boolean checkTheTwoRules(Cell cell, Color color){
+        Stone availableStone = new Stone(color);
+        this.placeStoneAt(availableStone, cell.getPosition());
+        boolean ruleOne = !(isCrosscutPlacement(cell));
+        boolean ruleTwo = isLegalWeakConnectionPlacement(cell);
+        cell.reset();
+        return ruleOne && ruleTwo;
     }
 
     public boolean checkChain(Color color) {
