@@ -1,6 +1,7 @@
 package konobi;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static konobi.Position.at;
 
@@ -34,7 +35,7 @@ public class Board {
         cellToOccupy.setStone(stone);
     }
 
-    public Set<Cell> orthogonalNeighborsOf(Cell cell) { //TODO: refactor
+    public Set<Cell> orthogonalNeighborsOf(Cell cell) {
 
         Set<Cell> neighbors = new HashSet<>();
 
@@ -48,41 +49,24 @@ public class Board {
 
     }
 
-    public Set<Cell> strongNeighborsOf(Cell cell) {   // TODO: stream filter sameColorAs
+    public Set<Cell> strongNeighborsOf(Cell cell) {
         if(!cell.isOccupied())
            return new HashSet<>();
-        Set<Cell> neighbors = new HashSet<>();
-        Stone thisStone = cell.getCurrentStone();
-
-        for(Cell neighbor : orthogonalNeighborsOf(cell)) {
-            if (neighbor.isOccupied()) {
-                Stone neighborStone = neighbor.getCurrentStone();
-                if (neighborStone.hasSameColorAs(thisStone)) {
-                    neighbors.add(neighbor);
-                }
-            }
-        }
+        Set<Cell> neighbors = orthogonalNeighborsOf(cell).stream()
+                                                         .filter(c->c.isOccupied())
+                                                         .filter(c->c.getCurrentStone().hasSameColorAs(cell.getCurrentStone()))
+                                                         .collect(Collectors.toSet());
         return neighbors;
     }
 
     public Set<Cell> weakNeighborsOf(Cell cell) {
         if(!cell.isOccupied())
             return new HashSet<>();
-        Set<Cell> neighbors = new HashSet<>();
-        Stone thisStone = cell.getCurrentStone();
-
-        for(Cell neighbor : diagonalNeighborsOf(cell)){
-            if (neighbor.isOccupied()){
-                Stone neighborStone = neighbor.getCurrentStone();
-                if (neighborStone.hasSameColorAs(thisStone)){
-                    Set<Cell> strongNeighborsOfCell = commonStrongNeighbors(cell, neighbor);
-                    if (strongNeighborsOfCell.isEmpty()){
-                        neighbors.add(neighbor);
-                    }
-                }
-            }
-        }
-
+        Set<Cell> neighbors = diagonalNeighborsOf(cell).stream()
+                                                       .filter(c->c.isOccupied())
+                                                       .filter(c->c.getCurrentStone().hasSameColorAs(cell.getCurrentStone()))
+                                                       .filter(c->commonStrongNeighbors(cell, c).isEmpty())
+                                                       .collect(Collectors.toSet());
         return neighbors;
     }
 
@@ -99,10 +83,12 @@ public class Board {
         return orthogonalNeighborsOfCell;
     }
 
-    private Set<Cell> commonStrongNeighbors(Cell cell, Cell neighbor) {   // TODO: call commonOrthogonal and filter same color
-        Set<Cell> strongNeighborsOfCell = strongNeighborsOf(cell);
-        Set<Cell> strongNeighborsOfDiagonalCell = strongNeighborsOf(neighbor);
-        strongNeighborsOfCell.retainAll(strongNeighborsOfDiagonalCell);
+    private Set<Cell> commonStrongNeighbors(Cell cell, Cell neighbor) {
+        Set<Cell> strongNeighborsOfCell = commonOrthogonalNeighbors(cell, neighbor).stream()
+                                                                                   .filter(c->c.isOccupied())
+                                                                                   .filter(c->c.getCurrentStone().hasSameColorAs(cell.getCurrentStone()))
+                                                                                   .filter(c->c.getCurrentStone().hasSameColorAs(neighbor.getCurrentStone()))
+                                                                                   .collect(Collectors.toSet());
         return strongNeighborsOfCell;
     }
 
