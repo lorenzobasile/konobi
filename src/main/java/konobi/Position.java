@@ -57,6 +57,7 @@ public class Position {
         return new Position(this.x,this.y+1);
     }
 
+
     public Position bottom(){
         return new Position(this.x,this.y-1);
     }
@@ -75,5 +76,9 @@ public class Position {
 
     public Position lowerRight() {
         return new Position(this.x+1,this.y-1);
+    }
+
+    public int squareEuclideanDistanceFrom(Position other) {
+        return (int)Math.pow(this.x-other.getX(),2)+(int)Math.pow(this.y-other.getY(),2);
     }
 }

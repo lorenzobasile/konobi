@@ -38,28 +38,14 @@ public class Board {
 
         Set<Cell> neighbors = new HashSet<>();
 
+        for(Cell cellOnBoard : cells) {
+            if(cell.getPosition().squareEuclideanDistanceFrom(cellOnBoard.getPosition())==1) {
+                neighbors.add(cellOnBoard);
+            }
 
-        Cell cellAtLeft = getCellAt(cell.getPosition().atLeft());
-        if(!(cellAtLeft ==null)){
-            neighbors.add(cellAtLeft);
         }
-
-        Cell cellAtRight = getCellAt(cell.getPosition().atRight());
-        if(!(cellAtRight ==null)){
-            neighbors.add(cellAtRight);
-        }
-
-        Cell cellAbove = getCellAt(cell.getPosition().top());
-        if(!(cellAbove ==null)){
-            neighbors.add(cellAbove);
-        }
-
-        Cell cellBelow = getCellAt(cell.getPosition().bottom());
-        if(!(cellBelow ==null)){
-            neighbors.add(cellBelow);
-        }
-
         return neighbors;
+
     }
 
     public Set<Cell> strongNeighborsOf(Cell cell) {   // TODO: stream filter sameColorAs
@@ -124,26 +110,12 @@ public class Board {
 
         Set<Cell> neighbors = new HashSet<>();
 
-        Cell cellAtUpperLeft = getCellAt(cell.getPosition().upperLeft());
-        if(!(cellAtUpperLeft==null)){
-            neighbors.add(cellAtUpperLeft);
-        }
+        for(Cell cellOnBoard : cells) {
+            if(cell.getPosition().squareEuclideanDistanceFrom(cellOnBoard.getPosition())==2) {
+                neighbors.add(cellOnBoard);
+            }
 
-        Cell cellAtUpperRight = getCellAt(cell.getPosition().upperRight());
-        if(!(cellAtUpperRight==null)){
-            neighbors.add(cellAtUpperRight);
         }
-
-        Cell cellAtLowerLeft = getCellAt(cell.getPosition().lowerLeft());
-        if(!(cellAtLowerLeft==null)){
-            neighbors.add(cellAtLowerLeft);
-        }
-
-        Cell cellAtLowerRight = getCellAt(cell.getPosition().lowerRight());
-        if(!(cellAtLowerRight==null)){
-            neighbors.add(cellAtLowerRight);
-        }
-
         return neighbors;
     }
 
