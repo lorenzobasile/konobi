@@ -2,6 +2,7 @@ package konobi;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static konobi.Position.at;
 
@@ -20,14 +21,21 @@ public class Board {
 
 
 
-    public Cell getCellAt(Position position) {
+    public Cell getCellAt(Position position) {  //TODO: make more streamable
 
-        for (Cell cell : cells){
+        List<Cell> returnedCell = cells.stream()
+                                       .filter(c->c.isAt(position))
+                                       .collect(Collectors.toList());
+
+        return returnedCell.isEmpty() ? null : returnedCell.get(0);
+
+
+        /*for (Cell cell : cells){
             if (cell.isAt(position)){
                 return cell;
             }
         }
-        return null;
+        return null;*/
     }
 
     public void placeStoneAt(Stone stone, Position position) {
@@ -37,15 +45,9 @@ public class Board {
 
     public Set<Cell> orthogonalNeighborsOf(Cell cell) {
 
-        Set<Cell> neighbors = new HashSet<>();
-
-        for(Cell cellOnBoard : cells) {
-            if(cell.getPosition().squareEuclideanDistanceFrom(cellOnBoard.getPosition())==1) {
-                neighbors.add(cellOnBoard);
-            }
-
-        }
-        return neighbors;
+        return cells.stream()
+                    .filter(c->cell.getPosition().squareEuclideanDistanceFrom(c.getPosition())==1)
+                    .collect(Collectors.toSet());
 
     }
 
@@ -94,15 +96,19 @@ public class Board {
 
     public Set<Cell> diagonalNeighborsOf(Cell cell) {
 
-        Set<Cell> neighbors = new HashSet<>();
+        return cells.stream()
+                    .filter(c->cell.getPosition().squareEuclideanDistanceFrom(c.getPosition())==2)
+                    .collect(Collectors.toSet());
 
+
+        /*
         for(Cell cellOnBoard : cells) {
             if(cell.getPosition().squareEuclideanDistanceFrom(cellOnBoard.getPosition())==2) {
                 neighbors.add(cellOnBoard);
             }
 
         }
-        return neighbors;
+        return neighbors;*/
     }
 
     public boolean isLegalWeakConnectionPlacement(Cell cell) {
