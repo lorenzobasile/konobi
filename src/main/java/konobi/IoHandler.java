@@ -61,7 +61,7 @@ public class IoHandler {
         for (int i = board.dimension-1; i>=0; i--){
             for(int j = 0; j<board.dimension; ++j){
                 if (board.cells.get(i+j*board.dimension).isOccupied()){
-                    Stone stone = board.cells.get(i+j*board.dimension).getStone();
+                    Stone stone = board.cells.get(i+j*board.dimension).getColor();
                     if (stone== Stone.BLACK){
                         System.out.print("X ");
                     }

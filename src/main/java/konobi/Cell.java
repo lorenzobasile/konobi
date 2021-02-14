@@ -1,8 +1,5 @@
 package konobi;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Cell {
     private final Position position;
     private boolean isOccupied;
@@ -25,11 +22,11 @@ public class Cell {
         return isOccupied;
     }
 
-    public Stone getStone() {
+    public Stone getColor() {
         return stone;
     }
 
-    public void setStone(Stone stone) {
+    public void setColor(Stone stone) {
         this.stone = stone;
         isOccupied = true;
     }
@@ -40,7 +37,7 @@ public class Cell {
 
 
     public boolean hasSameColorAs(Cell cell) {
-        return this.stone == cell.getStone();
+        return this.stone == cell.getColor();
     }
 
 
