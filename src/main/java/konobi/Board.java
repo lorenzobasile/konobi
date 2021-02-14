@@ -20,21 +20,12 @@ public class Board {
 
 
 
-    public Cell getCellAt(Position position) {  //TODO: make more streamable
+    public Cell getCellAt(Position position) {
 
-        List<Cell> returnedCell = cells.stream()
-                                       .filter(c->c.isAt(position))
-                                       .collect(Collectors.toList());
-
-        return returnedCell.isEmpty() ? null : returnedCell.get(0);
-
-
-        /*for (Cell cell : cells){
-            if (cell.isAt(position)){
-                return cell;
-            }
-        }
-        return null;*/
+        return cells.stream()
+                    .filter(c->c.isAt(position))
+                    .findFirst()
+                    .orElse(null);
     }
 
     public void placeStoneAt(Stone stone, Position position) {
@@ -98,16 +89,6 @@ public class Board {
         return cells.stream()
                     .filter(c->cell.getPosition().squareEuclideanDistanceFrom(c.getPosition())==2)
                     .collect(Collectors.toSet());
-
-
-        /*
-        for(Cell cellOnBoard : cells) {
-            if(cell.getPosition().squareEuclideanDistanceFrom(cellOnBoard.getPosition())==2) {
-                neighbors.add(cellOnBoard);
-            }
-
-        }
-        return neighbors;*/
     }
 
 
@@ -135,16 +116,11 @@ public class Board {
     public boolean isCrosscutPlacement(Cell cell) {
         Set<Cell> weakNeighbors = weakNeighborsOf(cell);
         Stone stoneColor = cell.getColor();
-        for (Cell weakNeighbor : weakNeighbors){
-            Set<Cell> potentialCrosscut = commonOrthogonalNeighbors(cell, weakNeighbor);
-            List<Boolean> conditionOnCrossCell = new ArrayList<>();
-            for (Cell crossCell : potentialCrosscut){
-                conditionOnCrossCell.add(crossCell.isOccupied() && crossCell.getColor()==stoneColor.oppositeColor());
-            }
-            if (!Arrays.asList(conditionOnCrossCell).contains(false)) return true;
-        }
-        return false;
 
+        return weakNeighbors.stream()
+                            .map(c->commonOrthogonalNeighbors(cell, c))
+                            .anyMatch(s->s.stream()
+                                          .allMatch(c->c.isOccupied() && c.getColor()==stoneColor.oppositeColor()));
     }
 
     public Set<Cell> legalCellsOf(Stone color) {
@@ -164,13 +140,10 @@ public class Board {
     }
 
     public boolean checkChain(Stone color) {
-        HashMap<Position, Boolean> visitedCells = new HashMap<>();
-        for(Cell cell: cells){
-            visitedCells.put(cell.getPosition(), false);
-        }
+        Set<Position> visitedCells = new HashSet<>();
         if(color== Stone.WHITE) {
             for(int y=1; y<= dimension; y++) {
-                if(visitedCells.get(at(1, y))) continue;
+                if(visitedCells.contains(at(1, y))) continue;
                 Cell source = getCellAt(at(1, y));
                 if(source.isOccupied() && source.getColor()==color){
                     if(chainSearch(source, visitedCells)) return true;
@@ -179,7 +152,7 @@ public class Board {
         }
         else {
             for (int x = 1; x <= dimension; x++) {
-                if (visitedCells.get(at(x, dimension ))) continue;
+                if (visitedCells.contains(at(x, dimension ))) continue;
                 Cell source = getCellAt(at(x, dimension));
                 if (source.isOccupied() && source.getColor() == color) {
                     if (chainSearch(source, visitedCells)) return true;
@@ -189,36 +162,14 @@ public class Board {
         return false;
     }
 
-    private boolean chainSearch(Cell source, HashMap<Position, Boolean> visitedCells) {
-        visitedCells.put(source.getPosition(), true);
+    private boolean chainSearch(Cell source, Set<Position> visitedCells) {
+        visitedCells.add(source.getPosition());
         if(source.getColor() == Stone.WHITE && source.getPosition().getX()==dimension) return true;
         if(source.getColor() == Stone.BLACK && source.getPosition().getY()==1) return true;
         for(Cell cell: neighborsOf(source)){
-            if(visitedCells.get(cell.getPosition())) continue;
+            if(visitedCells.contains(cell.getPosition())) continue;
             if(chainSearch(cell, visitedCells)) return true;
         }
         return false;
     }
-
-
-
-
-
-/*
-    public boolean areWeaklyConnected(Stone stone1, Stone stone2) {
-        return (stone1.isDiagonallyAdjacentTo(stone2) && commonStrongNeighborsOf(stone1, stone2).isEmpty());
-    }
-
-    public boolean areStronglyConnected(Stone stone1, Stone stone2) {
-        return stone1.isStronglyConnectedWith(stone2);
-    }
-
-    public List<Stone> commonStrongNeighborsOf(Stone stone1, Stone stone2) {
-        List<Stone> commonStrongNeighbors = new ArrayList<>();
-        for(Stone t : stones){
-            if(areStronglyConnected(stone1,t) && areStronglyConnected(stone2,t))
-                commonStrongNeighbors.add(t);
-        }
-        return commonStrongNeighbors;
-    }*/
 }
