@@ -13,8 +13,8 @@ public class Game {
 
     public Game(int inputDimension) {
         this.board = new Board(inputDimension);
-        this.player1  = new Player(Stone.BLACK);
-        this.player2  = new Player(Stone.WHITE);
+        this.player1  = new Player(Color.BLACK);
+        this.player2  = new Player(Color.WHITE);
         this.currentPlayer = player1;
         this.ioHandler =  new IoHandler();
     }
@@ -51,7 +51,7 @@ public class Game {
     }
 
     private void switchColors() {
-        Stone temp = player2.getColor();
+        Color temp = player2.getColor();
         player2.setColor(player1.getColor());
         player1.setColor(temp);
     }
@@ -72,7 +72,7 @@ public class Game {
 
         } while (!availableCells.contains(inputCell));
 
-        Stone newStone = currentPlayer.getColor();
+        Color newStone = currentPlayer.getColor();
         board.placeStoneAt(newStone, inputPosition);
     }
 

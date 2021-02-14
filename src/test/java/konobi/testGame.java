@@ -21,7 +21,7 @@ public class testGame {
     @Test
     public void afterPieRulePlayer1IsWhite() {
         game.applyPieRule();
-        assertEquals(game.player1.getColor(), Stone.WHITE);
+        assertEquals(game.player1.getColor(), Color.WHITE);
 
     }
 

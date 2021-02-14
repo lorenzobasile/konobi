@@ -3,7 +3,7 @@ package konobi;
 public class Cell {
     private final Position position;
     private boolean isOccupied;
-    private Stone stone;
+    private Color stone;
 
     public Cell(Position position) {
         this.position = position;
@@ -22,11 +22,11 @@ public class Cell {
         return isOccupied;
     }
 
-    public Stone getColor() {
+    public Color getColor() {
         return stone;
     }
 
-    public void setColor(Stone stone) {
+    public void setColor(Color stone) {
         this.stone = stone;
         isOccupied = true;
     }

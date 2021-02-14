@@ -1,10 +1,10 @@
 package konobi;
 
-public enum Stone {
+public enum Color {
     BLACK,
     WHITE;
 
-    public Stone oppositeColor(){
+    public Color oppositeColor(){
         if (this==BLACK) return WHITE;
         return BLACK;
     }

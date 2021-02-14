@@ -16,7 +16,7 @@ public class testBoard {
     @Test
     public void placeStoneAndVerifyCellIsOccupied() throws Exception {
         Board board = new Board(3);
-        board.placeStoneAt(Stone.BLACK, at(1,1));
+        board.placeStoneAt(Color.BLACK, at(1,1));
         Cell occupiedCell = board.getCellAt(at(1, 1));
         assertEquals(true, occupiedCell.isOccupied());
     }
@@ -45,12 +45,12 @@ public class testBoard {
     @Test
     public void verifyStrongNeighbors() throws Exception{
         Board board = new Board(3);
-        board.placeStoneAt(Stone.BLACK, at(1,2));
+        board.placeStoneAt(Color.BLACK, at(1,2));
 
-        board.placeStoneAt(Stone.BLACK, at(1,1));
-        board.placeStoneAt(Stone.BLACK, at(2,2));
-        board.placeStoneAt(Stone.BLACK, at(2,1));
-        board.placeStoneAt(Stone.WHITE, at(1,3));
+        board.placeStoneAt(Color.BLACK, at(1,1));
+        board.placeStoneAt(Color.BLACK, at(2,2));
+        board.placeStoneAt(Color.BLACK, at(2,1));
+        board.placeStoneAt(Color.WHITE, at(1,3));
 
         Cell strongNeighborBelow = board.getCellAt(at(1,1));
         Cell strongNeighborRight = board.getCellAt(at(2,2));
@@ -63,12 +63,12 @@ public class testBoard {
     @Test
     public void verifyWeakNeighbors() throws Exception{
         Board board = new Board(4);
-        board.placeStoneAt(Stone.BLACK, at(3,3));
-        board.placeStoneAt(Stone.BLACK, at(2,3));
-        board.placeStoneAt(Stone.BLACK, at(2,4));
-        board.placeStoneAt(Stone.WHITE, at(4,3));
-        board.placeStoneAt(Stone.BLACK, at(4,4));
-        board.placeStoneAt(Stone.WHITE, at(4,2));
+        board.placeStoneAt(Color.BLACK, at(3,3));
+        board.placeStoneAt(Color.BLACK, at(2,3));
+        board.placeStoneAt(Color.BLACK, at(2,4));
+        board.placeStoneAt(Color.WHITE, at(4,3));
+        board.placeStoneAt(Color.BLACK, at(4,4));
+        board.placeStoneAt(Color.WHITE, at(4,2));
 
 
         Cell weakNeighbor = board.getCellAt(at(4,4));
@@ -81,12 +81,12 @@ public class testBoard {
     @Test
     public void verifyLegalWeakConnectionPlacement() throws Exception {
         Board board = new Board(5);
-        board.placeStoneAt(Stone.BLACK, at(1,1));
-        board.placeStoneAt(Stone.WHITE, at(1,2));
-        board.placeStoneAt(Stone.BLACK, at(3,2));
-        board.placeStoneAt(Stone.WHITE, at(3,3));
+        board.placeStoneAt(Color.BLACK, at(1,1));
+        board.placeStoneAt(Color.WHITE, at(1,2));
+        board.placeStoneAt(Color.BLACK, at(3,2));
+        board.placeStoneAt(Color.WHITE, at(3,3));
 
-        board.placeStoneAt(Stone.BLACK, at(2,2));
+        board.placeStoneAt(Color.BLACK, at(2,2));
         Cell cellToVerify = board.getCellAt(at(2,2));
         assertEquals(true, board.isLegalWeakConnectionPlacement(cellToVerify));
     }
@@ -94,12 +94,12 @@ public class testBoard {
     @Test
     public void verifyIllegalWeakConnectionPlacement() throws Exception {
         Board board = new Board(5);
-        board.placeStoneAt(Stone.BLACK, at(1,1));
-        board.placeStoneAt(Stone.WHITE, at(1,2));
-        board.placeStoneAt(Stone.BLACK, at(3,2));
-        board.placeStoneAt(Stone.WHITE, at(3,3));
+        board.placeStoneAt(Color.BLACK, at(1,1));
+        board.placeStoneAt(Color.WHITE, at(1,2));
+        board.placeStoneAt(Color.BLACK, at(3,2));
+        board.placeStoneAt(Color.WHITE, at(3,3));
 
-        board.placeStoneAt(Stone.BLACK, at(2,1));
+        board.placeStoneAt(Color.BLACK, at(2,1));
         Cell cellToVerify = board.getCellAt(at(2,1));
         assertEquals(false, board.isLegalWeakConnectionPlacement(cellToVerify));
     }
@@ -107,13 +107,13 @@ public class testBoard {
     @Test
     public void verifyCrosscut() throws Exception {
         Board board = new Board(5);
-        board.placeStoneAt(Stone.BLACK, at(1,1));
-        board.placeStoneAt(Stone.WHITE, at(1,2));
-        board.placeStoneAt(Stone.BLACK, at(3,2));
-        board.placeStoneAt(Stone.WHITE, at(3,3));
-        board.placeStoneAt(Stone.BLACK, at(2,2));
+        board.placeStoneAt(Color.BLACK, at(1,1));
+        board.placeStoneAt(Color.WHITE, at(1,2));
+        board.placeStoneAt(Color.BLACK, at(3,2));
+        board.placeStoneAt(Color.WHITE, at(3,3));
+        board.placeStoneAt(Color.BLACK, at(2,2));
 
-        board.placeStoneAt(Stone.WHITE, at(2, 1));
+        board.placeStoneAt(Color.WHITE, at(2, 1));
         Cell cellToVerify = board.getCellAt(at(2,1));
         assertEquals(true, board.isCrosscutPlacement(cellToVerify));
     }
@@ -121,13 +121,13 @@ public class testBoard {
     @Test
     public void verifyNotCrosscut() throws Exception {
         Board board = new Board(5);
-        board.placeStoneAt(Stone.BLACK, at(1,1));
-        board.placeStoneAt(Stone.WHITE, at(1,2));
-        board.placeStoneAt(Stone.BLACK, at(3,2));
-        board.placeStoneAt(Stone.WHITE, at(3,3));
-        board.placeStoneAt(Stone.BLACK, at(2,2));
+        board.placeStoneAt(Color.BLACK, at(1,1));
+        board.placeStoneAt(Color.WHITE, at(1,2));
+        board.placeStoneAt(Color.BLACK, at(3,2));
+        board.placeStoneAt(Color.WHITE, at(3,3));
+        board.placeStoneAt(Color.BLACK, at(2,2));
 
-        board.placeStoneAt(Stone.BLACK, at(2, 1));
+        board.placeStoneAt(Color.BLACK, at(2, 1));
         Cell cellToVerify = board.getCellAt(at(2,1));
         assertEquals(false, board.isCrosscutPlacement(cellToVerify));
     }
@@ -136,20 +136,20 @@ public class testBoard {
     public void checkIfInitiallyAllMovesAreLegal() throws Exception{
         Board board = new Board(10);
         Set<Cell> allCells = new HashSet<Cell>(board.cells);
-        assertEquals(allCells, board.legalCellsOf(Stone.BLACK));
+        assertEquals(allCells, board.legalCellsOf(Color.BLACK));
     }
 
     @Test
     public void checkIfMoveIsLegal() throws Exception{
         Board board = new Board(5);
-        board.placeStoneAt(Stone.BLACK, at(1,1));
-        board.placeStoneAt(Stone.WHITE, at(1,2));
-        board.placeStoneAt(Stone.BLACK, at(3,2));
-        board.placeStoneAt(Stone.WHITE, at(3,3));
-        board.placeStoneAt(Stone.BLACK, at(2,2));
+        board.placeStoneAt(Color.BLACK, at(1,1));
+        board.placeStoneAt(Color.WHITE, at(1,2));
+        board.placeStoneAt(Color.BLACK, at(3,2));
+        board.placeStoneAt(Color.WHITE, at(3,3));
+        board.placeStoneAt(Color.BLACK, at(2,2));
 
         Cell cellToVerify = board.getCellAt(at(2,1));
-        Set<Cell> availableCellsForBlack = board.legalCellsOf(Stone.BLACK);
+        Set<Cell> availableCellsForBlack = board.legalCellsOf(Color.BLACK);
         assertEquals(true, availableCellsForBlack.contains(cellToVerify));
 
     }
@@ -157,14 +157,14 @@ public class testBoard {
     @Test
     public void checkIfMoveIsIllegal() throws Exception{
         Board board = new Board(5);
-        board.placeStoneAt(Stone.BLACK, at(1,1));
-        board.placeStoneAt(Stone.WHITE, at(1,2));
-        board.placeStoneAt(Stone.BLACK, at(3,2));
-        board.placeStoneAt(Stone.WHITE, at(3,3));
-        board.placeStoneAt(Stone.BLACK, at(2,2));
+        board.placeStoneAt(Color.BLACK, at(1,1));
+        board.placeStoneAt(Color.WHITE, at(1,2));
+        board.placeStoneAt(Color.BLACK, at(3,2));
+        board.placeStoneAt(Color.WHITE, at(3,3));
+        board.placeStoneAt(Color.BLACK, at(2,2));
 
         Cell cellToVerify = board.getCellAt(at(2,1));
-        Set<Cell> availableCellsForWhite = board.legalCellsOf(Stone.WHITE);
+        Set<Cell> availableCellsForWhite = board.legalCellsOf(Color.WHITE);
         assertEquals(false, availableCellsForWhite.contains(cellToVerify));
 
     }
@@ -172,80 +172,80 @@ public class testBoard {
     @Test
     public void checkBlackWin() throws Exception{
         Board board = new Board(5);
-        board.placeStoneAt(Stone.BLACK, at(1,5));
-        board.placeStoneAt(Stone.BLACK, at(1,4));
-        board.placeStoneAt(Stone.BLACK, at(2,4));
-        board.placeStoneAt(Stone.BLACK, at(2,2));
-        board.placeStoneAt(Stone.BLACK, at(3,3));
-        board.placeStoneAt(Stone.BLACK, at(4,4));
-        board.placeStoneAt(Stone.BLACK, at(4,1));
-        board.placeStoneAt(Stone.BLACK, at(5,3));
-        board.placeStoneAt(Stone.BLACK, at(5,2));
-        board.placeStoneAt(Stone.WHITE, at(1,1));
-        board.placeStoneAt(Stone.WHITE, at(4,3));
-        board.placeStoneAt(Stone.WHITE, at(5,1));
-        board.placeStoneAt(Stone.BLACK, at(3,5));
+        board.placeStoneAt(Color.BLACK, at(1,5));
+        board.placeStoneAt(Color.BLACK, at(1,4));
+        board.placeStoneAt(Color.BLACK, at(2,4));
+        board.placeStoneAt(Color.BLACK, at(2,2));
+        board.placeStoneAt(Color.BLACK, at(3,3));
+        board.placeStoneAt(Color.BLACK, at(4,4));
+        board.placeStoneAt(Color.BLACK, at(4,1));
+        board.placeStoneAt(Color.BLACK, at(5,3));
+        board.placeStoneAt(Color.BLACK, at(5,2));
+        board.placeStoneAt(Color.WHITE, at(1,1));
+        board.placeStoneAt(Color.WHITE, at(4,3));
+        board.placeStoneAt(Color.WHITE, at(5,1));
+        board.placeStoneAt(Color.BLACK, at(3,5));
 
-        assertEquals(true, board.checkChain(Stone.BLACK));
+        assertEquals(true, board.checkChain(Color.BLACK));
     }
 
     @Test
     public void checkNotBlackWin() throws Exception{
         Board board = new Board(5);
-        board.placeStoneAt(Stone.BLACK, at(3,4));
-        board.placeStoneAt(Stone.BLACK, at(1,4));
-        board.placeStoneAt(Stone.BLACK, at(2,4));
-        board.placeStoneAt(Stone.BLACK, at(2,2));
-        board.placeStoneAt(Stone.BLACK, at(3,3));
-        board.placeStoneAt(Stone.BLACK, at(4,4));
-        board.placeStoneAt(Stone.BLACK, at(4,1));
-        board.placeStoneAt(Stone.BLACK, at(5,3));
-        board.placeStoneAt(Stone.BLACK, at(5,2));
-        board.placeStoneAt(Stone.WHITE, at(1,1));
-        board.placeStoneAt(Stone.WHITE, at(4,3));
-        board.placeStoneAt(Stone.WHITE, at(5,1));
+        board.placeStoneAt(Color.BLACK, at(3,4));
+        board.placeStoneAt(Color.BLACK, at(1,4));
+        board.placeStoneAt(Color.BLACK, at(2,4));
+        board.placeStoneAt(Color.BLACK, at(2,2));
+        board.placeStoneAt(Color.BLACK, at(3,3));
+        board.placeStoneAt(Color.BLACK, at(4,4));
+        board.placeStoneAt(Color.BLACK, at(4,1));
+        board.placeStoneAt(Color.BLACK, at(5,3));
+        board.placeStoneAt(Color.BLACK, at(5,2));
+        board.placeStoneAt(Color.WHITE, at(1,1));
+        board.placeStoneAt(Color.WHITE, at(4,3));
+        board.placeStoneAt(Color.WHITE, at(5,1));
 
-        assertEquals(false, board.checkChain(Stone.BLACK));
+        assertEquals(false, board.checkChain(Color.BLACK));
     }
 
     @Test
     public void checkWhiteWin() throws Exception{
         Board board = new Board(5);
-        board.placeStoneAt(Stone.WHITE, at(2,2));
-        board.placeStoneAt(Stone.WHITE, at(2,3));
-        board.placeStoneAt(Stone.WHITE, at(2,4));
-        board.placeStoneAt(Stone.WHITE, at(3,2));
-        board.placeStoneAt(Stone.WHITE, at(3,4));
-        board.placeStoneAt(Stone.WHITE, at(4,3));
-        board.placeStoneAt(Stone.WHITE, at(4,5));
-        board.placeStoneAt(Stone.WHITE, at(5,1));
-        board.placeStoneAt(Stone.WHITE, at(5,2));
-        board.placeStoneAt(Stone.WHITE, at(1,3));
+        board.placeStoneAt(Color.WHITE, at(2,2));
+        board.placeStoneAt(Color.WHITE, at(2,3));
+        board.placeStoneAt(Color.WHITE, at(2,4));
+        board.placeStoneAt(Color.WHITE, at(3,2));
+        board.placeStoneAt(Color.WHITE, at(3,4));
+        board.placeStoneAt(Color.WHITE, at(4,3));
+        board.placeStoneAt(Color.WHITE, at(4,5));
+        board.placeStoneAt(Color.WHITE, at(5,1));
+        board.placeStoneAt(Color.WHITE, at(5,2));
+        board.placeStoneAt(Color.WHITE, at(1,3));
 
 
-        board.placeStoneAt(Stone.BLACK, at(3,3));
-        board.placeStoneAt(Stone.BLACK, at(4,1));
-        board.placeStoneAt(Stone.BLACK, at(5,3));
+        board.placeStoneAt(Color.BLACK, at(3,3));
+        board.placeStoneAt(Color.BLACK, at(4,1));
+        board.placeStoneAt(Color.BLACK, at(5,3));
 
-        assertEquals(true, board.checkChain(Stone.WHITE));
+        assertEquals(true, board.checkChain(Color.WHITE));
     }
 
     @Test
     public void checkNotWhiteWin() throws Exception{
         Board board = new Board(5);
-        board.placeStoneAt(Stone.WHITE, at(1,3));
-        board.placeStoneAt(Stone.WHITE, at(2,2));
-        board.placeStoneAt(Stone.WHITE, at(2,3));
-        board.placeStoneAt(Stone.WHITE, at(2,4));
-        board.placeStoneAt(Stone.WHITE, at(3,3));
-        board.placeStoneAt(Stone.WHITE, at(3,4));
-        board.placeStoneAt(Stone.WHITE, at(3,5));
-        board.placeStoneAt(Stone.WHITE, at(4,4));
+        board.placeStoneAt(Color.WHITE, at(1,3));
+        board.placeStoneAt(Color.WHITE, at(2,2));
+        board.placeStoneAt(Color.WHITE, at(2,3));
+        board.placeStoneAt(Color.WHITE, at(2,4));
+        board.placeStoneAt(Color.WHITE, at(3,3));
+        board.placeStoneAt(Color.WHITE, at(3,4));
+        board.placeStoneAt(Color.WHITE, at(3,5));
+        board.placeStoneAt(Color.WHITE, at(4,4));
 
-        board.placeStoneAt(Stone.BLACK, at(1,4));
-        board.placeStoneAt(Stone.BLACK, at(5,4));
+        board.placeStoneAt(Color.BLACK, at(1,4));
+        board.placeStoneAt(Color.BLACK, at(5,4));
 
-        assertEquals(false, board.checkChain(Stone.WHITE));
+        assertEquals(false, board.checkChain(Color.WHITE));
     }
 
 
