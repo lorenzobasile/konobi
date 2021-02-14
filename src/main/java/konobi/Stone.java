@@ -1,21 +1,12 @@
 package konobi;
 
-public class Stone {
+public enum Stone {
+    BLACK,
+    WHITE;
 
-    private Color color;
-
-    public Stone(Color color) {
-        this.color = color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
-    }
-    public Color getColor() {
-        return color;
-    }
-
-    public boolean hasSameColorAs(Stone stone) {
-        return this.color == stone.getColor();
+    public Stone oppositeColor(){
+        if (this==BLACK) return WHITE;
+        return BLACK;
     }
 }
+

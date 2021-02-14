@@ -25,12 +25,12 @@ public class Cell {
         return isOccupied;
     }
 
-    public Stone getCurrentStone() {
+    public Stone getStone() {
         return stone;
     }
 
-    public void setStone(Stone currentStone) {
-        this.stone = currentStone;
+    public void setStone(Stone stone) {
+        this.stone = stone;
         isOccupied = true;
     }
 
@@ -39,6 +39,9 @@ public class Cell {
     }
 
 
+    public boolean hasSameColorAs(Cell cell) {
+        return this.stone == cell.getStone();
+    }
 
 
     @Override

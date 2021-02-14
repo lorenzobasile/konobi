@@ -1,6 +1,5 @@
 package konobi;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class Game {
@@ -14,8 +13,8 @@ public class Game {
 
     public Game(int inputDimension) {
         this.board = new Board(inputDimension);
-        this.player1  = new Player(Color.BLACK);
-        this.player2  = new Player(Color.WHITE);
+        this.player1  = new Player(Stone.BLACK);
+        this.player2  = new Player(Stone.WHITE);
         this.currentPlayer = player1;
         this.ioHandler =  new IoHandler();
     }
@@ -32,7 +31,7 @@ public class Game {
 
     public void makeMove(Position position) {
 
-        board.placeStoneAt(new Stone(currentPlayer.getColor()), position);
+        board.placeStoneAt(currentPlayer.getColor(), position);
 
         changeTurn();
     }
@@ -52,7 +51,7 @@ public class Game {
     }
 
     private void switchColors() {
-        Color temp = player2.getColor();
+        Stone temp = player2.getColor();
         player2.setColor(player1.getColor());
         player1.setColor(temp);
     }
@@ -73,7 +72,7 @@ public class Game {
 
         } while (!availableCells.contains(inputCell));
 
-        Stone newStone = new Stone(currentPlayer.getColor());
+        Stone newStone = currentPlayer.getColor();
         board.placeStoneAt(newStone, inputPosition);
     }
 

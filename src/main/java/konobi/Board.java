@@ -55,7 +55,7 @@ public class Board {
            return new HashSet<>();
         Set<Cell> neighbors = orthogonalNeighborsOf(cell).stream()
                                                          .filter(c->c.isOccupied())
-                                                         .filter(c->c.getCurrentStone().hasSameColorAs(cell.getCurrentStone()))
+                                                         .filter(c->c.hasSameColorAs(cell))
                                                          .collect(Collectors.toSet());
         return neighbors;
     }
@@ -65,7 +65,7 @@ public class Board {
             return new HashSet<>();
         Set<Cell> neighbors = diagonalNeighborsOf(cell).stream()
                                                        .filter(c->c.isOccupied())
-                                                       .filter(c->c.getCurrentStone().hasSameColorAs(cell.getCurrentStone()))
+                                                       .filter(c->c.hasSameColorAs(cell))
                                                        .filter(c->commonStrongNeighbors(cell, c).isEmpty())
                                                        .collect(Collectors.toSet());
         return neighbors;
@@ -87,8 +87,8 @@ public class Board {
     private Set<Cell> commonStrongNeighbors(Cell cell, Cell neighbor) {
         Set<Cell> strongNeighborsOfCell = commonOrthogonalNeighbors(cell, neighbor).stream()
                                                                                    .filter(c->c.isOccupied())
-                                                                                   .filter(c->c.getCurrentStone().hasSameColorAs(cell.getCurrentStone()))
-                                                                                   .filter(c->c.getCurrentStone().hasSameColorAs(neighbor.getCurrentStone()))
+                                                                                   .filter(c->c.hasSameColorAs(cell))
+                                                                                   .filter(c->c.hasSameColorAs(neighbor))
                                                                                    .collect(Collectors.toSet());
         return strongNeighborsOfCell;
     }
@@ -113,7 +113,7 @@ public class Board {
 
     public boolean isLegalWeakConnectionPlacement(Cell cell) {
         Set<Cell> weakNeighbors = weakNeighborsOf(cell);
-        Color cellColor = cell.getCurrentStone().getColor();
+        Stone cellColor = cell.getStone();
         cell.reset();
         for (Cell weakNeighbor : weakNeighbors) {
             boolean condition = orthogonalNeighborsOf(weakNeighbor).stream()
@@ -121,13 +121,13 @@ public class Board {
                                                                    .anyMatch(c-> checkIfThereAreWeakNeighbors(c, cellColor));
             if (condition) return false;
         }
-        placeStoneAt(new Stone(cellColor), cell.getPosition());
+        placeStoneAt(cellColor, cell.getPosition());
         return true;
     }
 
 
-    private boolean checkIfThereAreWeakNeighbors(Cell cell, Color cellColor){
-        placeStoneAt(new Stone(cellColor), cell.getPosition());
+    private boolean checkIfThereAreWeakNeighbors(Cell cell, Stone cellColor){
+        placeStoneAt(cellColor, cell.getPosition());
         boolean weakCondition = weakNeighborsOf(cell).isEmpty();
         cell.reset();
         return weakCondition;
@@ -135,12 +135,12 @@ public class Board {
 
     public boolean isCrosscutPlacement(Cell cell) {
         Set<Cell> weakNeighbors = weakNeighborsOf(cell);
-        Color cellColor = cell.getCurrentStone().getColor();
+        Stone cellColor = cell.getStone();
         for (Cell weakNeighbor : weakNeighbors){
             Set<Cell> potentialCrosscut = commonOrthogonalNeighbors(cell, weakNeighbor);
             List<Boolean> conditionOnCrossCell = new ArrayList<>();
             for (Cell crossCell : potentialCrosscut){
-                conditionOnCrossCell.add(crossCell.isOccupied() && crossCell.getCurrentStone().getColor()==cellColor.oppositeColor());
+                conditionOnCrossCell.add(crossCell.isOccupied() && crossCell.getStone()==cellColor.oppositeColor());
             }
             if (!Arrays.asList(conditionOnCrossCell).contains(false)) return true;
         }
@@ -148,15 +148,15 @@ public class Board {
 
     }
 
-    public Set<Cell> legalCellsOf(Color color) {
+    public Set<Cell> legalCellsOf(Stone color) {
         return cells.stream()
                     .filter(c->!c.isOccupied())
                     .filter(c->checkTheTwoRules(c, color))
                     .collect(Collectors.toSet());
     }
 
-    private boolean checkTheTwoRules(Cell cell, Color color){
-        Stone availableStone = new Stone(color);
+    private boolean checkTheTwoRules(Cell cell, Stone color){
+        Stone availableStone = color;
         this.placeStoneAt(availableStone, cell.getPosition());
         boolean ruleOne = !(isCrosscutPlacement(cell));
         boolean ruleTwo = isLegalWeakConnectionPlacement(cell);
@@ -164,16 +164,16 @@ public class Board {
         return ruleOne && ruleTwo;
     }
 
-    public boolean checkChain(Color color) {
+    public boolean checkChain(Stone color) {
         HashMap<Position, Boolean> visitedCells = new HashMap<>();
         for(Cell cell: cells){
             visitedCells.put(cell.getPosition(), false);
         }
-        if(color==Color.WHITE) {
+        if(color== Stone.WHITE) {
             for(int y=0; y<dimension; y++) {
                 if(visitedCells.get(at(0, y))) continue;
                 Cell source = getCellAt(at(0, y));
-                if(source.isOccupied() && source.getCurrentStone().getColor()==color){
+                if(source.isOccupied() && source.getStone()==color){
                     if(chainSearch(source, visitedCells)) return true;
                 }
             }
@@ -182,7 +182,7 @@ public class Board {
             for (int x = 0; x < dimension; x++) {
                 if (visitedCells.get(at(x, dimension - 1))) continue;
                 Cell source = getCellAt(at(x, dimension - 1));
-                if (source.isOccupied() && source.getCurrentStone().getColor() == color) {
+                if (source.isOccupied() && source.getStone() == color) {
                     if (chainSearch(source, visitedCells)) return true;
                 }
             }
@@ -192,8 +192,8 @@ public class Board {
 
     private boolean chainSearch(Cell source, HashMap<Position, Boolean> visitedCells) {
         visitedCells.put(source.getPosition(), true);
-        if(source.getCurrentStone().getColor()==Color.WHITE && source.getPosition().getX()==dimension-1) return true;
-        if(source.getCurrentStone().getColor()==Color.BLACK && source.getPosition().getY()==0) return true;
+        if(source.getStone() == Stone.WHITE && source.getPosition().getX()==dimension-1) return true;
+        if(source.getStone() == Stone.BLACK && source.getPosition().getY()==0) return true;
         for(Cell cell: neighborsOf(source)){
             if(visitedCells.get(cell.getPosition())) continue;
             if(chainSearch(cell, visitedCells)) return true;

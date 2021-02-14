@@ -1,17 +1,17 @@
 package konobi;
 
 public class Player {
-    private Color color;
+    private Stone color;
 
-    public Player(Color color) {
+    public Player(Stone color) {
         this.color = color;
     }
 
-    public void setColor(Color color) {
+    public void setColor(Stone color) {
         this.color = color;
     }
 
-    public Color getColor() {
+    public Stone getColor() {
         return color;
     }
 }

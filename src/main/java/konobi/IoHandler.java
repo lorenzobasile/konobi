@@ -1,6 +1,5 @@
 package konobi;
 
-import java.io.InputStream;
 import java.util.Scanner;
 
 public class IoHandler {
@@ -62,8 +61,8 @@ public class IoHandler {
         for (int i = board.dimension-1; i>=0; i--){
             for(int j = 0; j<board.dimension; ++j){
                 if (board.cells.get(i+j*board.dimension).isOccupied()){
-                    Stone stone = board.cells.get(i+j*board.dimension).getCurrentStone();
-                    if (stone.getColor()==Color.BLACK){
+                    Stone stone = board.cells.get(i+j*board.dimension).getStone();
+                    if (stone== Stone.BLACK){
                         System.out.print("X ");
                     }
                     else{
