@@ -21,11 +21,11 @@ public class testInputHandler {
 
     @Test
     public void yesAnswerIsReceived() {
-        IoHandler inputhandler = new IoHandler();
+        IoHandler ioHandler = new IoHandler();
         String input = "y";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
-        assertEquals(true, inputhandler.inputPie());
+        assertEquals(true, ioHandler.inputPie(new Player(Color.BLACK, "player")));
 
     }
 

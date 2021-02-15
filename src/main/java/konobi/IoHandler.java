@@ -8,6 +8,7 @@ public class IoHandler {
     public static final String ANSI_WHITE = "\u001B[37m";
     public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
 
+
     public void welcomeMessage(){
         System.out.println("Welcome to Konobi!");
     }
@@ -42,16 +43,20 @@ public class IoHandler {
         return Position.at(x,y);
     }
 
-    public boolean inputPie(){
+    public boolean inputPie(Player currentPlayer){
         Scanner stdIn = new Scanner(System.in);
-        System.out.println("Do you want to apply the pie rule? (y/n) ");
+        System.out.println(currentPlayer.getName()+", do you want to apply the pie rule? (y/n) ");
         String answer = stdIn.nextLine();
         if(answer.equals("y"))
             return true;
         else if(answer.equals("n"))
             return false;
         else
-            return inputPie();
+            return inputPie(currentPlayer);
+    }
+
+    public void showPlayerColors(Player player1, Player player2){
+        System.out.println(player1.getName()+" is "+player1.getColor()+", "+player2.getName()+" is "+player2.getColor());
     }
 
     public void printBoard(Board board) {
@@ -79,6 +84,13 @@ public class IoHandler {
 
 
     public void printCurrentPlayer(Player currentPlayer) {
-        System.out.println("Now is " + currentPlayer.getColor() + " turn");
+        System.out.println(currentPlayer.getName()+", it's your turn!");
+    }
+
+    public String inputPlayerName(int i) {
+        Scanner stdIn = new Scanner(System.in);
+        System.out.print("Player "+i+": what's your name? ");
+        String name = stdIn.nextLine();
+        return name;
     }
 }

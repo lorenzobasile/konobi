@@ -3,8 +3,15 @@ package konobi;
 public class Player {
     private Color color;
 
-    public Player(Color color) {
+    public String getName() {
+        return name;
+    }
+
+    private String name;
+
+    public Player(Color color, String name) {
         this.color = color;
+        this.name = name;
     }
 
     public void setColor(Color color) {
