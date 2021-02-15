@@ -15,66 +15,114 @@ import static konobi.Position.at;
 public class testConnections {
 
 
-    @Test
-    public void verifyOrthogonalNeighbors() throws Exception{
-        Board board = new Board(3);
+    @ParameterizedTest
+    @CsvSource({"2, 3",
+                "4, 2",
+                "3, 3"})
+    public void verifyOrthogonalNeighborsOfInnerCells(int x, int y) {
+        Board board = new Board(7);
         Connections connections = new Connections(board);
-        Cell cell = board.getCellAt(at(1,2));
-        Cell right = board.getCellAt(at(2,2));
-        Cell top = board.getCellAt(at(1,3));
-        Cell bottom = board.getCellAt(at(1,1));
-        Set<Cell> neighborsList = new HashSet<>(Arrays.asList(right,top,bottom));
+        Cell cell = board.getCell(at(x,y));
+        Cell right = board.getCell(at(x+1,y));
+        Cell left = board.getCell(at(x-1,y));
+        Cell top = board.getCell(at(x,y+1));
+        Cell bottom = board.getCell(at(x,y-1));
+        Set<Cell> neighborsList = new HashSet<>(Arrays.asList(top,left,bottom,right));
+        assertEquals(neighborsList,connections.orthogonalNeighborsOf(cell));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1, 2",
+                "1, 4"})
+    public void verifyOrthogonalNeighborsOfCellsOnLeftEdge(int x, int y) {
+        Board board = new Board(7);
+        Connections connections = new Connections(board);
+        Cell cell = board.getCell(at(x,y));
+        Cell right = board.getCell(at(x+1,y));
+        Cell top = board.getCell(at(x,y+1));
+        Cell bottom = board.getCell(at(x,y-1));
+        Set<Cell> neighborsList = new HashSet<>(Arrays.asList(top,bottom,right));
+        assertEquals(neighborsList,connections.orthogonalNeighborsOf(cell));
+    }
+
+    @Test
+    public void verifyOrthogonalNeighborsOfCellsOnTopRightCorner() {
+        Board board = new Board(7);
+        Connections connections = new Connections(board);
+        Cell cell = board.getCell(at(7,7));
+        Cell left = board.getCell(at(6,7));
+        Cell bottom = board.getCell(at(7,6));
+        Set<Cell> neighborsList = new HashSet<>(Arrays.asList(bottom,left));
         assertEquals(neighborsList,connections.orthogonalNeighborsOf(cell));
     }
 
 
-    @Test
-    public void verifyDiagonalNeighbors() throws Exception{
-        Board board = new Board(3);
+    @ParameterizedTest
+    @CsvSource({"2, 3",
+                "4, 2",
+                "3, 3"})
+    public void verifyDiagonalNeighborsOfInnerCells(int x, int y) {
+        Board board = new Board(7);
         Connections connections = new Connections(board);
-        Cell cell = board.getCellAt(at(1,2));
-        Cell upperRight = board.getCellAt(at(2,3));
-        Cell lowerRight = board.getCellAt(at(2,1));
-        Set<Cell> neighborsList = new HashSet<>(Arrays.asList(upperRight, lowerRight));
+        Cell cell = board.getCell(at(x,y));
+        Cell upperRight = board.getCell(at(x+1,y+1));
+        Cell lowerRight = board.getCell(at(x+1,y-1));
+        Cell upperLeft = board.getCell(at(x-1,y+1));
+        Cell lowerLeft = board.getCell(at(x-1,y-1));
+        Set<Cell> neighborsList = new HashSet<>(Arrays.asList(upperRight, lowerRight,upperLeft,lowerLeft));
         assertEquals(neighborsList,connections.diagonalNeighborsOf(cell));
     }
 
     @Test
-    public void verifyStrongNeighbors() throws Exception{
-        Board board = new Board(3);
+    public void verifyDiagonalNeighborsOfTopRightCorner() {
+        Board board = new Board(7);
         Connections connections = new Connections(board);
-        board.placeStoneAt(Color.BLACK, at(1,2));
-
-        board.placeStoneAt(Color.BLACK, at(1,1));
-        board.placeStoneAt(Color.BLACK, at(2,2));
-        board.placeStoneAt(Color.BLACK, at(2,1));
-        board.placeStoneAt(Color.WHITE, at(1,3));
-
-        Cell strongNeighborBelow = board.getCellAt(at(1,1));
-        Cell strongNeighborRight = board.getCellAt(at(2,2));
-
-        Set<Cell> strongNeighborsList = new HashSet<>(Arrays.asList(strongNeighborRight, strongNeighborBelow));
-        assertEquals(strongNeighborsList,connections.strongNeighborsOf(board.getCellAt(at(1,2))));
-
+        Cell cell = board.getCell(at(7,7));
+        Cell lowerLeft = board.getCell(at(6,6));
+        Set<Cell> neighborsList = new HashSet<>(Arrays.asList(lowerLeft));
+        assertEquals(neighborsList,connections.diagonalNeighborsOf(cell));
     }
 
     @Test
-    public void verifyWeakNeighbors() throws Exception{
+    public void stoneOfOppositeColorIsNotStronglyConnected() {
+        Board board = new Board(3);
+        Connections connections = new Connections(board);
+        board.placeStone(at(2,2), Color.BLACK);
+        board.placeStone(at(2,1), Color.WHITE);
+        assertEquals(true,connections.strongNeighborsOf(board.getCell(at(2,2))).isEmpty());
+    }
+
+    @Test
+    public void stoneOfSameColorAtLeftIsStronglyConnected() {
+        Board board = new Board(6);
+        Connections connections = new Connections(board);
+        board.placeStone(at(2,2), Color.BLACK);
+        board.placeStone(at(1,2), Color.BLACK);
+        board.placeStone(at(3,2), Color.WHITE);
+        Cell strongConnectedStone = board.getCell(at(1,2));
+        assertEquals(true,connections.strongNeighborsOf(board.getCell(at(2,2))).contains(strongConnectedStone));
+    }
+
+    @Test
+    public void twoStonesWithCommonStrongConnectionAreNotWeaklyConnected() {
         Board board = new Board(4);
         Connections connections = new Connections(board);
-        board.placeStoneAt(Color.BLACK, at(3,3));
-        board.placeStoneAt(Color.BLACK, at(2,3));
-        board.placeStoneAt(Color.BLACK, at(2,4));
-        board.placeStoneAt(Color.WHITE, at(4,3));
-        board.placeStoneAt(Color.BLACK, at(4,4));
-        board.placeStoneAt(Color.WHITE, at(4,2));
+        board.placeStone(at(2,3), Color.BLACK);
+        board.placeStone(at(3,3), Color.BLACK);
+        board.placeStone(at(3,2), Color.BLACK);
+        assertEquals(false,connections.weakNeighborsOf(board.getCell(at(2,3))).contains(board.getCell(at(3,2))));
+    }
 
-
-        Cell weakNeighbor = board.getCellAt(at(4,4));
-
-        Set<Cell> strongNeighborsList = new HashSet<>(Arrays.asList(weakNeighbor));
-        assertEquals(strongNeighborsList,connections.weakNeighborsOf(board.getCellAt(at(3,3))));
-
+    @Test
+    public void stoneHasAllFourWeakConnections() {
+        Board board = new Board(5);
+        Connections connections = new Connections(board);
+        board.placeStone(at(3,3), Color.BLACK);
+        board.placeStone(at(2,2), Color.BLACK);
+        board.placeStone(at(2,4), Color.BLACK);
+        board.placeStone(at(4,4), Color.BLACK);
+        board.placeStone(at(4,2), Color.BLACK);
+        assertEquals(4,connections.weakNeighborsOf(board.getCell(at(3,3))).size());
     }
 
 }

@@ -1,7 +1,6 @@
 package konobi;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -20,7 +19,7 @@ public class Board {
         }
     }
 
-    public Cell getCellAt(Position position) {
+    public Cell getCell(Position position) {
 
         return cells.stream()
                     .filter(c->c.isAt(position))
@@ -28,8 +27,8 @@ public class Board {
                     .orElse(null);
     }
 
-    public void placeStoneAt(Color color, Position position) {
-        Cell cellToOccupy = this.getCellAt(position);
+    public void placeStone(Position position, Color color) {
+        Cell cellToOccupy = this.getCell(position);
         cellToOccupy.setColor(color);
     }
 

@@ -58,12 +58,12 @@ public class Game {
         do {
             ioHandler.printCurrentPlayer(currentPlayer);
             inputPosition = ioHandler.inputMove();
-            inputCell = board.getCellAt(inputPosition);
+            inputCell = board.getCell(inputPosition);
 
         } while (!availableCells.contains(inputCell));
 
         Color newStone = currentPlayer.getColor();
-        board.placeStoneAt(newStone, inputPosition);
+        board.placeStone(inputPosition, newStone);
         changeTurn();
         showGameBoard();
     }

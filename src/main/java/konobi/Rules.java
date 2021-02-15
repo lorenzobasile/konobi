@@ -23,13 +23,13 @@ public class Rules {
                                          .anyMatch(s->s.stream()
                                          .filter(c->!c.isOccupied())
                                          .anyMatch(c->checkIfThereAreNoWeakNeighbors(c, stoneColor)));
-        board.placeStoneAt(stoneColor, cell.getPosition());
+        board.placeStone(cell.getPosition(), stoneColor);
         return !condition;
     }
 
 
     private boolean checkIfThereAreNoWeakNeighbors(Cell cell, Color stoneColor){
-        board.placeStoneAt(stoneColor, cell.getPosition());
+        board.placeStone(cell.getPosition(), stoneColor);
         boolean weakCondition = connections.weakNeighborsOf(cell).isEmpty();
         cell.reset();
         return weakCondition;
@@ -53,7 +53,7 @@ public class Rules {
     }
 
     private boolean checkTheTwoRules(Cell cell, Color color){
-        board.placeStoneAt(color, cell.getPosition());
+        board.placeStone(cell.getPosition(), color);
         boolean ruleOne = !(isCrosscutPlacement(cell));
         boolean ruleTwo = isLegalWeakConnectionPlacement(cell);
         cell.reset();
