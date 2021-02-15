@@ -10,6 +10,9 @@ public class Game {
     Player player2;
     Player currentPlayer;
     IoHandler ioHandler;
+    Rules rules;
+
+
 
     public Game(int inputDimension) {
         this.board = new Board(inputDimension);
@@ -57,7 +60,7 @@ public class Game {
     }
 
     public void singleTurn() {
-        Set<Cell> availableCells = board.legalCellsOf(currentPlayer.getColor());
+        Set<Cell> availableCells = rules.legalCellsOf(currentPlayer.getColor());
 
         if (availableCells.isEmpty()) {
             changeTurn();
@@ -81,7 +84,7 @@ public class Game {
     }
 
     public boolean checkWin() throws Exception {
-        return board.checkChain(currentPlayer.getColor());
+        return rules.checkChain(currentPlayer.getColor());
     }
 
 
