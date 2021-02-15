@@ -2,6 +2,8 @@ package konobi;
 
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -21,43 +23,52 @@ public class testBoard {
         assertEquals(true, occupiedCell.isOccupied());
     }
 
-
-
-/*
     @ParameterizedTest
-    @CsvSource({"0, 0, 1, 0", "1, 1, 1, 2"})
-    public void areStronglyConnected(int x1, int y1, int x2, int y2) throws Exception {
-        Board board = new Board(8);
-        Stone stone1 = board.placeTileAt(Color.BLACK, at(x1,y1));
-        Stone stone2 = board.placeTileAt(Color.BLACK, at(x2,y2));
-        assertEquals(true, stone1.isStronglyConnectedWith(stone2));
+    @CsvSource({"1, 3",
+                "2, 3",
+                "3, 3"})
+    public void blackStonesAtTopAreInStartEdge(int x, int y){
+        Board board = new Board(3);
+        board.placeStoneAt(Color.BLACK, at(x, y));
+        Cell cell  = board.getCellAt(at(x, y));
+        Set<Cell> cellsOnTopEdge = board.startEdge(Color.BLACK);
+        assertEquals(true, cellsOnTopEdge.contains(cell));
     }
 
     @ParameterizedTest
-    @CsvSource({"2, 2, 4, 4", "0, 1, 3, 1"})
-    public void areNotStronglyConnected(int x1, int y1, int x2, int y2) throws Exception {
-        Board board = new Board(8);
-        Stone stone1 = board.placeTileAt(Color.BLACK, at(x1,y1));
-        Stone stone2 = board.placeTileAt(Color.BLACK, at(x2,y2));
-        assertEquals(false, stone1.isStronglyConnectedWith(stone2));
+    @CsvSource({"1, 1",
+                "1, 2",
+                "1, 3"})
+    public void whiteStonesAtLeftAreInStartEdge(int x, int y){
+        Board board = new Board(3);
+        board.placeStoneAt(Color.WHITE, at(x, y));
+        Cell cell  = board.getCellAt(at(x, y));
+        Set<Cell> cellsOnTopEdge = board.startEdge(Color.WHITE);
+        assertEquals(true, cellsOnTopEdge.contains(cell));
     }
 
     @ParameterizedTest
-    @CsvSource({"0, 0, 1, 1", "5, 2, 6, 1"})
-    public void weakConnectionWithTwoTilesInBoard(int x1, int y1, int x2, int y2) throws Exception {
-        Board board = new Board(8);
-        Stone stone1 = board.placeTileAt(Color.BLACK, at(x1,y1));
-        Stone stone2 = board.placeTileAt(Color.BLACK, at(x2,y2));
-        assertEquals(true, board.areWeaklyConnected(stone1, stone2));
+    @CsvSource({"1, 1",
+                "2, 1",
+                "3, 1"})
+    public void blackStonesAtLeftAreInEndEdge(int x, int y){
+        Board board = new Board(3);
+        board.placeStoneAt(Color.BLACK, at(x, y));
+        Cell cell  = board.getCellAt(at(x, y));
+        Set<Cell> cellsOnTopEdge = board.endEdge(Color.BLACK);
+        assertEquals(true, cellsOnTopEdge.contains(cell));
     }
 
-    @Test
-    public void weakConnectionWithCommonStrongNeighbor() throws Exception {
-        Board board = new Board(8);
-        Stone stone1 = board.placeTileAt(Color.BLACK, at(0,0));
-        Stone stone2 = board.placeTileAt(Color.BLACK, at(1,1));
-        Stone stone3 = board.placeTileAt(Color.BLACK, at(1,0));
-        assertEquals(false, board.areWeaklyConnected(stone1, stone2));
-    }*/
+    @ParameterizedTest
+    @CsvSource({"3, 1",
+                "3, 2",
+                "3, 3"})
+    public void whiteStonesAtRightAreInEndEdge(int x, int y){
+        Board board = new Board(3);
+        board.placeStoneAt(Color.WHITE, at(x, y));
+        Cell cell  = board.getCellAt(at(x, y));
+        Set<Cell> cellsOnTopEdge = board.endEdge(Color.WHITE);
+        assertEquals(true, cellsOnTopEdge.contains(cell));
+    }
 
 }

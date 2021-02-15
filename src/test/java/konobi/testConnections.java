@@ -1,6 +1,9 @@
 package konobi;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
@@ -10,6 +13,8 @@ import java.util.Set;
 import static konobi.Position.at;
 
 public class testConnections {
+
+
     @Test
     public void verifyOrthogonalNeighbors() throws Exception{
         Board board = new Board(3);
@@ -21,6 +26,7 @@ public class testConnections {
         Set<Cell> neighborsList = new HashSet<>(Arrays.asList(right,top,bottom));
         assertEquals(neighborsList,connections.orthogonalNeighborsOf(cell));
     }
+
 
     @Test
     public void verifyDiagonalNeighbors() throws Exception{

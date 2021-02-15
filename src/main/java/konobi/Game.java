@@ -4,7 +4,6 @@ import java.util.Set;
 
 public class Game {
 
-
     Board board;
     Player player1;
     Player player2;
@@ -33,7 +32,7 @@ public class Game {
             else singleTurn();
     }
 
-    public void changeTurn() {
+    private void changeTurn() {
         if (currentPlayer == player1){
             currentPlayer = player2;
         }
