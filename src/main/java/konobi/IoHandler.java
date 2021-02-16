@@ -76,7 +76,6 @@ public class IoHandler {
     }
 
     public void printBoard(Board board) {
-        String c = Character.toString((char)7);
         for (int i = board.dimension; i>0; i--){
             for(int j = 1; j<=board.dimension; j++){
                 if((i+j) % 2 == 0){
@@ -85,8 +84,8 @@ public class IoHandler {
                 else{
                     System.out.print(ANSI_BEIGE);
                 }
-                if (board.getCell(at(i, j)).isOccupied()){
-                    Color stone = board.getCell(at(i, j)).getColor();
+                if (board.getCell(at(j, i)).isOccupied()){
+                    Color stone = board.getCell(at(j, i)).getColor();
                     if (stone== Color.BLACK){
                         System.out.print(ANSI_BLACK + "\u26AB" + ANSI_RESET);
                     }
