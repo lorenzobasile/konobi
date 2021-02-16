@@ -37,7 +37,7 @@ public class Cell {
 
 
     public boolean hasSameColorAs(Cell cell) {
-        return this.stone == cell.getColor();
+        return this.stone == cell.stone;
     }
 
 
@@ -48,5 +48,12 @@ public class Cell {
                 ", isOccupied=" + isOccupied +
                 ", currentPiece=" + stone +
                 '}';
+    }
+
+    public boolean isOrthogonallyAdjacentTo(Cell cell) {
+        return position.squareEuclideanDistanceFrom(cell.position)==1;
+    }
+    public boolean isDiagonallyAdjacentTo(Cell cell) {
+        return position.squareEuclideanDistanceFrom(cell.position)==2;
     }
 }

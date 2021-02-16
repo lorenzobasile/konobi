@@ -15,7 +15,7 @@ public class Connections {
     public Set<Cell> orthogonalNeighborsOf(Cell cell) {
 
         return board.cells.stream()
-                          .filter(c->cell.getPosition().squareEuclideanDistanceFrom(c.getPosition())==1)
+                          .filter(c->c.isOrthogonallyAdjacentTo(cell))
                           .collect(Collectors.toSet());
 
     }
@@ -34,7 +34,7 @@ public class Connections {
     public Set<Cell> diagonalNeighborsOf(Cell cell) {
 
         return board.cells.stream()
-                          .filter(c->cell.getPosition().squareEuclideanDistanceFrom(c.getPosition())==2)
+                          .filter(c->c.isDiagonallyAdjacentTo(cell))
                           .collect(Collectors.toSet());
     }
 

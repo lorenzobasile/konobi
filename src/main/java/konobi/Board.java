@@ -33,14 +33,14 @@ public class Board {
     }
 
 
-    public Set<Cell> startEdge(Color color){
+    public Set<Cell> boardEdge(Color color, boolean start){
         Predicate<Cell> conditionOnCoordinates;
 
         if(color==Color.BLACK){
-            conditionOnCoordinates = c->c.getPosition().getY()==dimension;
+            conditionOnCoordinates = c->c.getPosition().getY()==(start? dimension : 1);
         }
         else{
-            conditionOnCoordinates = c->c.getPosition().getX()==1;
+            conditionOnCoordinates = c->c.getPosition().getX()==(start? 1 : dimension);
         }
 
         return cells.stream()
@@ -48,20 +48,6 @@ public class Board {
                     .collect(Collectors.toSet());
     }
 
-    public Set<Cell> endEdge(Color color){
-        Predicate<Cell> conditionOnCoordinates;
-
-        if(color==Color.BLACK){
-            conditionOnCoordinates = c->c.getPosition().getY()==1;
-        }
-        else{
-            conditionOnCoordinates = c->c.getPosition().getX()==dimension;
-        }
-
-        return cells.stream()
-                    .filter(conditionOnCoordinates)
-                    .collect(Collectors.toSet());
-    }
 
 
 }

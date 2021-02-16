@@ -12,13 +12,14 @@ public class Game {
     Rules rules;
     int movesCounter;
 
-    public Game() {
+    public static void welcomeMessage(){
         ioHandler.welcomeMessage();
-        int inputDimension = ioHandler.inputDimension();
-        this.board = new Board(inputDimension);
+    }
+
+    public Game() {
+        this.board = new Board(ioHandler.inputDimension());
         this.player1  = new Player(Color.BLACK, ioHandler.inputPlayerName(1));
         this.player2  = new Player(Color.WHITE, ioHandler.inputPlayerName(2));
-        ioHandler.showPlayerColors(player1, player2);
         this.currentPlayer = player1;
         this.rules = new Rules(board);
         this.movesCounter = 0;
@@ -52,32 +53,52 @@ public class Game {
     public void singleTurn() {
         movesCounter += 1;
 
-        if(movesCounter!=1) {
+        if(movesCounter==1) {
+            ioHandler.showPlayerColors(player1, player2);
+            showGameBoard();
+        }
+        else{
             changeTurn();
         }
         if(movesCounter==2) {
             checkAndApplyPieRule();
         }
-
-        System.out.println("current player has color " + currentPlayer.getColor());
         Set<Cell> availableCells = rules.legalCellsOf(currentPlayer.getColor());
-        if (availableCells.isEmpty()) {
-            changeTurn();
-        }
-        Cell inputCell;
-        Position inputPosition;
-
-        do {
-            ioHandler.printCurrentPlayer(currentPlayer);
-            inputPosition = ioHandler.inputMove();
-            inputCell = board.getCell(inputPosition);
-
-        } while (!availableCells.contains(inputCell));
+        checkMandatoryPass(availableCells);
+        Position inputPosition=chooseNextMove(availableCells);
 
         Color newStone = currentPlayer.getColor();
         board.placeStone(inputPosition, newStone);
         showGameBoard();
 
+    }
+
+    private void checkMandatoryPass(Set<Cell> availableCells) {
+        if (availableCells.isEmpty()) {
+            ioHandler.mustPass(currentPlayer);
+            changeTurn();
+        }
+    }
+
+    private Position chooseNextMove(Set<Cell> availableCells) {
+        Cell inputCell;
+        Position inputPosition;
+        boolean accepted;
+        do {
+            accepted=true;
+            ioHandler.printCurrentPlayer(currentPlayer);
+            inputPosition = ioHandler.inputMove();
+            inputCell = board.getCell(inputPosition);
+            if(inputCell==null){
+                accepted=false;
+                ioHandler.positionOutsideBoard();
+            }
+            else if(!availableCells.contains(inputCell)){
+                accepted=false;
+                ioHandler.invalidMove();
+            }
+        } while (!accepted);
+        return inputPosition;
     }
 
     public void showGameBoard(){

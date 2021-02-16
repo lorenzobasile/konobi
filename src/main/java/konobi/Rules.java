@@ -63,7 +63,7 @@ public class Rules {
 
     public boolean checkChain(Color color) {
         Set<Position> visitedCells = new HashSet<>();
-        return board.startEdge(color).stream()
+        return board.boardEdge(color, true).stream()
                                      .filter(c->c.isOccupied())
                                      .filter(c->!visitedCells.contains(c))
                                      .filter(c->c.getColor()==color)
@@ -73,7 +73,7 @@ public class Rules {
 
     private boolean chainSearch(Cell source, Set<Position> visitedCells) {
         visitedCells.add(source.getPosition());
-        if(board.endEdge(source.getColor()).contains(source)) return true;
+        if(board.boardEdge(source.getColor(), false).contains(source)) return true;
         for(Cell cell: connections.neighborsOf(source)){
             if(visitedCells.contains(cell.getPosition())) continue;
             if(chainSearch(cell, visitedCells)) return true;

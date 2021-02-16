@@ -2,6 +2,8 @@ package konobi;
 
 import java.util.Scanner;
 
+import static konobi.Position.at;
+
 public class IoHandler {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
@@ -16,7 +18,18 @@ public class IoHandler {
     public int inputDimension(){
         Scanner stdIn = new Scanner(System.in);
         System.out.print("Please, insert the dimension of the board: ");
-        int dimension = stdIn.nextInt();
+        int dimension;
+        if(stdIn.hasNextInt()) {
+            dimension = stdIn.nextInt();
+        }
+        else{
+            System.out.println("Not an integer: reinsert dimension");
+            return inputDimension();
+        }
+        if(dimension<0) {
+            System.out.println("Negative dimension: reinsert");
+            return inputDimension();
+        }
         return dimension;
     }
 
@@ -40,7 +53,7 @@ public class IoHandler {
             System.out.println("Not an integer: reinsert coordinates");
             return inputMove();
         }
-        return Position.at(x,y);
+        return at(x,y);
     }
 
     public boolean inputPie(Player currentPlayer){
@@ -63,10 +76,10 @@ public class IoHandler {
 
         String line = new String(new char[2*board.dimension]).replace('\0', '-');
         System.out.println(line);
-        for (int i = board.dimension-1; i>=0; i--){
-            for(int j = 0; j<board.dimension; ++j){
-                if (board.cells.get(i+j*board.dimension).isOccupied()){
-                    Color stone = board.cells.get(i+j*board.dimension).getColor();
+        for (int i = board.dimension; i>0; i--){
+            for(int j = 1; j<=board.dimension; j++){
+                if (board.getCell(at(i, j)).isOccupied()){
+                    Color stone = board.getCell(at(i, j)).getColor();
                     if (stone== Color.BLACK){
                         System.out.print("X ");
                     }
@@ -96,5 +109,17 @@ public class IoHandler {
 
     public void winMessage(Player currentPlayer) {
         System.out.println("Congratulations " + currentPlayer.getName() + ", you won!");
+    }
+
+    public void positionOutsideBoard() {
+        System.out.println("The position you inserted is outside the board, please reinsert");
+    }
+
+    public void invalidMove() {
+        System.out.println("This move is illegal, please insert a new position");
+    }
+
+    public void mustPass(Player currentPlayer) {
+        System.out.println("No available moves for "+currentPlayer.getName()+", who must pass");
     }
 }

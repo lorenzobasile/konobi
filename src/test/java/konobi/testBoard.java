@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class testBoard {
 
     @Test
-    public void placeStoneAndVerifyCellIsOccupied() {
+    public void afterPlacingStoneCellIsOccupied() {
         Board board = new Board(3);
         board.placeStone(at(1,1), Color.BLACK);
         Cell occupiedCell = board.getCell(at(1, 1));
@@ -29,7 +29,7 @@ public class testBoard {
         Board board = new Board(3);
         board.placeStone(at(x, y), Color.BLACK);
         Cell cell  = board.getCell(at(x, y));
-        Set<Cell> cellsOnTopEdge = board.startEdge(Color.BLACK);
+        Set<Cell> cellsOnTopEdge = board.boardEdge(Color.BLACK, true);
         assertEquals(true, cellsOnTopEdge.contains(cell));
     }
 
@@ -41,7 +41,7 @@ public class testBoard {
         Board board = new Board(3);
         board.placeStone(at(x, y), Color.WHITE);
         Cell cell  = board.getCell(at(x, y));
-        Set<Cell> cellsOnTopEdge = board.startEdge(Color.WHITE);
+        Set<Cell> cellsOnTopEdge = board.boardEdge(Color.WHITE, true);
         assertEquals(true, cellsOnTopEdge.contains(cell));
     }
 
@@ -53,7 +53,7 @@ public class testBoard {
         Board board = new Board(3);
         board.placeStone(at(x, y), Color.BLACK);
         Cell cell  = board.getCell(at(x, y));
-        Set<Cell> cellsOnTopEdge = board.endEdge(Color.BLACK);
+        Set<Cell> cellsOnTopEdge = board.boardEdge(Color.BLACK, false);
         assertEquals(true, cellsOnTopEdge.contains(cell));
     }
 
@@ -65,7 +65,7 @@ public class testBoard {
         Board board = new Board(3);
         board.placeStone(at(x, y), Color.WHITE);
         Cell cell  = board.getCell(at(x, y));
-        Set<Cell> cellsOnTopEdge = board.endEdge(Color.WHITE);
+        Set<Cell> cellsOnTopEdge = board.boardEdge(Color.WHITE, false);
         assertEquals(true, cellsOnTopEdge.contains(cell));
     }
 
