@@ -8,7 +8,8 @@ public class IoHandler {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
     public static final String ANSI_WHITE = "\u001B[37m";
-    public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
+    public static final String ANSI_BROWN = "\u001b[48;5;94m";
+    public static final String ANSI_BEIGE = "\u001b[48;5;172m";
 
 
     public void welcomeMessage(){
@@ -30,6 +31,7 @@ public class IoHandler {
             System.out.println("Negative dimension: reinsert");
             return inputDimension();
         }
+        System.out.println();
         return dimension;
     }
 
@@ -69,35 +71,40 @@ public class IoHandler {
     }
 
     public void showPlayerColors(Player player1, Player player2){
+        System.out.println();
         System.out.println(player1.getName()+" is "+player1.getColor()+", "+player2.getName()+" is "+player2.getColor());
     }
 
     public void printBoard(Board board) {
-
-        String line = new String(new char[2*board.dimension]).replace('\0', '-');
-        System.out.println(line);
+        String c = Character.toString((char)7);
         for (int i = board.dimension; i>0; i--){
             for(int j = 1; j<=board.dimension; j++){
+                if((i+j) % 2 == 0){
+                    System.out.print(ANSI_BROWN);
+                }
+                else{
+                    System.out.print(ANSI_BEIGE);
+                }
                 if (board.getCell(at(i, j)).isOccupied()){
                     Color stone = board.getCell(at(i, j)).getColor();
                     if (stone== Color.BLACK){
-                        System.out.print("X ");
+                        System.out.print(ANSI_BLACK + "\u26AB" + ANSI_RESET);
                     }
                     else{
-                        System.out.print("O ");
+                        System.out.print(ANSI_WHITE + "\u26AA" + ANSI_RESET);
                     }
                 } else {
-                    System.out.print("- ");
+                    System.out.print("  " + ANSI_RESET);
                 }
             }
             System.out.println();
         }
-        System.out.println(line);
     }
 
 
     public void printCurrentPlayer(Player currentPlayer) {
         System.out.println(currentPlayer.getName()+", it's your turn!");
+        System.out.println();
     }
 
     public String inputPlayerName(int i) {

@@ -31,8 +31,8 @@ public class Cell {
         isOccupied = true;
     }
 
-    public boolean isAt(Position position){
-        return this.position.equals(position);
+    public boolean isAt(Position location){
+        return this.position.equals(location);
     }
 
 
