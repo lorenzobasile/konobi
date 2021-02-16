@@ -93,4 +93,8 @@ public class IoHandler {
         String name = stdIn.nextLine();
         return name;
     }
+
+    public void winMessage(Player currentPlayer) {
+        System.out.println("Congratulations " + currentPlayer.getName() + ", you won!");
+    }
 }

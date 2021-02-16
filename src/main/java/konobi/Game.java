@@ -10,6 +10,7 @@ public class Game {
     Player currentPlayer;
     static IoHandler ioHandler = new IoHandler();
     Rules rules;
+    int movesCounter;
 
     public Game() {
         ioHandler.welcomeMessage();
@@ -20,6 +21,7 @@ public class Game {
         ioHandler.showPlayerColors(player1, player2);
         this.currentPlayer = player1;
         this.rules = new Rules(board);
+        this.movesCounter = 0;
     }
 
     public void checkAndApplyPieRule() {
@@ -29,7 +31,7 @@ public class Game {
                 ioHandler.showPlayerColors(player1, player2);
                 showGameBoard();
             }
-            else singleTurn();
+
     }
 
     private void changeTurn() {
@@ -48,6 +50,16 @@ public class Game {
     }
 
     public void singleTurn() {
+        movesCounter += 1;
+
+        if(movesCounter!=1) {
+            changeTurn();
+        }
+        if(movesCounter==2) {
+            checkAndApplyPieRule();
+        }
+
+        System.out.println("current player has color " + currentPlayer.getColor());
         Set<Cell> availableCells = rules.legalCellsOf(currentPlayer.getColor());
         if (availableCells.isEmpty()) {
             changeTurn();
@@ -64,8 +76,8 @@ public class Game {
 
         Color newStone = currentPlayer.getColor();
         board.placeStone(inputPosition, newStone);
-        changeTurn();
         showGameBoard();
+
     }
 
     public void showGameBoard(){
@@ -73,7 +85,11 @@ public class Game {
     }
 
     public boolean checkWin() {
-        return rules.checkChain(currentPlayer.getColor());
+        boolean someoneHasWon = rules.checkChain(currentPlayer.getColor());
+        if(someoneHasWon) {
+            ioHandler.winMessage(currentPlayer);
+        }
+        return someoneHasWon;
     }
 
 
