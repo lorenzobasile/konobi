@@ -14,15 +14,17 @@ public class InputHandler {
 
     public static int inputDimension(){
         Displayer.inputBoardDimensionMessage();
-        int dimension;
-        if(stdIn.hasNextInt()) {
-            dimension = Integer.parseInt(stdIn.nextLine());
+        String stringDimension = stdIn.nextLine();
+        int dimension = 0;
+        try {
+            dimension = Integer.parseInt(stringDimension);
         }
-        else{
+        catch (NumberFormatException notANumber) {
             Displayer.notAnIntegerMessage();
             return inputDimension();
         }
-        if(dimension<0) {
+
+        if(dimension<2) {
             Displayer.negativeDimensionMessage();
             return inputDimension();
         }

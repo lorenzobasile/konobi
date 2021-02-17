@@ -81,10 +81,10 @@ public class Displayer {
                 if (board.getCell(at(j, i)).isOccupied()){
                     Color stone = board.getCell(at(j, i)).getColor();
                     if (stone== Color.BLACK){
-                        System.out.print(ANSI_BLACK + "\u26AB" + ANSI_RESET);
+                        System.out.print(ANSI_BLACK + "O " + ANSI_RESET);
                     }
                     else{
-                        System.out.print(ANSI_WHITE + "\u26AA" + ANSI_RESET);
+                        System.out.print(ANSI_BLACK + "X " + ANSI_RESET);
                     }
                 } else {
                     System.out.print("  " + ANSI_RESET);
@@ -93,4 +93,5 @@ public class Displayer {
             System.out.println();
         }
     }
+
 }
