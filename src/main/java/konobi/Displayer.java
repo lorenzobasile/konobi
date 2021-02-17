@@ -53,7 +53,7 @@ public class Displayer {
 
 
     public static void winMessage(Player currentPlayer) {
-        System.out.println("Congratulations " + currentPlayer.getName() + ", you won!");
+        System.out.print("Congratulations " + currentPlayer.getName() + ", you won!");
     }
 
     public static void positionOutsideBoardMessage() {

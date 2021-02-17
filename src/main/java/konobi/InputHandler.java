@@ -4,14 +4,19 @@ import java.util.Scanner;
 
 import static konobi.Position.at;
 
-public class IoHandler {
+public class InputHandler {
+
+    public static void setStdIn(Scanner stdIn) {
+        InputHandler.stdIn = stdIn;
+    }
+
+    private static Scanner stdIn = new Scanner(System.in);
 
     public static int inputDimension(){
-        Scanner stdIn = new Scanner(System.in);
         Displayer.inputBoardDimensionMessage();
         int dimension;
         if(stdIn.hasNextInt()) {
-            dimension = stdIn.nextInt();
+            dimension = Integer.parseInt(stdIn.nextLine());
         }
         else{
             Displayer.notAnIntegerMessage();
@@ -27,11 +32,10 @@ public class IoHandler {
 
 
     public static Position inputMove() {
-        Scanner stdIn = new Scanner(System.in);
         Displayer.inputXCoordinateMessage();
         int x, y;
         if(stdIn.hasNextInt()) {
-            x = stdIn.nextInt();
+            x = Integer.parseInt(stdIn.nextLine());
         }
         else{
             Displayer.notAnIntegerMessage();
@@ -39,7 +43,7 @@ public class IoHandler {
         }
         Displayer.inputYCoordinateMessage();
         if(stdIn.hasNextInt()) {
-            y = stdIn.nextInt();
+            y = Integer.parseInt(stdIn.nextLine());
         }
         else{
             Displayer.notAnIntegerMessage();
@@ -49,7 +53,6 @@ public class IoHandler {
     }
 
     public static boolean inputPie(Player currentPlayer){
-        Scanner stdIn = new Scanner(System.in);
         Displayer.askPieRuleMessage(currentPlayer.getName());
         String answer = stdIn.nextLine();
         if(answer.equals("y"))
@@ -62,9 +65,9 @@ public class IoHandler {
 
 
     public static String inputPlayerName(int whichPlayer) {
-        Scanner stdIn = new Scanner(System.in);
         Displayer.playerNameMessage(whichPlayer);
         String name = stdIn.nextLine();
+        System.out.println();
         return name;
     }
 

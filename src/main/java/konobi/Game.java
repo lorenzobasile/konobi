@@ -14,9 +14,9 @@ public class Game {
 
     public static Game init() {
         Displayer.welcomeMessage();
-        int dimension = IoHandler.inputDimension();
-        String player1Name = IoHandler.inputPlayerName(1);
-        String player2Name = IoHandler.inputPlayerName(2);
+        int dimension = InputHandler.inputDimension();
+        String player1Name = InputHandler.inputPlayerName(1);
+        String player2Name = InputHandler.inputPlayerName(2);
         return new Game(dimension, player1Name, player2Name);
     }
     public Game(int dimension, String player1Name, String player2Name) {
@@ -29,7 +29,7 @@ public class Game {
     }
 
     public void checkAndApplyPieRule() {
-            if(IoHandler.inputPie(currentPlayer)) {
+            if(InputHandler.inputPie(currentPlayer)) {
                 switchColors();
                 changeTurn();
                 Displayer.playerColorsMessage(player1, player2);
@@ -90,7 +90,7 @@ public class Game {
         do {
             accepted=true;
             Displayer.currentPlayerMessage(currentPlayer);
-            inputPosition = IoHandler.inputMove();
+            inputPosition = InputHandler.inputMove();
             inputCell = board.getCell(inputPosition);
             if(inputCell==null){
                 accepted=false;
