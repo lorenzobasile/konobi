@@ -35,19 +35,22 @@ public class InputHandler {
 
     public static Position inputMove() {
         Displayer.inputXCoordinateMessage();
-        int x, y;
-        if(stdIn.hasNextInt()) {
-            x = Integer.parseInt(stdIn.nextLine());
+        String stringInput = stdIn.nextLine();
+        int x = 0;
+        int y = 0;
+        try {
+            x = Integer.parseInt(stringInput);
         }
-        else{
+        catch (NumberFormatException notANumber) {
             Displayer.notAnIntegerMessage();
             return inputMove();
         }
         Displayer.inputYCoordinateMessage();
-        if(stdIn.hasNextInt()) {
-            y = Integer.parseInt(stdIn.nextLine());
+        stringInput = stdIn.nextLine();
+        try {
+            y = Integer.parseInt(stringInput);
         }
-        else{
+        catch (NumberFormatException notANumber) {
             Displayer.notAnIntegerMessage();
             return inputMove();
         }

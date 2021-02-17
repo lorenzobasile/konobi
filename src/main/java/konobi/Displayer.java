@@ -70,6 +70,7 @@ public class Displayer {
 
 
     public static void printBoard(Board board) {
+        System.out.println();
         for (int i = board.dimension; i>0; i--){
             for(int j = 1; j<=board.dimension; j++){
                 if((i+j) % 2 == 0){
