@@ -8,28 +8,31 @@ public class Game {
     Player player1;
     Player player2;
     Player currentPlayer;
-    static IoHandler ioHandler = new IoHandler();
     Rules rules;
     int movesCounter;
 
-    public static void welcomeMessage(){
-        ioHandler.welcomeMessage();
-    }
 
-    public Game() {
-        this.board = new Board(ioHandler.inputDimension());
-        this.player1  = new Player(Color.BLACK, ioHandler.inputPlayerName(1));
-        this.player2  = new Player(Color.WHITE, ioHandler.inputPlayerName(2));
+    public static Game init() {
+        Displayer.welcomeMessage();
+        int dimension = IoHandler.inputDimension();
+        String player1Name = IoHandler.inputPlayerName(1);
+        String player2Name = IoHandler.inputPlayerName(2);
+        return new Game(dimension, player1Name, player2Name);
+    }
+    public Game(int dimension, String player1Name, String player2Name) {
+        this.board = new Board(dimension);
+        this.player1  = new Player(Color.BLACK, player1Name);
+        this.player2  = new Player(Color.WHITE, player2Name);
         this.currentPlayer = player1;
         this.rules = new Rules(board);
         this.movesCounter = 0;
     }
 
     public void checkAndApplyPieRule() {
-            if(ioHandler.inputPie(currentPlayer)) {
+            if(IoHandler.inputPie(currentPlayer)) {
                 switchColors();
                 changeTurn();
-                ioHandler.showPlayerColors(player1, player2);
+                Displayer.playerColorsMessage(player1, player2);
                 showGameBoard();
             }
 
@@ -54,7 +57,7 @@ public class Game {
         movesCounter += 1;
 
         if(movesCounter==1) {
-            ioHandler.showPlayerColors(player1, player2);
+            Displayer.playerColorsMessage(player1, player2);
             showGameBoard();
         }
         else{
@@ -75,7 +78,7 @@ public class Game {
 
     private void checkMandatoryPass(Set<Cell> availableCells) {
         if (availableCells.isEmpty()) {
-            ioHandler.mustPass(currentPlayer);
+            Displayer.passMessage(currentPlayer);
             changeTurn();
         }
     }
@@ -86,29 +89,29 @@ public class Game {
         boolean accepted;
         do {
             accepted=true;
-            ioHandler.printCurrentPlayer(currentPlayer);
-            inputPosition = ioHandler.inputMove();
+            Displayer.currentPlayerMessage(currentPlayer);
+            inputPosition = IoHandler.inputMove();
             inputCell = board.getCell(inputPosition);
             if(inputCell==null){
                 accepted=false;
-                ioHandler.positionOutsideBoard();
+                Displayer.positionOutsideBoardMessage();
             }
             else if(!availableCells.contains(inputCell)){
                 accepted=false;
-                ioHandler.invalidMove();
+                Displayer.invalidMoveMessage();
             }
         } while (!accepted);
         return inputPosition;
     }
 
     public void showGameBoard(){
-        ioHandler.printBoard(this.board);
+        Displayer.printBoard(this.board);
     }
 
     public boolean checkWin() {
         boolean someoneHasWon = rules.checkChain(currentPlayer.getColor());
         if(someoneHasWon) {
-            ioHandler.winMessage(currentPlayer);
+            Displayer.winMessage(currentPlayer);
         }
         return someoneHasWon;
     }

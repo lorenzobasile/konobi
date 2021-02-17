@@ -3,8 +3,8 @@ package konobi;
 public class GameRunner {
 
     public static void main(String[] args) {
-            Game.welcomeMessage();
-            Game game = new Game();
+
+            Game game = Game.init();
             do {
                 game.singleTurn();
 
