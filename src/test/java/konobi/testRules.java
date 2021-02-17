@@ -40,13 +40,12 @@ public class testRules {
         board.placeStone(at(5,3), Color.WHITE);
         board.placeStone(at(1,4), Color.BLACK);
 
-        board.placeStone(at(2,3), Color.WHITE);
         Cell cellToVerify = board.getCell(at(2,3));
         assertEquals(true, rules.isLegalWeakConnectionPlacement(cellToVerify));
     }
 
     @Test
-    public void verifyIllegalWeakConnectionPlacement() {
+    public void blackStoneMakesIllegalWeakConnectionPlacement() {
         Board board = new Board(5);
         Rules rules = new Rules(board);
         board.placeStone(at(1,1), Color.BLACK);
@@ -60,7 +59,25 @@ public class testRules {
     }
 
     @Test
-    public void verifyCrosscut() throws Exception {
+    public void whiteStoneMakesIllegalWeakConnectionPlacement() {
+        Board board = new Board(5);
+        Rules rules = new Rules(board);
+        board.placeStone(at(3,1), Color.WHITE);
+        board.placeStone(at(3,2), Color.WHITE);
+        board.placeStone(at(4,1), Color.BLACK);
+        board.placeStone(at(1,3), Color.WHITE);
+        board.placeStone(at(2,2), Color.WHITE);
+        board.placeStone(at(3,3), Color.BLACK);
+        board.placeStone(at(3,4), Color.BLACK);
+        board.placeStone(at(5,3), Color.WHITE);
+        board.placeStone(at(1,4), Color.BLACK);
+
+        Cell cellToVerify = board.getCell(at(2,2));
+        assertEquals(false, rules.isLegalWeakConnectionPlacement(cellToVerify));
+    }
+
+    @Test
+    public void whiteStoneMakesCrosscut() {
         Board board = new Board(5);
         Rules rules = new Rules(board);
         board.placeStone(at(1,1), Color.BLACK);
@@ -74,8 +91,9 @@ public class testRules {
         assertEquals(true, rules.isCrosscutPlacement(cellToVerify));
     }
 
+
     @Test
-    public void verifyNotCrosscut() throws Exception {
+    public void blackStoneDoesNotMakeCrosscut()  {
         Board board = new Board(5);
         Rules rules = new Rules(board);
         board.placeStone(at(1,1), Color.BLACK);
@@ -90,7 +108,7 @@ public class testRules {
     }
 
     @Test
-    public void checkIfInitiallyAllMovesAreLegal() throws Exception{
+    public void initiallyAllBlackMovesAreLegal() {
         Board board = new Board(10);
         Rules rules = new Rules(board);
         Set<Cell> allCells = new HashSet<Cell>(board.cells);
@@ -98,7 +116,15 @@ public class testRules {
     }
 
     @Test
-    public void checkIfMoveIsLegal() throws Exception{
+    public void initiallyAllWhiteMovesAreLegal() {
+        Board board = new Board(10);
+        Rules rules = new Rules(board);
+        Set<Cell> allCells = new HashSet<Cell>(board.cells);
+        assertEquals(allCells, rules.legalCellsOf(Color.WHITE));
+    }
+
+    @Test
+    public void checkIfMoveIsLegal() {
         Board board = new Board(5);
         Rules rules = new Rules(board);
         board.placeStone(at(1,1), Color.BLACK);
@@ -114,7 +140,7 @@ public class testRules {
     }
 
     @Test
-    public void checkIfMoveIsIllegal() throws Exception{
+    public void checkIfMoveIsIllegal() {
         Board board = new Board(5);
         Rules rules = new Rules(board);
         board.placeStone(at(1,1), Color.BLACK);
@@ -130,7 +156,7 @@ public class testRules {
     }
 
     @Test
-    public void checkBlackWin() throws Exception{
+    public void blackStonesMakeChain() {
         Board board = new Board(5);
         Rules rules = new Rules(board);
         board.placeStone(at(1,5), Color.BLACK);
@@ -151,7 +177,7 @@ public class testRules {
     }
 
     @Test
-    public void checkNotBlackWin() throws Exception{
+    public void blackStonesDoNotMakeChain() {
         Board board = new Board(5);
         Rules rules = new Rules(board);
         board.placeStone(at(3,4), Color.BLACK);
@@ -171,7 +197,7 @@ public class testRules {
     }
 
     @Test
-    public void checkWhiteWin() throws Exception{
+    public void whiteStonesMakeChain() {
         Board board = new Board(5);
         Rules rules = new Rules(board);
         board.placeStone(at(2,2), Color.WHITE);
@@ -194,7 +220,7 @@ public class testRules {
     }
 
     @Test
-    public void checkNotWhiteWin() throws Exception{
+    public void whiteStonesDoNotMakeChain() {
         Board board = new Board(5);
         Rules rules = new Rules(board);
         board.placeStone(at(1,3), Color.WHITE);
