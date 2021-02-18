@@ -1,11 +1,9 @@
 package konobi;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Connections {
-
     Board board;
 
     public Connections(Board board) {
@@ -13,16 +11,14 @@ public class Connections {
     }
 
     public Set<Cell> orthogonalNeighborsOf(Cell cell) {
-
         return board.cells.stream()
                           .filter(c->c.isOrthogonallyAdjacentTo(cell))
                           .collect(Collectors.toSet());
-
     }
 
     public Set<Cell> strongNeighborsOf(Cell cell) {
         if(!cell.isOccupied())
-            return new HashSet<>();
+            return null;
         Set<Cell> neighbors = orthogonalNeighborsOf(cell).stream()
                                                          .filter(c->c.isOccupied())
                                                          .filter(c->c.hasSameColorAs(cell))
@@ -30,18 +26,15 @@ public class Connections {
         return neighbors;
     }
 
-
     public Set<Cell> diagonalNeighborsOf(Cell cell) {
-
         return board.cells.stream()
                           .filter(c->c.isDiagonallyAdjacentTo(cell))
                           .collect(Collectors.toSet());
     }
 
-
     public Set<Cell> weakNeighborsOf(Cell cell) {
         if(!cell.isOccupied())
-            return new HashSet<>();
+            return null;
         Set<Cell> neighbors = diagonalNeighborsOf(cell).stream()
                                                        .filter(c->c.isOccupied())
                                                        .filter(c->c.hasSameColorAs(cell))
@@ -71,7 +64,5 @@ public class Connections {
                                                                                    .collect(Collectors.toSet());
         return strongNeighborsOfCell;
     }
-
-
 
 }

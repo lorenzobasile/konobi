@@ -1,6 +1,9 @@
 package konobi;
 
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -20,7 +23,6 @@ public class Board {
     }
 
     public Cell getCell(Position position) {
-
         return cells.stream()
                     .filter(c->c.isAt(position))
                     .findFirst()
@@ -32,22 +34,17 @@ public class Board {
         cellToOccupy.setColor(color);
     }
 
-
     public Set<Cell> boardEdge(Color color, boolean start){
         Predicate<Cell> conditionOnCoordinates;
-
-        if(color==Color.BLACK){
-            conditionOnCoordinates = c->c.getPosition().getY()==(start? dimension : 1);
+        if(color == Color.BLACK){
+            conditionOnCoordinates = c->c.getPosition().getY() == (start? dimension : 1);
         }
         else{
-            conditionOnCoordinates = c->c.getPosition().getX()==(start? 1 : dimension);
+            conditionOnCoordinates = c->c.getPosition().getX() == (start? 1 : dimension);
         }
-
         return cells.stream()
                     .filter(conditionOnCoordinates)
                     .collect(Collectors.toSet());
     }
-
-
 
 }

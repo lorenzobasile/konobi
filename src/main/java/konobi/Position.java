@@ -12,14 +12,6 @@ public class Position {
     }
 
     @Override
-    public String toString() {
-        return "Position{" +
-                "x=" + x +
-                ", y=" + y +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -43,39 +35,6 @@ public class Position {
 
     public int getY() {
         return y;
-    }
-
-    public Position atRight(){
-        return new Position(this.x+1,this.y);
-    }
-
-    public Position atLeft(){
-        return new Position(this.x-1,this.y);
-    }
-
-    public Position top(){
-        return new Position(this.x,this.y+1);
-    }
-
-
-    public Position bottom(){
-        return new Position(this.x,this.y-1);
-    }
-
-    public Position upperLeft() {
-        return new Position(this.x-1,this.y+1);
-    }
-
-    public Position upperRight() {
-        return new Position(this.x+1,this.y+1);
-    }
-
-    public Position lowerLeft() {
-        return new Position(this.x-1,this.y-1);
-    }
-
-    public Position lowerRight() {
-        return new Position(this.x+1,this.y-1);
     }
 
     public int squareEuclideanDistanceFrom(Position other) {

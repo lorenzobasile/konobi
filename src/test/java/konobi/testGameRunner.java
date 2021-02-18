@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class testGameRunner {
     @ParameterizedTest
     @CsvSource({"match.txt", "match2.txt", "match3.txt", "match4_crosscut.txt"})
-    public void checkWinner(String fileName) throws FileNotFoundException, URISyntaxException {
+    public void simulateGameAndCheckWinner(String fileName) throws FileNotFoundException, URISyntaxException {
         URL filePath = testGameRunner.class.getClassLoader().getResource(fileName);
         FileInputStream fileInputStream = new FileInputStream(Path.of(filePath.toURI()).toString());
         Scanner scanner = new Scanner(fileInputStream);

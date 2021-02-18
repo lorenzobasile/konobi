@@ -3,14 +3,14 @@ package konobi;
 public class Cell {
     private final Position position;
     private boolean isOccupied;
-    private Color stone;
+    private Color color;
 
     public Cell(Position position) {
         this.position = position;
         this.isOccupied = false;
     }
     public void reset(){
-        this.stone = null;
+        this.color = null;
         this.isOccupied = false;
     }
 
@@ -23,11 +23,11 @@ public class Cell {
     }
 
     public Color getColor() {
-        return stone;
+        return color;
     }
 
-    public void setColor(Color stone) {
-        this.stone = stone;
+    public void setColor(Color stoneColor) {
+        this.color = stoneColor;
         isOccupied = true;
     }
 
@@ -35,19 +35,8 @@ public class Cell {
         return this.position.equals(location);
     }
 
-
     public boolean hasSameColorAs(Cell cell) {
-        return this.stone == cell.stone;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Cell{" +
-                "position=" + position +
-                ", isOccupied=" + isOccupied +
-                ", currentPiece=" + stone +
-                '}';
+        return this.color == cell.color;
     }
 
     public boolean isOrthogonallyAdjacentTo(Cell cell) {

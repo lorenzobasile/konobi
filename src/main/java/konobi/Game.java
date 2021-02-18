@@ -1,6 +1,7 @@
 package konobi;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Game {
 
@@ -11,7 +12,6 @@ public class Game {
     Rules rules;
     int movesCounter;
 
-
     public static Game init() {
         Displayer.welcomeMessage();
         int dimension = InputHandler.inputDimension();
@@ -19,6 +19,7 @@ public class Game {
         String player2Name = InputHandler.inputPlayerName(2);
         return new Game(dimension, player1Name, player2Name);
     }
+
     public Game(int dimension, String player1Name, String player2Name) {
         this.board = new Board(dimension);
         this.player1  = new Player(Color.BLACK, player1Name);
@@ -28,14 +29,13 @@ public class Game {
         this.movesCounter = 0;
     }
 
-    public void checkAndApplyPieRule() {
+    private void checkAndApplyPieRule() {
             if(InputHandler.inputPie(currentPlayer)) {
                 switchColors();
                 changeTurn();
                 Displayer.playerColorsMessage(player1, player2);
-                showGameBoard();
+                Displayer.printBoard(board);
             }
-
     }
 
     private void changeTurn() {
@@ -58,7 +58,7 @@ public class Game {
 
         if(movesCounter==1) {
             Displayer.playerColorsMessage(player1, player2);
-            showGameBoard();
+            Displayer.printBoard(board);
         }
         else{
             changeTurn();
@@ -66,13 +66,13 @@ public class Game {
         if(movesCounter==2) {
             checkAndApplyPieRule();
         }
-        Set<Cell> availableCells = rules.legalCellsOf(currentPlayer.getColor());
+        Set<Cell> availableCells = availableCellsForCurrentPlayer();
         checkMandatoryPass(availableCells);
-        Position inputPosition=chooseNextMove(availableCells);
+        Position inputPosition = chooseNextMove(availableCells);
 
         Color newStone = currentPlayer.getColor();
         board.placeStone(inputPosition, newStone);
-        showGameBoard();
+        Displayer.printBoard(board);
 
     }
 
@@ -83,29 +83,36 @@ public class Game {
         }
     }
 
+    public Set<Cell> availableCellsForCurrentPlayer() {
+        return board.cells.stream()
+                          .filter(c->!c.isOccupied())
+                          .filter(c->rules.checkTheTwoRules(c, currentPlayer.getColor()))
+                          .collect(Collectors.toSet());
+    }
+
     private Position chooseNextMove(Set<Cell> availableCells) {
         Cell inputCell;
         Position inputPosition;
         boolean accepted;
         do {
-            accepted=true;
+            accepted = true;
             Displayer.currentPlayerMessage(currentPlayer);
             inputPosition = InputHandler.inputMove();
             inputCell = board.getCell(inputPosition);
-            if(inputCell==null){
-                accepted=false;
+            if(inputCell == null){
+                accepted = false;
                 Displayer.positionOutsideBoardMessage();
             }
+            else if(inputCell.isOccupied()){
+                accepted = false;
+                Displayer.alreadyPlayedPositionMessage();
+            }
             else if(!availableCells.contains(inputCell)){
-                accepted=false;
+                accepted = false;
                 Displayer.invalidMoveMessage();
             }
         } while (!accepted);
         return inputPosition;
-    }
-
-    public void showGameBoard(){
-        Displayer.printBoard(this.board);
     }
 
     public boolean checkWin() {
@@ -115,7 +122,5 @@ public class Game {
         }
         return someoneHasWon;
     }
-
-
 
 }

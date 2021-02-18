@@ -6,8 +6,8 @@ public class Displayer {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
     public static final String ANSI_WHITE = "\u001B[37m";
-    public static final String ANSI_BROWN = "\u001b[48;5;94m";
-    public static final String ANSI_BEIGE = "\u001b[48;5;172m";
+    public static final String ANSI_BROWN = "\u001b[48;5;179m";
+    public static final String ANSI_BEIGE = "\u001b[48;5;130m";
 
     public static void welcomeMessage(){
         System.out.println("Welcome to Konobi!");
@@ -51,7 +51,6 @@ public class Displayer {
         System.out.print("Player " + whichPlayer + ": what's your name? ");
     }
 
-
     public static void winMessage(Player currentPlayer) {
         System.out.print("Congratulations " + currentPlayer.getName() + ", you won!");
     }
@@ -64,10 +63,13 @@ public class Displayer {
         System.out.println("This move is illegal, please insert a new position");
     }
 
+    public static void alreadyPlayedPositionMessage() {
+        System.out.println("This position is already occupied, please insert a new position");
+    }
+
     public static void passMessage(Player currentPlayer) {
         System.out.println("No available moves for "+currentPlayer.getName()+", who must pass");
     }
-
 
     public static void printBoard(Board board) {
         System.out.println();
@@ -82,10 +84,10 @@ public class Displayer {
                 if (board.getCell(at(j, i)).isOccupied()){
                     Color stone = board.getCell(at(j, i)).getColor();
                     if (stone== Color.BLACK){
-                        System.out.print(ANSI_BLACK + "@ " + ANSI_RESET);
+                        System.out.print(ANSI_BLACK + "\u26AB"  + ANSI_RESET);
                     }
                     else{
-                        System.out.print(ANSI_WHITE + "@ " + ANSI_RESET);
+                        System.out.print(ANSI_WHITE + "\u26AA" + ANSI_RESET);
                     }
                 } else {
                     System.out.print("  " + ANSI_RESET);
