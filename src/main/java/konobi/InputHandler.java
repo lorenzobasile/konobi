@@ -1,5 +1,8 @@
 package konobi;
 
+import konobi.Exceptions.NegativeNumberException;
+import konobi.Exceptions.WrongAnswerException;
+
 import java.util.Scanner;
 
 import static konobi.Position.at;
@@ -12,67 +15,46 @@ public class InputHandler {
 
     private static Scanner stdIn = new Scanner(System.in);
 
-    public static int inputDimension(){
-        Displayer.inputBoardDimensionMessage();
+    public static int inputDimension() throws Exception{
+        Display.inputBoardDimensionMessage();
         String stringDimension = stdIn.nextLine();
-        int dimension = 0;
-        try {
-            dimension = Integer.parseInt(stringDimension);
-        }
-        catch (NumberFormatException notANumber) {
-            Displayer.notAnIntegerMessage();
-            return inputDimension();
-        }
-
-        if(dimension<2) {
-            Displayer.negativeDimensionMessage();
-            return inputDimension();
+        int dimension = Integer.parseInt(stringDimension);
+        if (dimension < 1) {
+            throw new NegativeNumberException("Negative dimension: please reinsert");
         }
         System.out.println();
         return dimension;
     }
 
 
-    public static Position inputMove() {
-        Displayer.inputXCoordinateMessage();
+    public static Position inputMove() throws Exception{
+        Display.inputXCoordinateMessage();
         String stringInput = stdIn.nextLine();
-        int x = 0;
-        int y = 0;
-        try {
-            x = Integer.parseInt(stringInput);
-        }
-        catch (NumberFormatException notANumber) {
-            Displayer.notAnIntegerMessage();
-            return inputMove();
-        }
-        Displayer.inputYCoordinateMessage();
+        int x = Integer.parseInt(stringInput);
+        Display.inputYCoordinateMessage();
         stringInput = stdIn.nextLine();
-        try {
-            y = Integer.parseInt(stringInput);
-        }
-        catch (NumberFormatException notANumber) {
-            Displayer.notAnIntegerMessage();
-            return inputMove();
+        int y = Integer.parseInt(stringInput);
+        if (x<1 || y<1) {
+            throw new NegativeNumberException("The position you inserted is outside the board, please reinsert");
         }
         return at(x,y);
     }
 
-    public static boolean inputPie(Player currentPlayer){
-        Displayer.askPieRuleMessage(currentPlayer.getName());
+    public static boolean inputPie(Player currentPlayer) throws Exception{
+        Display.askPieRuleMessage(currentPlayer.getName());
         String answer = stdIn.nextLine();
         if(answer.equals("y"))
             return true;
         else if(answer.equals("n"))
             return false;
         else
-            return inputPie(currentPlayer);
+            throw new WrongAnswerException("Invalid answer: please reinsert");
     }
 
 
     public static String inputPlayerName(int whichPlayer) {
-        Displayer.playerNameMessage(whichPlayer);
+        Display.playerNameMessage(whichPlayer);
         String name = stdIn.nextLine();
-        System.out.println();
         return name;
     }
 

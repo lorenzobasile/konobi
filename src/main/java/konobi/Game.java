@@ -1,5 +1,8 @@
 package konobi;
 
+import konobi.Exceptions.NegativeNumberException;
+import konobi.Exceptions.WrongAnswerException;
+
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -12,9 +15,26 @@ public class Game {
     Rules rules;
     int movesCounter;
 
+    public static int getDimension(){
+        int dimension;
+        try {
+            dimension = InputHandler.inputDimension();
+        } catch(NumberFormatException notANumber){
+            Display.notAnIntegerMessage();
+            return getDimension();
+        } catch(NegativeNumberException negativeDimension){
+            Display.printExceptionCause(negativeDimension);
+            return getDimension();
+        } catch(Exception otherException){
+            Display.printExceptionCause(otherException);
+            return getDimension();
+        }
+        return dimension;
+    }
+
     public static Game init() {
-        Displayer.welcomeMessage();
-        int dimension = InputHandler.inputDimension();
+        Display.welcomeMessage();
+        int dimension = getDimension();
         String player1Name = InputHandler.inputPlayerName(1);
         String player2Name = InputHandler.inputPlayerName(2);
         return new Game(dimension, player1Name, player2Name);
@@ -30,12 +50,20 @@ public class Game {
     }
 
     private void checkAndApplyPieRule() {
-            if(InputHandler.inputPie(currentPlayer)) {
+        try {
+            if (InputHandler.inputPie(currentPlayer)) {
                 switchColors();
                 changeTurn();
-                Displayer.playerColorsMessage(player1, player2);
-                Displayer.printBoard(board);
+                Display.playerColorsMessage(player1, player2);
+                Display.printBoard(board);
             }
+        } catch(WrongAnswerException wrongInput){
+            Display.printExceptionCause(wrongInput);
+            checkAndApplyPieRule();
+        } catch(Exception otherException){
+            Display.printExceptionCause(otherException);
+            checkAndApplyPieRule();
+        }
     }
 
     private void changeTurn() {
@@ -55,14 +83,14 @@ public class Game {
 
     public void singleTurn() {
         movesCounter += 1;
-
         if(movesCounter==1) {
-            Displayer.playerColorsMessage(player1, player2);
-            Displayer.printBoard(board);
+            Display.playerColorsMessage(player1, player2);
+            Display.printBoard(board);
         }
         else{
             changeTurn();
         }
+        Display.currentPlayerMessage(currentPlayer);
         if(movesCounter==2) {
             checkAndApplyPieRule();
         }
@@ -72,13 +100,13 @@ public class Game {
 
         Color newStone = currentPlayer.getColor();
         board.placeStone(inputPosition, newStone);
-        Displayer.printBoard(board);
+        Display.printBoard(board);
 
     }
 
     private void checkMandatoryPass(Set<Cell> availableCells) {
         if (availableCells.isEmpty()) {
-            Displayer.passMessage(currentPlayer);
+            Display.passMessage(currentPlayer);
             changeTurn();
         }
     }
@@ -93,32 +121,38 @@ public class Game {
     private Position chooseNextMove(Set<Cell> availableCells) {
         Cell inputCell;
         Position inputPosition;
-        boolean accepted;
-        do {
-            accepted = true;
-            Displayer.currentPlayerMessage(currentPlayer);
+        try{
             inputPosition = InputHandler.inputMove();
-            inputCell = board.getCell(inputPosition);
-            if(inputCell == null){
-                accepted = false;
-                Displayer.positionOutsideBoardMessage();
-            }
-            else if(inputCell.isOccupied()){
-                accepted = false;
-                Displayer.alreadyPlayedPositionMessage();
-            }
-            else if(!availableCells.contains(inputCell)){
-                accepted = false;
-                Displayer.invalidMoveMessage();
-            }
-        } while (!accepted);
+        } catch(NumberFormatException notANumber){
+            Display.notAnIntegerMessage();
+            return chooseNextMove(availableCells);
+        } catch(NegativeNumberException negativeCoordinate){
+            Display.printExceptionCause(negativeCoordinate);
+            return chooseNextMove(availableCells);
+        } catch(Exception otherException){
+            Display.printExceptionCause(otherException);
+            return chooseNextMove(availableCells);
+        }
+        inputCell = board.getCell(inputPosition);
+        if(inputCell==null){
+            Display.positionOutsideBoardMessage();
+            return chooseNextMove(availableCells);
+        }
+        else if(inputCell.isOccupied()){
+            Display.alreadyPlayedPositionMessage();
+            return chooseNextMove(availableCells);
+        }
+        else if(!availableCells.contains(inputCell)){
+            Display.invalidMoveMessage();
+            return chooseNextMove(availableCells);
+        }
         return inputPosition;
     }
 
     public boolean checkWin() {
         boolean someoneHasWon = rules.checkChain(currentPlayer.getColor());
         if(someoneHasWon) {
-            Displayer.winMessage(currentPlayer);
+            Display.winMessage(currentPlayer);
         }
         return someoneHasWon;
     }

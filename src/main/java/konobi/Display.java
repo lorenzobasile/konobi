@@ -2,7 +2,7 @@ package konobi;
 
 import static konobi.Position.at;
 
-public class Displayer {
+public class Display {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
     public static final String ANSI_WHITE = "\u001B[37m";
@@ -18,11 +18,7 @@ public class Displayer {
     }
 
     public static void notAnIntegerMessage() {
-        System.out.println("Not an integer: reinsert value");
-    }
-
-    public static void negativeDimensionMessage() {
-        System.out.println("Negative dimension: reinsert");
+        System.out.println("Not an integer: reinsert");
     }
 
     public static void inputXCoordinateMessage() {
@@ -34,7 +30,7 @@ public class Displayer {
     }
 
     public static void askPieRuleMessage(String name) {
-        System.out.println(name + ", do you want to apply the pie rule? (y/n) ");
+        System.out.print(name + ", do you want to apply the pie rule? (y/n) ");
     }
 
     public static void playerColorsMessage(Player player1, Player player2){
@@ -60,16 +56,17 @@ public class Displayer {
     }
 
     public static void invalidMoveMessage() {
-        System.out.println("This move is illegal, please insert a new position");
+        System.out.println("This move is illegal, please reinsert");
     }
 
     public static void alreadyPlayedPositionMessage() {
-        System.out.println("This position is already occupied, please insert a new position");
+        System.out.println("This position is already occupied, please reinsert");
     }
 
     public static void passMessage(Player currentPlayer) {
         System.out.println("No available moves for "+currentPlayer.getName()+", who must pass");
     }
+
 
     public static void printBoard(Board board) {
         System.out.println();
@@ -97,4 +94,8 @@ public class Displayer {
         }
     }
 
+
+    public static void printExceptionCause(Exception e) {
+        System.out.println(e.getMessage());
+    }
 }

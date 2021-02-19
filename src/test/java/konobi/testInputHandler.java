@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class testInputHandler {
 
     @Test
-    public void dimensionFiveIsReceived(){
+    public void dimensionFiveIsReceived() throws Exception{
         String dimension = "5";
         InputStream in = new ByteArrayInputStream(dimension.getBytes());
         InputHandler.setStdIn(new Scanner(in));
@@ -20,7 +20,7 @@ public class testInputHandler {
     }
 
     @Test
-    public void yesAnswerIsReceived() {
+    public void yesAnswerIsReceived() throws Exception{
         String input = "y";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         InputHandler.setStdIn(new Scanner(in));
@@ -29,12 +29,12 @@ public class testInputHandler {
     }
 
     @Test
-    public void positionIsReceivedInInput() {
-        String x = "0\n0";
+    public void positionIsReceivedInInput() throws Exception{
+        String x = "1\n1";
         InputStream in = new ByteArrayInputStream(x.getBytes());
-        //System.setIn(in);
+        System.setIn(in);
         InputHandler.setStdIn(new Scanner(in));
-        assertEquals(at(0, 0), InputHandler.inputMove());
+        assertEquals(at(1, 1), InputHandler.inputMove());
 
     }
 
