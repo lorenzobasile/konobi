@@ -40,4 +40,12 @@ public class Position {
     public int squareEuclideanDistanceFrom(Position other) {
         return (int)Math.pow(this.x-other.getX(),2)+(int)Math.pow(this.y-other.getY(),2);
     }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

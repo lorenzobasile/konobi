@@ -6,40 +6,38 @@ import java.util.stream.Collectors;
 
 public class Rules {
     Board board;
-    Connections connections;
 
     public Rules(Board board) {
         this.board = board;
-        this.connections = new Connections(board);
     }
 
     private boolean isLegalWeakConnectionPlacement(Cell cell) {
-        Set<Cell> weakNeighbors = connections.weakNeighborsOf(cell);
+        Set<Cell> weakNeighbors = board.weakConnectionsOf(cell);
         Color stoneColor = cell.getColor();
         cell.reset();
         boolean condition = weakNeighbors.stream()
-                                         .map(c->connections.orthogonalNeighborsOf(c))
+                                         .map(c->c.orthogonalNeighborsIn(board.cells))
                                          .anyMatch(s->s.stream()
-                                         .filter(c->!c.isOccupied())
-                                         .anyMatch(c->checkIfThereAreNoWeakNeighbors(c, stoneColor)));
+                                                       .filter(c->!c.isOccupied())
+                                                       .anyMatch(c->checkIfThereAreNoWeakNeighbors(c, stoneColor)));
         board.placeStone(cell.getPosition(), stoneColor);
         return !condition;
     }
 
     private boolean checkIfThereAreNoWeakNeighbors(Cell cell, Color stoneColor){
         board.placeStone(cell.getPosition(), stoneColor);
-        boolean weakCondition = connections.weakNeighborsOf(cell).isEmpty();
+        Set<Cell> weakConnectionsOfCell = board.weakConnectionsOf(cell);
         cell.reset();
-        return weakCondition;
+        return weakConnectionsOfCell.isEmpty();
     }
 
     private boolean isCrosscutPlacement(Cell cell) {
-        Set<Cell> weakNeighbors = connections.weakNeighborsOf(cell);
+        Set<Cell> weakNeighbors = board.weakConnectionsOf(cell);
         Color stoneColor = cell.getColor();
         return weakNeighbors.stream()
-                            .map(c->connections.commonOrthogonalNeighbors(cell, c))
+                            .map(c->c.commonOrthogonalNeighborsWith(cell, board.cells))
                             .anyMatch(s->s.stream()
-                            .allMatch(c->c.isOccupied() && c.getColor()==stoneColor.oppositeColor()));
+                                          .allMatch(c->c.isOccupied() && c.getColor()==stoneColor.oppositeColor()));
     }
 
     public boolean checkTheTwoRules(Cell cell, Color color){
@@ -53,17 +51,17 @@ public class Rules {
     public boolean checkChain(Color color) {
         Set<Position> visitedCells = new HashSet<>();
         return board.boardEdge(color, true).stream()
-                                     .filter(c->c.isOccupied())
-                                     .filter(c->!visitedCells.contains(c))
-                                     .filter(c->c.getColor()==color)
-                                     .anyMatch(c->chainSearch(c, visitedCells));
+                                                .filter(c->c.isOccupied())
+                                                .filter(c->!visitedCells.contains(c))
+                                                .filter(c->c.getColor()==color)
+                                                .anyMatch(c->chainSearch(c, visitedCells));
     }
 
 
     private boolean chainSearch(Cell source, Set<Position> visitedCells) {
         visitedCells.add(source.getPosition());
         if(board.boardEdge(source.getColor(), false).contains(source)) return true;
-        for(Cell cell: connections.neighborsOf(source)){
+        for(Cell cell: board.connectionsOf(source)){
             if(visitedCells.contains(cell.getPosition())) continue;
             if(chainSearch(cell, visitedCells)) return true;
         }
