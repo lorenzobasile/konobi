@@ -1,4 +1,4 @@
-package konobi;
+package konobi.Model.Entities;
 
 import java.util.Objects;
 

@@ -1,10 +1,10 @@
-package konobi;
+package konobi.Model;
 
-import konobi.Exceptions.NegativeNumberException;
-import konobi.Exceptions.WrongAnswerException;
+import konobi.Model.Entities.*;
+import konobi.InputOutput.Display;
+import konobi.InputOutput.InputHandler;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class Game {
 
@@ -12,7 +12,7 @@ public class Game {
     Player player1;
     Player player2;
     Player currentPlayer;
-    Rules rules;
+    Referee supervisor;
     int movesCounter;
 
     public static int getDimension(){
@@ -22,11 +22,8 @@ public class Game {
         } catch(NumberFormatException notANumber){
             Display.notAnIntegerMessage();
             return getDimension();
-        } catch(NegativeNumberException negativeDimension){
+        } catch(Exception negativeDimension){
             Display.printExceptionCause(negativeDimension);
-            return getDimension();
-        } catch(Exception otherException){
-            Display.printExceptionCause(otherException);
             return getDimension();
         }
         return dimension;
@@ -45,7 +42,7 @@ public class Game {
         this.player1  = new Player(Color.BLACK, player1Name);
         this.player2  = new Player(Color.WHITE, player2Name);
         this.currentPlayer = player1;
-        this.rules = new Rules(board);
+        this.supervisor = new Referee();
         this.movesCounter = 0;
     }
 
@@ -57,11 +54,8 @@ public class Game {
                 Display.playerColorsMessage(player1, player2);
                 Display.printBoard(board);
             }
-        } catch(WrongAnswerException wrongInput){
+        } catch(Exception wrongInput){
             Display.printExceptionCause(wrongInput);
-            checkAndApplyPieRule();
-        } catch(Exception otherException){
-            Display.printExceptionCause(otherException);
             checkAndApplyPieRule();
         }
     }
@@ -90,11 +84,11 @@ public class Game {
         else{
             changeTurn();
         }
-        Display.currentPlayerMessage(currentPlayer);
         if(movesCounter==2) {
             checkAndApplyPieRule();
         }
-        Set<Cell> availableCells = availableCellsForCurrentPlayer();
+        Display.currentPlayerMessage(currentPlayer);
+        Set<Cell> availableCells = supervisor.availableCellsFor(currentPlayer, board);
         checkMandatoryPass(availableCells);
         Position inputPosition = chooseNextMove(availableCells);
 
@@ -111,12 +105,6 @@ public class Game {
         }
     }
 
-    public Set<Cell> availableCellsForCurrentPlayer() {
-        return board.cells.stream()
-                          .filter(c->!c.isOccupied())
-                          .filter(c->rules.checkTheTwoRules(c, currentPlayer.getColor()))
-                          .collect(Collectors.toSet());
-    }
 
     private Position chooseNextMove(Set<Cell> availableCells) {
         Cell inputCell;
@@ -126,11 +114,8 @@ public class Game {
         } catch(NumberFormatException notANumber){
             Display.notAnIntegerMessage();
             return chooseNextMove(availableCells);
-        } catch(NegativeNumberException negativeCoordinate){
+        } catch(Exception negativeCoordinate){
             Display.printExceptionCause(negativeCoordinate);
-            return chooseNextMove(availableCells);
-        } catch(Exception otherException){
-            Display.printExceptionCause(otherException);
             return chooseNextMove(availableCells);
         }
         inputCell = board.getCell(inputPosition);
@@ -150,7 +135,7 @@ public class Game {
     }
 
     public boolean checkWin() {
-        boolean someoneHasWon = rules.checkChain(currentPlayer.getColor());
+        boolean someoneHasWon = supervisor.validateChain(board, currentPlayer.getColor());
         if(someoneHasWon) {
             Display.winMessage(currentPlayer);
         }

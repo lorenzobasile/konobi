@@ -1,4 +1,4 @@
-package konobi;
+package konobi.Model.Entities;
 
 
 import java.util.HashSet;
@@ -6,11 +6,11 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static konobi.Position.at;
+import static konobi.Model.Entities.Position.at;
 
 public class Board {
-    int dimension;
-    Set<Cell> cells = new HashSet<>();
+    public int dimension;
+    public Set<Cell> cells = new HashSet<>();
 
     public Board(int dimension) {
         this.dimension = dimension;

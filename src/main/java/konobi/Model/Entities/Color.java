@@ -1,4 +1,4 @@
-package konobi;
+package konobi.Model.Entities;
 
 public enum Color {
     BLACK,

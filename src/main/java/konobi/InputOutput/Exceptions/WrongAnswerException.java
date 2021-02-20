@@ -1,4 +1,4 @@
-package konobi.Exceptions;
+package konobi.InputOutput.Exceptions;
 
 public class WrongAnswerException extends Exception {
     public WrongAnswerException(String message) {

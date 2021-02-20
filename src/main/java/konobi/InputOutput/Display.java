@@ -1,8 +1,22 @@
-package konobi;
+package konobi.InputOutput;
 
-import static konobi.Position.at;
+import konobi.Model.Entities.Board;
+import konobi.Model.Entities.Color;
+import konobi.Model.Entities.Player;
+
+import static konobi.Model.Entities.Position.at;
 
 public class Display {
+
+    private static final String KONOBI_LOGO =  " __  ___   ______   .__   __.   ______   .______    __ \n" +
+            "|  |/  /  /  __  \\  |  \\ |  |  /  __  \\  |   _  \\  |  |\n" +
+            "|  '  /  |  |  |  | |   \\|  | |  |  |  | |  |_)  | |  |\n" +
+            "|    <   |  |  |  | |  . `  | |  |  |  | |   _  <  |  |\n" +
+            "|  .  \\  |  `--'  | |  |\\   | |  `--'  | |  |_)  | |  |\n" +
+            "|__|\\__\\  \\______/  |__| \\__|  \\______/  |______/  |__|\n" +
+            "                                                       ";
+    private static final String RULES_PAGE = "https://boardgamegeek.com/boardgame/123213/konobi";
+
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
     public static final String ANSI_WHITE = "\u001B[37m";
@@ -10,7 +24,10 @@ public class Display {
     public static final String ANSI_BEIGE = "\u001b[48;5;130m";
 
     public static void welcomeMessage(){
+        System.out.println(KONOBI_LOGO);
         System.out.println("Welcome to Konobi!");
+        System.out.println("Official rules and documentation: "+RULES_PAGE);
+        System.out.println();
     }
 
     public static void inputBoardDimensionMessage() {
@@ -39,8 +56,8 @@ public class Display {
     }
 
     public static void currentPlayerMessage(Player currentPlayer) {
-        System.out.println(currentPlayer.getName()+", it's your turn!");
         System.out.println();
+        System.out.println(currentPlayer.getName()+", it's your turn!");
     }
 
     public static void playerNameMessage(int whichPlayer) {

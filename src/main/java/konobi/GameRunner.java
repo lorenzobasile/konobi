@@ -1,5 +1,7 @@
 package konobi;
 
+import konobi.Model.Game;
+
 public class GameRunner {
 
     public static void main(String[] args){

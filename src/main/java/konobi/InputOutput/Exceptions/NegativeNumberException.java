@@ -1,4 +1,4 @@
-package konobi.Exceptions;
+package konobi.InputOutput.Exceptions;
 
 
 public class NegativeNumberException extends Exception{

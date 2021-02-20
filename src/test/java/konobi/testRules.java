@@ -1,27 +1,34 @@
 package konobi;
 
+import konobi.Model.Entities.Board;
+import konobi.Model.Entities.Cell;
+import konobi.Model.Entities.Color;
+import konobi.Model.Rules.CrossCutRule;
+import konobi.Model.Rules.WeakConnectionRule;
 import org.junit.jupiter.api.Test;
-import static konobi.Position.at;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static konobi.Model.Entities.Position.at;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class testRules {
+
 
     @Test
     public void blackStoneMakesLegalWeakConnectionPlacement() {
         Board board = new Board(5);
-        Rules rules = new Rules(board);
+        WeakConnectionRule rule = new WeakConnectionRule();
         board.placeStone(at(1,1), Color.BLACK);
         board.placeStone(at(1,2), Color.WHITE);
         board.placeStone(at(3,2), Color.BLACK);
         board.placeStone(at(3,3), Color.WHITE);
+        board.placeStone(at(2, 2), Color.BLACK);
         Cell cellToVerify = board.getCell(at(2,2));
-        assertEquals(true, rules.checkTheTwoRules(cellToVerify, Color.BLACK));
+        assertTrue(rule.isValid(board, cellToVerify, cellToVerify.getColor()));
     }
 
     @Test
     public void whiteStoneMakesLegalWeakConnectionPlacement() {
         Board board = new Board(5);
-        Rules rules = new Rules(board);
+        WeakConnectionRule rule = new WeakConnectionRule();
         board.placeStone(at(3,1), Color.WHITE);
         board.placeStone(at(3,2), Color.WHITE);
         board.placeStone(at(4,1), Color.BLACK);
@@ -30,26 +37,29 @@ public class testRules {
         board.placeStone(at(3,4), Color.BLACK);
         board.placeStone(at(5,3), Color.WHITE);
         board.placeStone(at(1,4), Color.BLACK);
+        board.placeStone(at(2, 3), Color.WHITE);
         Cell cellToVerify = board.getCell(at(2,3));
-        assertEquals(true, rules.checkTheTwoRules(cellToVerify, Color.WHITE));
+        assertTrue(rule.isValid(board, cellToVerify, cellToVerify.getColor()));
     }
+
 
     @Test
     public void blackStoneMakesIllegalWeakConnectionPlacement() {
         Board board = new Board(5);
-        Rules rules = new Rules(board);
+        WeakConnectionRule rule = new WeakConnectionRule();
         board.placeStone(at(1,1), Color.BLACK);
         board.placeStone(at(1,2), Color.WHITE);
         board.placeStone(at(3,2), Color.BLACK);
         board.placeStone(at(3,3), Color.WHITE);
+        board.placeStone(at(2, 1), Color.BLACK);
         Cell cellToVerify = board.getCell(at(2,1));
-        assertEquals(false, rules.checkTheTwoRules(cellToVerify, Color.BLACK));
+        assertFalse(rule.isValid(board, cellToVerify, cellToVerify.getColor()));
     }
 
     @Test
     public void whiteStoneMakesIllegalWeakConnectionPlacement() {
         Board board = new Board(5);
-        Rules rules = new Rules(board);
+        WeakConnectionRule rule = new WeakConnectionRule();
         board.placeStone(at(3,1), Color.WHITE);
         board.placeStone(at(3,2), Color.WHITE);
         board.placeStone(at(4,1), Color.BLACK);
@@ -58,36 +68,39 @@ public class testRules {
         board.placeStone(at(3,4), Color.BLACK);
         board.placeStone(at(5,3), Color.WHITE);
         board.placeStone(at(1,4), Color.BLACK);
+        board.placeStone(at(2, 2), Color.WHITE);
         Cell cellToVerify = board.getCell(at(2,2));
-        assertEquals(false, rules.checkTheTwoRules(cellToVerify, Color.WHITE));
+        assertFalse(rule.isValid(board, cellToVerify, cellToVerify.getColor()));
     }
 
     @Test
     public void whiteStoneMakesCrosscut() {
         Board board = new Board(5);
-        Rules rules = new Rules(board);
+        CrossCutRule rule = new CrossCutRule();
         board.placeStone(at(1,1), Color.BLACK);
         board.placeStone(at(1,2), Color.WHITE);
         board.placeStone(at(1,3), Color.WHITE);
         board.placeStone(at(3,2), Color.BLACK);
         board.placeStone(at(3,3), Color.WHITE);
         board.placeStone(at(2,2), Color.BLACK);
+        board.placeStone(at(2, 1), Color.WHITE);
         Cell cellToVerify = board.getCell(at(2,1));
-        assertEquals(false, rules.checkTheTwoRules(cellToVerify, Color.WHITE));
+        assertFalse(rule.isValid(board, cellToVerify, cellToVerify.getColor()));
     }
 
 
     @Test
     public void blackStoneDoesNotMakeCrosscut()  {
         Board board = new Board(5);
-        Rules rules = new Rules(board);
+        CrossCutRule rule = new CrossCutRule();
         board.placeStone(at(1,1), Color.BLACK);
         board.placeStone(at(1,2), Color.WHITE);
         board.placeStone(at(3,2), Color.BLACK);
         board.placeStone(at(3,3), Color.WHITE);
         board.placeStone(at(2,2), Color.BLACK);
+        board.placeStone(at(2, 1), Color.BLACK);
         Cell cellToVerify = board.getCell(at(2,1));
-        assertEquals(true, rules.checkTheTwoRules(cellToVerify, Color.BLACK));
+        assertTrue(rule.isValid(board, cellToVerify, cellToVerify.getColor()));
     }
 
     /*@Test
@@ -136,7 +149,7 @@ public class testRules {
         Set<Cell> availableCellsForWhite = rules.legalCellsOf(Color.WHITE);
         assertEquals(false, availableCellsForWhite.contains(cellToVerify));
 
-    }*/
+    }
 
     @Test
     public void blackStonesMakeChain() {
@@ -213,5 +226,7 @@ public class testRules {
         board.placeStone(at(5,4), Color.BLACK);
         assertEquals(false, rules.checkChain(Color.WHITE));
     }
+
+     */
 
 }
