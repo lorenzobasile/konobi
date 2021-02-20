@@ -1,12 +1,12 @@
 package konobi;
 
-import konobi.Model.Entities.Board;
-import konobi.Model.Entities.Cell;
-import konobi.Model.Entities.Color;
-import konobi.Model.Rules.CrossCutRule;
-import konobi.Model.Rules.WeakConnectionRule;
+import konobi.Entities.Board;
+import konobi.Entities.Cell;
+import konobi.Entities.Color;
+import konobi.Rules.CrossCutRule;
+import konobi.Rules.WeakConnectionRule;
 import org.junit.jupiter.api.Test;
-import static konobi.Model.Entities.Position.at;
+import static konobi.Entities.Position.at;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class testRules {

@@ -1,4 +1,4 @@
-package konobi.Model.Entities;
+package konobi.Entities;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -66,6 +66,14 @@ public class Cell {
         Set<Cell> orthogonalNeighborsOfOtherCell = otherCell.orthogonalNeighborsIn(cells);
         orthogonalNeighborsOfCell.retainAll(orthogonalNeighborsOfOtherCell);
         return orthogonalNeighborsOfCell;
+    }
+
+    public boolean cellOnStartEdge(int dimension) {
+        return position.getX()==1 && color==Color.WHITE || position.getY()==dimension && color==Color.BLACK;
+    }
+
+    public boolean cellOnEndEdge(int dimension) {
+        return position.getX()==dimension && color==Color.WHITE || position.getY()==1 && color==Color.BLACK;
     }
 
     @Override

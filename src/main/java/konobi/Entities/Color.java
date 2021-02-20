@@ -1,4 +1,6 @@
-package konobi.Model.Entities;
+package konobi.Entities;
+
+import java.util.function.Predicate;
 
 public enum Color {
     BLACK,
@@ -8,5 +10,7 @@ public enum Color {
         if (this==BLACK) return WHITE;
         return BLACK;
     }
+
+
 }
 

@@ -1,8 +1,8 @@
 package konobi;
 
 
-import konobi.Model.Entities.Board;
-import konobi.Model.Entities.Cell;
+import konobi.Entities.Board;
+import konobi.Entities.Cell;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static konobi.Model.Entities.Position.at;
+import static konobi.Entities.Position.at;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class testCell {

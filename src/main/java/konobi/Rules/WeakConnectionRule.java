@@ -1,8 +1,8 @@
-package konobi.Model.Rules;
+package konobi.Rules;
 
-import konobi.Model.Entities.Board;
-import konobi.Model.Entities.Cell;
-import konobi.Model.Entities.Color;
+import konobi.Entities.Board;
+import konobi.Entities.Cell;
+import konobi.Entities.Color;
 
 import java.util.Set;
 
@@ -10,6 +10,7 @@ public class WeakConnectionRule implements Rule{
 
     @Override
     public boolean isValid(Board board, Cell cell, Color stoneColor) {
+        board.placeStone(cell.getPosition(), stoneColor);
         Set<Cell> weakNeighbors = board.weakConnectionsOf(cell);
         cell.reset();
         boolean condition = weakNeighbors.stream()
@@ -17,7 +18,6 @@ public class WeakConnectionRule implements Rule{
                                          .anyMatch(s->s.stream()
                                                        .filter(c->!c.isOccupied())
                                                        .anyMatch(c->checkIfThereAreNoWeakNeighbors(board, c, stoneColor)));
-        board.placeStone(cell.getPosition(), stoneColor);
         return !condition;
     }
 

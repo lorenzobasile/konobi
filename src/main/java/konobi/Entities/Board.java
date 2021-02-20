@@ -1,4 +1,4 @@
-package konobi.Model.Entities;
+package konobi.Entities;
 
 
 import java.util.HashSet;
@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static konobi.Model.Entities.Position.at;
+import static konobi.Entities.Position.at;
 
 public class Board {
     public int dimension;
@@ -33,17 +33,18 @@ public class Board {
         cellToOccupy.setColor(color);
     }
 
-    public Set<Cell> boardEdge(Color color, boolean start){
-        Predicate<Cell> conditionOnCoordinates;
-        if(color == Color.BLACK){
-            conditionOnCoordinates = c->c.getPosition().getY() == (start? dimension : 1);
-        }
-        else{
-            conditionOnCoordinates = c->c.getPosition().getX() == (start? 1 : dimension);
-        }
+
+    public Set<Cell> startEdge(Color color){
         return cells.stream()
-                    .filter(conditionOnCoordinates)
-                    .collect(Collectors.toSet());
+                .filter(c->c.getColor()==color)
+                .filter(c->c.cellOnStartEdge(dimension))
+                .collect(Collectors.toSet());
+    }
+    public Set<Cell> endEdge(Color color){
+        return cells.stream()
+                .filter(c->c.getColor()==color)
+                .filter(c->c.cellOnEndEdge(dimension))
+                .collect(Collectors.toSet());
     }
 
 

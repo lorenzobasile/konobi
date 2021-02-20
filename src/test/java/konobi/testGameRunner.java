@@ -8,7 +8,9 @@ import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -31,7 +33,8 @@ public class testGameRunner {
         while (scanner.hasNextLine()) {
             expectedWinnerName= scanner.nextLine();
         }
-        String winnerOutputString = outputString.substring(outputString.lastIndexOf("\n")+1);
+        List<String> outputLines = outputString.lines().collect(Collectors.toList());
+        String winnerOutputString = outputLines.get(outputLines.size()-1);
         assertEquals("Congratulations " + expectedWinnerName + ", you won!", winnerOutputString);
     }
 

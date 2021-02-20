@@ -1,6 +1,4 @@
-package konobi.Model.Entities;
-
-import konobi.Model.Entities.Color;
+package konobi.Entities;
 
 public class Player {
     private Color color;

@@ -1,10 +1,10 @@
 package konobi.InputOutput;
 
-import konobi.Model.Entities.Board;
-import konobi.Model.Entities.Color;
-import konobi.Model.Entities.Player;
+import konobi.Entities.Board;
+import konobi.Entities.Color;
+import konobi.Entities.Player;
 
-import static konobi.Model.Entities.Position.at;
+import static konobi.Entities.Position.at;
 
 public class Display {
 
@@ -65,7 +65,7 @@ public class Display {
     }
 
     public static void winMessage(Player currentPlayer) {
-        System.out.print("Congratulations " + currentPlayer.getName() + ", you won!");
+        System.out.println("Congratulations " + currentPlayer.getName() + ", you won!");
     }
 
     public static void positionOutsideBoardMessage() {

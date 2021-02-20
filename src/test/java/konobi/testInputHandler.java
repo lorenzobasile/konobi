@@ -4,11 +4,11 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Scanner;
 
-import static konobi.Model.Entities.Position.at;
+import static konobi.Entities.Position.at;
 
-import konobi.Model.Entities.Color;
+import konobi.Entities.Color;
 import konobi.InputOutput.InputHandler;
-import konobi.Model.Entities.Player;
+import konobi.Entities.Player;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

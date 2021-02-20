@@ -1,6 +1,6 @@
-package konobi.Model;
+package konobi;
 
-import konobi.Model.Entities.*;
+import konobi.Entities.*;
 import konobi.InputOutput.Display;
 import konobi.InputOutput.InputHandler;
 

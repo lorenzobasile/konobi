@@ -1,16 +1,16 @@
 package konobi;
 
 
-import konobi.Model.Entities.Board;
-import konobi.Model.Entities.Cell;
-import konobi.Model.Entities.Color;
+import konobi.Entities.Board;
+import konobi.Entities.Cell;
+import konobi.Entities.Color;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Set;
 
-import static konobi.Model.Entities.Position.at;
+import static konobi.Entities.Position.at;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class testBoard {
@@ -63,50 +63,49 @@ public class testBoard {
 
     @ParameterizedTest
     @CsvSource({"1, 3",
-                "2, 3",
-                "3, 3"})
+            "2, 3",
+            "3, 3"})
     public void blackStonesAtTopAreInStartEdge(int x, int y){
         Board board = new Board(3);
         board.placeStone(at(x, y), Color.BLACK);
         Cell cell  = board.getCell(at(x, y));
-        Set<Cell> cellsOnTopEdge = board.boardEdge(Color.BLACK, true);
+        Set<Cell> cellsOnTopEdge = board.startEdge(Color.BLACK);
         assertEquals(true, cellsOnTopEdge.contains(cell));
     }
 
     @ParameterizedTest
     @CsvSource({"1, 1",
-                "1, 2",
-                "1, 3"})
+            "1, 2",
+            "1, 3"})
     public void whiteStonesAtLeftAreInStartEdge(int x, int y){
         Board board = new Board(3);
         board.placeStone(at(x, y), Color.WHITE);
         Cell cell  = board.getCell(at(x, y));
-        Set<Cell> cellsOnTopEdge = board.boardEdge(Color.WHITE, true);
+        Set<Cell> cellsOnTopEdge = board.startEdge(Color.WHITE);
         assertEquals(true, cellsOnTopEdge.contains(cell));
     }
 
     @ParameterizedTest
     @CsvSource({"1, 1",
-                "2, 1",
-                "3, 1"})
+            "2, 1",
+            "3, 1"})
     public void blackStonesAtLeftAreInEndEdge(int x, int y){
         Board board = new Board(3);
         board.placeStone(at(x, y), Color.BLACK);
         Cell cell  = board.getCell(at(x, y));
-        Set<Cell> cellsOnTopEdge = board.boardEdge(Color.BLACK, false);
+        Set<Cell> cellsOnTopEdge = board.endEdge(Color.BLACK);
         assertEquals(true, cellsOnTopEdge.contains(cell));
     }
 
     @ParameterizedTest
     @CsvSource({"3, 1",
-                "3, 2",
-                "3, 3"})
+            "3, 2",
+            "3, 3"})
     public void whiteStonesAtRightAreInEndEdge(int x, int y){
         Board board = new Board(3);
         board.placeStone(at(x, y), Color.WHITE);
         Cell cell  = board.getCell(at(x, y));
-        Set<Cell> cellsOnTopEdge = board.boardEdge(Color.WHITE, false);
+        Set<Cell> cellsOnTopEdge = board.endEdge(Color.WHITE);
         assertEquals(true, cellsOnTopEdge.contains(cell));
     }
-
 }

@@ -1,13 +1,13 @@
 package konobi.InputOutput;
 
-import konobi.Model.Entities.Position;
+import konobi.Entities.Position;
 import konobi.InputOutput.Exceptions.NegativeNumberException;
 import konobi.InputOutput.Exceptions.WrongAnswerException;
-import konobi.Model.Entities.Player;
+import konobi.Entities.Player;
 
 import java.util.Scanner;
 
-import static konobi.Model.Entities.Position.at;
+import static konobi.Entities.Position.at;
 
 public class InputHandler {
 
