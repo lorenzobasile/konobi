@@ -14,7 +14,7 @@ public class WeakConnectionRule implements Rule{
         Set<Cell> weakNeighbors = board.weakConnectionsOf(cell);
         cell.reset();
         boolean condition = weakNeighbors.stream()
-                                         .map(c->c.orthogonalNeighborsIn(board.cells))
+                                         .map(c->c.orthogonalNeighborsIn(board))
                                          .anyMatch(s->s.stream()
                                                        .filter(c->!c.isOccupied())
                                                        .anyMatch(c->checkIfThereAreNoWeakNeighbors(board, c, stoneColor)));

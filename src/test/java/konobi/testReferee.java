@@ -16,8 +16,7 @@ public class testReferee {
         Referee referee = new Referee();
         Player player = new Player(Color.BLACK, "player");
         Board board = new Board(10);
-        Set<Cell> allCells = new HashSet<>(board.cells);
-        assertEquals(allCells, referee.availableCellsFor(player,board));
+        assertEquals(board, referee.availableCellsFor(player,board));
     }
 
     @Test
@@ -25,8 +24,7 @@ public class testReferee {
         Referee referee = new Referee();
         Player player = new Player(Color.WHITE, "player");
         Board board = new Board(10);
-        Set<Cell> allCells = new HashSet<>(board.cells);
-        assertEquals(allCells, referee.availableCellsFor(player,board));
+        assertEquals(board, referee.availableCellsFor(player,board));
     }
 
     @Test

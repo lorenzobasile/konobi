@@ -8,13 +8,13 @@ public class Cell {
     private boolean isOccupied;
     private Color color;
 
-    public Cell(Position position) {
-        this.position = position;
-        this.isOccupied = false;
+    public Cell(Position cellPosition) {
+        position = cellPosition;
+        isOccupied = false;
     }
     public void reset(){
-        this.color = null;
-        this.isOccupied = false;
+        color = null;
+        isOccupied = false;
     }
 
     public Position getPosition() {
@@ -26,12 +26,12 @@ public class Cell {
     }
 
     public void setColor(Color stoneColor) {
-        this.color = stoneColor;
+        color = stoneColor;
         isOccupied = true;
     }
 
     public boolean isAt(Position location){
-        return this.position.equals(location);
+        return position.equals(location);
     }
 
     public boolean hasColor(Color color) {
@@ -39,13 +39,13 @@ public class Cell {
     }
 
     public boolean hasSameColorAs(Cell cell) {
-        return this.color == cell.color;
+        return hasColor(cell.color);
     }
 
-    public boolean isOrthogonallyAdjacentTo(Cell cell) {
+    private boolean isOrthogonallyAdjacentTo(Cell cell) {
         return position.squareEuclideanDistanceFrom(cell.position)==1;
     }
-    public boolean isDiagonallyAdjacentTo(Cell cell) {
+    private boolean isDiagonallyAdjacentTo(Cell cell) {
         return position.squareEuclideanDistanceFrom(cell.position)==2;
     }
 

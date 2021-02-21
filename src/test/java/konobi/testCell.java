@@ -32,7 +32,7 @@ public class testCell {
         Cell top = board.getCell(at(x,y+1));
         Cell bottom = board.getCell(at(x,y-1));
         Set<Cell> neighborsList = new HashSet<>(Arrays.asList(top,left,bottom,right));
-        assertEquals(neighborsList,cell.orthogonalNeighborsIn(board.cells));
+        assertEquals(neighborsList,cell.orthogonalNeighborsIn(board));
     }
 
     @ParameterizedTest
@@ -45,7 +45,7 @@ public class testCell {
         Cell top = board.getCell(at(x,y+1));
         Cell bottom = board.getCell(at(x,y-1));
         Set<Cell> neighborsList = new HashSet<>(Arrays.asList(top,bottom,right));
-        assertEquals(neighborsList,cell.orthogonalNeighborsIn(board.cells));
+        assertEquals(neighborsList,cell.orthogonalNeighborsIn(board));
     }
 
     @Test
@@ -55,7 +55,7 @@ public class testCell {
         Cell left = board.getCell(at(6,7));
         Cell bottom = board.getCell(at(7,6));
         Set<Cell> neighborsList = new HashSet<>(Arrays.asList(bottom,left));
-        assertEquals(neighborsList,cell.orthogonalNeighborsIn(board.cells));
+        assertEquals(neighborsList,cell.orthogonalNeighborsIn(board));
     }
 
 
@@ -72,7 +72,7 @@ public class testCell {
         Cell upperLeft = board.getCell(at(x-1,y+1));
         Cell lowerLeft = board.getCell(at(x-1,y-1));
         Set<Cell> neighborsList = new HashSet<>(Arrays.asList(upperRight, lowerRight,upperLeft,lowerLeft));
-        assertEquals(neighborsList,cell.diagonalNeighborsIn(board.cells));
+        assertEquals(neighborsList,cell.diagonalNeighborsIn(board));
     }
 
     @Test
@@ -81,7 +81,7 @@ public class testCell {
         Cell cell = board.getCell(at(7,7));
         Cell lowerLeft = board.getCell(at(6,6));
         Set<Cell> neighborsList = new HashSet<>(Collections.singletonList(lowerLeft));
-        assertEquals(neighborsList,cell.diagonalNeighborsIn(board.cells));
+        assertEquals(neighborsList,cell.diagonalNeighborsIn(board));
     }
 
     @ParameterizedTest
@@ -92,7 +92,7 @@ public class testCell {
         Board board = new Board(3);
         board.placeStone(at(x, y), Color.BLACK);
         Cell cell  = board.getCell(at(x, y));
-        assertTrue(cell.isOnEndEdge(board.dimension));
+        assertTrue(cell.isOnEndEdge(board.dimension()));
     }
 
     @ParameterizedTest
@@ -103,7 +103,7 @@ public class testCell {
         Board board = new Board(3);
         board.placeStone(at(x, y), Color.WHITE);
         Cell cell  = board.getCell(at(x, y));
-        assertTrue(cell.isOnEndEdge(board.dimension));
+        assertTrue(cell.isOnEndEdge(board.dimension()));
     }
 
 

@@ -15,7 +15,7 @@ public class Referee {
     }
 
     public Set<Cell> availableCellsFor(Player player, Board board) {
-        return board.cells.stream()
+        return board.stream()
                           .filter(c->!c.isOccupied())
                           .filter(c->validateMove(board, c, player.getColor()))
                           .collect(Collectors.toSet());
@@ -32,7 +32,7 @@ public class Referee {
 
     private boolean chainSearch(Board board, Cell source, Set<Position> visitedCells) {
         visitedCells.add(source.getPosition());
-        if(source.isOnEndEdge(board.dimension)) return true;
+        if(source.isOnEndEdge(board.dimension())) return true;
         return board.connectionsOf(source).stream()
                                           .filter(c->!visitedCells.contains(c.getPosition()))
                                           .anyMatch(c->chainSearch(board, c, visitedCells));

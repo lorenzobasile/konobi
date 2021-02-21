@@ -8,48 +8,36 @@ import java.util.Set;
 
 public class Game {
 
-    Board board;
-    Player player1;
-    Player player2;
-    Player currentPlayer;
-    Referee supervisor;
-    int movesCounter;
+    private final Board board;
+    private final Player player1;
+    private final Player player2;
+    private Player currentPlayer;
+    private final Referee supervisor;
+    private int movesCounter;
 
-    public static int getDimension(){
-        int dimension;
-        try {
-            dimension = InputHandler.inputDimension();
-        } catch(NumberFormatException notANumber){
-            Display.notAnIntegerMessage();
-            return getDimension();
-        } catch(Exception negativeDimension){
-            Display.printExceptionCause(negativeDimension);
-            return getDimension();
-        }
-        return dimension;
-    }
+
 
     public static Game init() {
         Display.welcomeMessage();
-        int dimension = getDimension();
+        int dimension = InputHandler.getDimension();
         String player1Name = InputHandler.inputPlayerName(1);
         String player2Name = InputHandler.inputPlayerName(2);
         return new Game(dimension, player1Name, player2Name);
     }
 
     public Game(int dimension, String player1Name, String player2Name) {
-        this.board = new Board(dimension);
-        this.player1  = new Player(Color.BLACK, player1Name);
-        this.player2  = new Player(Color.WHITE, player2Name);
-        this.currentPlayer = player1;
-        this.supervisor = new Referee();
-        this.movesCounter = 0;
+        board = new Board(dimension);
+        player1  = new Player(Color.BLACK, player1Name);
+        player2  = new Player(Color.WHITE, player2Name);
+        currentPlayer = player1;
+        supervisor = new Referee();
+        movesCounter = 0;
     }
 
     private void checkAndApplyPieRule() {
         try {
             if (InputHandler.inputPie(currentPlayer)) {
-                switchColors();
+                player1.switchColorsWith(player2);
                 changeTurn();
                 Display.playerColorsMessage(player1, player2);
                 Display.printBoard(board);
@@ -69,11 +57,6 @@ public class Game {
         }
     }
 
-    private void switchColors() {
-        Color temp = player2.getColor();
-        player2.setColor(player1.getColor());
-        player1.setColor(temp);
-    }
 
     public void singleTurn() {
         movesCounter += 1;

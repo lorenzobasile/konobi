@@ -12,7 +12,7 @@ public class CrossCutRule implements Rule{
         board.placeStone(cell.getPosition(), stoneColor);
         Set<Cell> weakNeighbors = board.weakConnectionsOf(cell);
         boolean isThereACrossCut = weakNeighbors.stream()
-                                                .map(c->c.commonOrthogonalNeighborsWith(cell, board.cells))
+                                                .map(c->c.commonOrthogonalNeighborsWith(cell, board))
                                                 .anyMatch(s->s.stream()
                                                               .allMatch(c->c.isOccupied() && !c.hasSameColorAs(cell)));
         cell.reset();

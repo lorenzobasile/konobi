@@ -9,22 +9,23 @@ import java.util.stream.IntStream;
 
 import static konobi.Entities.Position.at;
 
-public class Board {
-    public int dimension;
-    public Set<Cell> cells = new HashSet<>();
+public class Board extends HashSet<Cell>{
 
     public Board(int dimension) {
-        this.dimension = dimension;
         Set<Cell> cellSet = IntStream.rangeClosed(1,dimension)
                               .mapToObj(i -> IntStream.rangeClosed(1,dimension)
                                                       .mapToObj(j -> new Cell(at(i,j))))
                               .flatMap(Function.identity())
                               .collect(Collectors.toSet());
-        this.cells.addAll(cellSet);
+        this.addAll(cellSet);
+    }
+
+    public int dimension(){
+        return (int) Math.sqrt(size());
     }
 
     public Cell getCell(Position position) {
-        return cells.stream()
+        return this.stream()
                     .filter(c->c.isAt(position))
                     .findFirst()
                     .orElse(null);
@@ -37,9 +38,9 @@ public class Board {
 
 
     public Set<Cell> startEdge(Color color){
-        return cells.stream()
+        return this.stream()
                 .filter(c->c.hasColor(color))
-                .filter(c->c.isOnStartEdge(dimension))
+                .filter(c->c.isOnStartEdge(dimension()))
                 .collect(Collectors.toSet());
     }
 
@@ -49,10 +50,10 @@ public class Board {
         if(!cell.isOccupied())
             return null;
 
-        return cell.orthogonalNeighborsIn(cells).stream()
-                                                .filter(Cell::isOccupied)
-                                                .filter(c->c.hasSameColorAs(cell))
-                                                .collect(Collectors.toSet());
+        return cell.orthogonalNeighborsIn(this).stream()
+                                                    .filter(Cell::isOccupied)
+                                                    .filter(c->c.hasSameColorAs(cell))
+                                                    .collect(Collectors.toSet());
     }
 
 
@@ -60,11 +61,11 @@ public class Board {
         if(!cell.isOccupied())
             return null;
 
-        return cell.diagonalNeighborsIn(cells).stream()
-                                              .filter(Cell::isOccupied)
-                                              .filter(c->c.hasSameColorAs(cell))
-                                              .filter(c->commonStrongConnectionsBetween(cell, c).isEmpty())
-                                              .collect(Collectors.toSet());
+        return cell.diagonalNeighborsIn(this).stream()
+                                                   .filter(Cell::isOccupied)
+                                                   .filter(c->c.hasSameColorAs(cell))
+                                                   .filter(c->commonStrongConnectionsBetween(cell, c).isEmpty())
+                                                   .collect(Collectors.toSet());
     }
 
     public Set<Cell> connectionsOf(Cell cell) {
@@ -74,7 +75,7 @@ public class Board {
     }
 
     private Set<Cell> commonStrongConnectionsBetween(Cell cell, Cell otherCell) {
-        return cell.commonOrthogonalNeighborsWith(otherCell, cells).stream()
+        return cell.commonOrthogonalNeighborsWith(otherCell, this).stream()
                                                                    .filter(Cell::isOccupied)
                                                                    .filter(c->c.hasSameColorAs(cell))
                                                                    .filter(c->c.hasSameColorAs(otherCell))

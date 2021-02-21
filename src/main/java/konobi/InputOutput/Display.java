@@ -1,10 +1,18 @@
 package konobi.InputOutput;
 
-import konobi.Entities.Board;
-import konobi.Entities.Cell;
-import konobi.Entities.Color;
-import konobi.Entities.Player;
+import konobi.Entities.*;
+
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
 import static konobi.Entities.Position.at;
+import java.util.function.Function;
+
+
 
 public class Display {
 
@@ -27,6 +35,10 @@ public class Display {
         System.out.println(KONOBI_LOGO);
         System.out.println("Welcome to Konobi!");
         System.out.println("Official rules and documentation: "+RULES_PAGE);
+        System.out.println();
+    }
+
+    public static void printEmptyLine(){
         System.out.println();
     }
 
@@ -88,10 +100,20 @@ public class Display {
         System.out.println(e.getMessage());
     }
 
+    //private static BiConsumer<Position, Board> printConsumer = (position, board) -> displayPosition(position, board);
+
     public static void printBoard(Board board) {
         System.out.println();
-        for (int i = board.dimension; i>0; i--){
-            for(int j = 1; j<=board.dimension; j++){
+        /*IntStream.range(0, board.dimension())
+                .map(i -> board.dimension() - i)
+                .mapToObj(i -> IntStream.rangeClosed(1, board.dimension())
+                                        .mapToObj(j -> at(j,i)))
+                                        .flatMap(Function.identity())
+                                        .forEachOrdered(p-> printConsumer.accept(p, board));*/
+
+
+        for (int i = board.dimension(); i>0; i--){
+            for(int j = 1; j<=board.dimension(); j++){
                 if((i+j) % 2 == 0){
                     System.out.print(ANSI_BROWN);
                 }
@@ -113,4 +135,24 @@ public class Display {
             System.out.println();
         }
     }
+
+/*
+public static void displayPosition(Position position, Board board) {
+    if ((position.getX() + position.getY()) % 2 == 0) {
+        System.out.print(ANSI_BROWN);
+    } else {
+        System.out.print(ANSI_BEIGE);
+    }
+    if (board.getCell(position).isOccupied()) {
+        Cell cell = board.getCell(position);
+        if (cell.hasColor(Color.BLACK)) {
+            System.out.print(ANSI_BLACK + "\u26AB" + ANSI_RESET);
+        } else {
+            System.out.print(ANSI_WHITE + "\u26AA" + ANSI_RESET);
+        }
+    } else {
+        System.out.print("  " + ANSI_RESET);
+    }
+    if(position.getX()==board.dimension()) System.out.println();
+}*/
 }

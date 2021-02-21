@@ -13,11 +13,14 @@ public class Player {
         return name;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
-    }
 
     public Color getColor() {
         return color;
+    }
+
+    public void switchColorsWith(Player otherPlayer) {
+        Color temp = otherPlayer.color;
+        otherPlayer.color=color;
+        color=temp;
     }
 }

@@ -17,6 +17,20 @@ public class InputHandler {
 
     private static Scanner stdIn = new Scanner(System.in);
 
+    public static int getDimension(){
+        int dimension;
+        try {
+            dimension = inputDimension();
+        } catch(NumberFormatException notANumber){
+            Display.notAnIntegerMessage();
+            return getDimension();
+        } catch(Exception negativeDimension){
+            Display.printExceptionCause(negativeDimension);
+            return getDimension();
+        }
+        return dimension;
+    }
+
     public static int inputDimension() throws Exception{
         Display.inputBoardDimensionMessage();
         String stringDimension = stdIn.nextLine();
@@ -24,7 +38,7 @@ public class InputHandler {
         if (dimension < 1) {
             throw new NegativeNumberException("Negative dimension: please reinsert");
         }
-        System.out.println();
+        Display.printEmptyLine();
         return dimension;
     }
 
