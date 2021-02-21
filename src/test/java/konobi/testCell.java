@@ -8,6 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -77,7 +78,7 @@ public class testCell {
         Board board = new Board(7);
         Cell cell = board.getCell(at(7,7));
         Cell lowerLeft = board.getCell(at(6,6));
-        Set<Cell> neighborsList = new HashSet<>(Arrays.asList(lowerLeft));
+        Set<Cell> neighborsList = new HashSet<>(Collections.singletonList(lowerLeft));
         assertEquals(neighborsList,cell.diagonalNeighborsIn(board.cells));
     }
 }

@@ -1,7 +1,6 @@
 package konobi;
 
 import konobi.Entities.*;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
@@ -17,7 +16,7 @@ public class testReferee {
         Referee referee = new Referee();
         Player player = new Player(Color.BLACK, "player");
         Board board = new Board(10);
-        Set<Cell> allCells = new HashSet<Cell>(board.cells);
+        Set<Cell> allCells = new HashSet<>(board.cells);
         assertEquals(allCells, referee.availableCellsFor(player,board));
     }
 
@@ -26,7 +25,7 @@ public class testReferee {
         Referee referee = new Referee();
         Player player = new Player(Color.WHITE, "player");
         Board board = new Board(10);
-        Set<Cell> allCells = new HashSet<Cell>(board.cells);
+        Set<Cell> allCells = new HashSet<>(board.cells);
         assertEquals(allCells, referee.availableCellsFor(player,board));
     }
 

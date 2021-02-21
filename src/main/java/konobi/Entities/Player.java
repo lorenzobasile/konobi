@@ -7,7 +7,7 @@ public class Player {
         return name;
     }
 
-    private String name;
+    private final String name;
 
     public Player(Color color, String name) {
         this.color = color;

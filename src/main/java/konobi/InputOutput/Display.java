@@ -3,18 +3,18 @@ package konobi.InputOutput;
 import konobi.Entities.Board;
 import konobi.Entities.Color;
 import konobi.Entities.Player;
-
 import static konobi.Entities.Position.at;
 
 public class Display {
 
-    private static final String KONOBI_LOGO =  " __  ___   ______   .__   __.   ______   .______    __ \n" +
-            "|  |/  /  /  __  \\  |  \\ |  |  /  __  \\  |   _  \\  |  |\n" +
-            "|  '  /  |  |  |  | |   \\|  | |  |  |  | |  |_)  | |  |\n" +
-            "|    <   |  |  |  | |  . `  | |  |  |  | |   _  <  |  |\n" +
-            "|  .  \\  |  `--'  | |  |\\   | |  `--'  | |  |_)  | |  |\n" +
-            "|__|\\__\\  \\______/  |__| \\__|  \\______/  |______/  |__|\n" +
-            "                                                       ";
+    private static final String KONOBI_LOGO = """
+             __  ___   ______   .__   __.   ______   .______    __\s
+            |  |/  /  /  __  \\  |  \\ |  |  /  __  \\  |   _  \\  |  |
+            |  '  /  |  |  |  | |   \\|  | |  |  |  | |  |_)  | |  |
+            |    <   |  |  |  | |  . `  | |  |  |  | |   _  <  |  |
+            |  .  \\  |  `--'  | |  |\\   | |  `--'  | |  |_)  | |  |
+            |__|\\__\\  \\______/  |__| \\__|  \\______/  |______/  |__|
+                                                                  \s""";
     private static final String RULES_PAGE = "https://boardgamegeek.com/boardgame/123213/konobi";
 
     public static final String ANSI_RESET = "\u001B[0m";
@@ -84,6 +84,9 @@ public class Display {
         System.out.println("No available moves for "+currentPlayer.getName()+", who must pass");
     }
 
+    public static void printExceptionCause(Exception e) {
+        System.out.println(e.getMessage());
+    }
 
     public static void printBoard(Board board) {
         System.out.println();
@@ -109,10 +112,5 @@ public class Display {
             }
             System.out.println();
         }
-    }
-
-
-    public static void printExceptionCause(Exception e) {
-        System.out.println(e.getMessage());
     }
 }

@@ -20,6 +20,7 @@ public class testGameRunner {
     @CsvSource({"match.txt", "match2.txt", "match3.txt", "match4_crosscut.txt"})
     public void simulateGameAndCheckWinner(String fileName) throws FileNotFoundException, URISyntaxException {
         URL filePath = testGameRunner.class.getClassLoader().getResource(fileName);
+        assert filePath != null;
         FileInputStream fileInputStream = new FileInputStream(Path.of(filePath.toURI()).toString());
         Scanner scanner = new Scanner(fileInputStream);
         InputHandler.setStdIn(scanner);

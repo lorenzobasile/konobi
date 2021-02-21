@@ -11,6 +11,7 @@ import konobi.InputOutput.InputHandler;
 import konobi.Entities.Player;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class testInputHandler {
@@ -28,7 +29,7 @@ public class testInputHandler {
         String input = "y";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         InputHandler.setStdIn(new Scanner(in));
-        assertEquals(true, InputHandler.inputPie(new Player(Color.BLACK, "player")));
+        assertTrue(InputHandler.inputPie(new Player(Color.BLACK, "player")));
 
     }
 

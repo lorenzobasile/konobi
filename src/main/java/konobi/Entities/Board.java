@@ -3,8 +3,9 @@ package konobi.Entities;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.function.Predicate;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static konobi.Entities.Position.at;
 
@@ -14,11 +15,12 @@ public class Board {
 
     public Board(int dimension) {
         this.dimension = dimension;
-        for (int i = 1; i<=dimension; ++i){
-            for(int j = 1; j<=dimension; ++j){
-                cells.add(new Cell(at(i,j)));
-            }
-        }
+        Set<Cell> cellSet = IntStream.rangeClosed(1,dimension)
+                              .mapToObj(i -> IntStream.rangeClosed(1,dimension)
+                                                      .mapToObj(j -> at(i,j)).map(Cell::new))
+                              .flatMap(Function.identity())
+                              .collect(Collectors.toSet());
+        this.cells.addAll(cellSet);
     }
 
     public Cell getCell(Position position) {
@@ -64,7 +66,7 @@ public class Board {
             return null;
 
         return cell.diagonalNeighborsIn(cells).stream()
-                                              .filter(c->c.isOccupied())
+                                              .filter(Cell::isOccupied)
                                               .filter(c->c.hasSameColorAs(cell))
                                               .filter(c->commonStrongConnectionsBetween(cell, c).isEmpty())
                                               .collect(Collectors.toSet());

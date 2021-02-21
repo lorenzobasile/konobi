@@ -70,7 +70,7 @@ public class testBoard {
         board.placeStone(at(x, y), Color.BLACK);
         Cell cell  = board.getCell(at(x, y));
         Set<Cell> cellsOnTopEdge = board.startEdge(Color.BLACK);
-        assertEquals(true, cellsOnTopEdge.contains(cell));
+        assertTrue(cellsOnTopEdge.contains(cell));
     }
 
     @ParameterizedTest
@@ -82,7 +82,7 @@ public class testBoard {
         board.placeStone(at(x, y), Color.WHITE);
         Cell cell  = board.getCell(at(x, y));
         Set<Cell> cellsOnTopEdge = board.startEdge(Color.WHITE);
-        assertEquals(true, cellsOnTopEdge.contains(cell));
+        assertTrue(cellsOnTopEdge.contains(cell));
     }
 
     @ParameterizedTest
@@ -94,7 +94,7 @@ public class testBoard {
         board.placeStone(at(x, y), Color.BLACK);
         Cell cell  = board.getCell(at(x, y));
         Set<Cell> cellsOnTopEdge = board.endEdge(Color.BLACK);
-        assertEquals(true, cellsOnTopEdge.contains(cell));
+        assertTrue(cellsOnTopEdge.contains(cell));
     }
 
     @ParameterizedTest
@@ -106,6 +106,6 @@ public class testBoard {
         board.placeStone(at(x, y), Color.WHITE);
         Cell cell  = board.getCell(at(x, y));
         Set<Cell> cellsOnTopEdge = board.endEdge(Color.WHITE);
-        assertEquals(true, cellsOnTopEdge.contains(cell));
+        assertTrue(cellsOnTopEdge.contains(cell));
     }
 }

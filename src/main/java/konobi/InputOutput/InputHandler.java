@@ -56,8 +56,7 @@ public class InputHandler {
 
     public static String inputPlayerName(int whichPlayer) {
         Display.playerNameMessage(whichPlayer);
-        String name = stdIn.nextLine();
-        return name;
+        return stdIn.nextLine();
     }
 
 
