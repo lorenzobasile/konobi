@@ -85,27 +85,5 @@ public class testBoard {
         assertTrue(cellsOnTopEdge.contains(cell));
     }
 
-    @ParameterizedTest
-    @CsvSource({"1, 1",
-            "2, 1",
-            "3, 1"})
-    public void blackStonesAtLeftAreInEndEdge(int x, int y){
-        Board board = new Board(3);
-        board.placeStone(at(x, y), Color.BLACK);
-        Cell cell  = board.getCell(at(x, y));
-        Set<Cell> cellsOnTopEdge = board.endEdge(Color.BLACK);
-        assertTrue(cellsOnTopEdge.contains(cell));
-    }
 
-    @ParameterizedTest
-    @CsvSource({"3, 1",
-            "3, 2",
-            "3, 3"})
-    public void whiteStonesAtRightAreInEndEdge(int x, int y){
-        Board board = new Board(3);
-        board.placeStone(at(x, y), Color.WHITE);
-        Cell cell  = board.getCell(at(x, y));
-        Set<Cell> cellsOnTopEdge = board.endEdge(Color.WHITE);
-        assertTrue(cellsOnTopEdge.contains(cell));
-    }
 }

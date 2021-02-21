@@ -13,8 +13,8 @@ public class CrossCutRule implements Rule{
         Set<Cell> weakNeighbors = board.weakConnectionsOf(cell);
         boolean isThereACrossCut = weakNeighbors.stream()
                                                 .map(c->c.commonOrthogonalNeighborsWith(cell, board.cells))
-                                                         .anyMatch(s->s.stream()
-                                                                       .allMatch(c->c.isOccupied() && c.getColor()==stoneColor.oppositeColor()));
+                                                .anyMatch(s->s.stream()
+                                                              .allMatch(c->c.isOccupied() && !c.hasSameColorAs(cell)));
         cell.reset();
         return !isThereACrossCut;
 

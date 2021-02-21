@@ -3,6 +3,7 @@ package konobi;
 
 import konobi.Entities.Board;
 import konobi.Entities.Cell;
+import konobi.Entities.Color;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -14,6 +15,7 @@ import java.util.Set;
 
 import static konobi.Entities.Position.at;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class testCell {
 
@@ -81,4 +83,28 @@ public class testCell {
         Set<Cell> neighborsList = new HashSet<>(Collections.singletonList(lowerLeft));
         assertEquals(neighborsList,cell.diagonalNeighborsIn(board.cells));
     }
+
+    @ParameterizedTest
+    @CsvSource({"1, 1",
+                "2, 1",
+                "3, 1"})
+    public void blackStonesAtLeftAreInEndEdge(int x, int y){
+        Board board = new Board(3);
+        board.placeStone(at(x, y), Color.BLACK);
+        Cell cell  = board.getCell(at(x, y));
+        assertTrue(cell.isOnEndEdge(board.dimension));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"3, 1",
+                "3, 2",
+                "3, 3"})
+    public void whiteStonesAtRightAreInEndEdge(int x, int y){
+        Board board = new Board(3);
+        board.placeStone(at(x, y), Color.WHITE);
+        Cell cell  = board.getCell(at(x, y));
+        assertTrue(cell.isOnEndEdge(board.dimension));
+    }
+
+
 }

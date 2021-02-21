@@ -20,9 +20,8 @@ public class testRules {
         board.placeStone(at(1,2), Color.WHITE);
         board.placeStone(at(3,2), Color.BLACK);
         board.placeStone(at(3,3), Color.WHITE);
-        board.placeStone(at(2, 2), Color.BLACK);
         Cell cellToVerify = board.getCell(at(2,2));
-        assertTrue(rule.isValid(board, cellToVerify, cellToVerify.getColor()));
+        assertTrue(rule.isValid(board, cellToVerify, Color.BLACK));
     }
 
     @Test
@@ -37,9 +36,8 @@ public class testRules {
         board.placeStone(at(3,4), Color.BLACK);
         board.placeStone(at(5,3), Color.WHITE);
         board.placeStone(at(1,4), Color.BLACK);
-        board.placeStone(at(2, 3), Color.WHITE);
         Cell cellToVerify = board.getCell(at(2,3));
-        assertTrue(rule.isValid(board, cellToVerify, cellToVerify.getColor()));
+        assertTrue(rule.isValid(board, cellToVerify, Color.WHITE));
     }
 
 
@@ -51,9 +49,8 @@ public class testRules {
         board.placeStone(at(1,2), Color.WHITE);
         board.placeStone(at(3,2), Color.BLACK);
         board.placeStone(at(3,3), Color.WHITE);
-        board.placeStone(at(2, 1), Color.BLACK);
         Cell cellToVerify = board.getCell(at(2,1));
-        assertFalse(rule.isValid(board, cellToVerify, cellToVerify.getColor()));
+        assertFalse(rule.isValid(board, cellToVerify, Color.BLACK));
     }
 
     @Test
@@ -68,9 +65,8 @@ public class testRules {
         board.placeStone(at(3,4), Color.BLACK);
         board.placeStone(at(5,3), Color.WHITE);
         board.placeStone(at(1,4), Color.BLACK);
-        board.placeStone(at(2, 2), Color.WHITE);
         Cell cellToVerify = board.getCell(at(2,2));
-        assertFalse(rule.isValid(board, cellToVerify, cellToVerify.getColor()));
+        assertFalse(rule.isValid(board, cellToVerify, Color.WHITE));
     }
 
     @Test
@@ -83,9 +79,8 @@ public class testRules {
         board.placeStone(at(3,2), Color.BLACK);
         board.placeStone(at(3,3), Color.WHITE);
         board.placeStone(at(2,2), Color.BLACK);
-        board.placeStone(at(2, 1), Color.WHITE);
         Cell cellToVerify = board.getCell(at(2,1));
-        assertFalse(rule.isValid(board, cellToVerify, cellToVerify.getColor()));
+        assertFalse(rule.isValid(board, cellToVerify, Color.WHITE));
     }
 
 
@@ -98,9 +93,8 @@ public class testRules {
         board.placeStone(at(3,2), Color.BLACK);
         board.placeStone(at(3,3), Color.WHITE);
         board.placeStone(at(2,2), Color.BLACK);
-        board.placeStone(at(2, 1), Color.BLACK);
         Cell cellToVerify = board.getCell(at(2,1));
-        assertTrue(rule.isValid(board, cellToVerify, cellToVerify.getColor()));
+        assertTrue(rule.isValid(board, cellToVerify, Color.BLACK));
     }
 
 }

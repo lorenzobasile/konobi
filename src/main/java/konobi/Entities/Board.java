@@ -17,7 +17,7 @@ public class Board {
         this.dimension = dimension;
         Set<Cell> cellSet = IntStream.rangeClosed(1,dimension)
                               .mapToObj(i -> IntStream.rangeClosed(1,dimension)
-                                                      .mapToObj(j -> at(i,j)).map(Cell::new))
+                                                      .mapToObj(j -> new Cell(at(i,j))))
                               .flatMap(Function.identity())
                               .collect(Collectors.toSet());
         this.cells.addAll(cellSet);
@@ -38,16 +38,11 @@ public class Board {
 
     public Set<Cell> startEdge(Color color){
         return cells.stream()
-                .filter(c->c.getColor()==color)
-                .filter(c->c.cellOnStartEdge(dimension))
+                .filter(c->c.hasColor(color))
+                .filter(c->c.isOnStartEdge(dimension))
                 .collect(Collectors.toSet());
     }
-    public Set<Cell> endEdge(Color color){
-        return cells.stream()
-                .filter(c->c.getColor()==color)
-                .filter(c->c.cellOnEndEdge(dimension))
-                .collect(Collectors.toSet());
-    }
+
 
 
     public Set<Cell> strongConnectionsOf(Cell cell) {

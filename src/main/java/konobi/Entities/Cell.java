@@ -25,10 +25,6 @@ public class Cell {
         return isOccupied;
     }
 
-    public Color getColor() {
-        return color;
-    }
-
     public void setColor(Color stoneColor) {
         this.color = stoneColor;
         isOccupied = true;
@@ -36,6 +32,10 @@ public class Cell {
 
     public boolean isAt(Position location){
         return this.position.equals(location);
+    }
+
+    public boolean hasColor(Color color) {
+        return this.color == color;
     }
 
     public boolean hasSameColorAs(Cell cell) {
@@ -68,11 +68,11 @@ public class Cell {
         return orthogonalNeighborsOfCell;
     }
 
-    public boolean cellOnStartEdge(int dimension) {
+    public boolean isOnStartEdge(int dimension) {
         return position.getX()==1 && color==Color.WHITE || position.getY()==dimension && color==Color.BLACK;
     }
 
-    public boolean cellOnEndEdge(int dimension) {
+    public boolean isOnEndEdge(int dimension) {
         return position.getX()==dimension && color==Color.WHITE || position.getY()==1 && color==Color.BLACK;
     }
 

@@ -26,13 +26,13 @@ public class Referee {
         return board.startEdge(color).stream()
                                      .filter(Cell::isOccupied)
                                      .filter(c->!visitedCells.contains(c.getPosition()))
-                                     .filter(c->c.getColor()==color)
+                                     .filter(c->c.hasColor(color))
                                      .anyMatch(c->chainSearch(board, c, visitedCells));
     }
 
     private boolean chainSearch(Board board, Cell source, Set<Position> visitedCells) {
         visitedCells.add(source.getPosition());
-        if(board.endEdge(source.getColor()).contains(source)) return true;
+        if(source.isOnEndEdge(board.dimension)) return true;
         return board.connectionsOf(source).stream()
                                           .filter(c->!visitedCells.contains(c.getPosition()))
                                           .anyMatch(c->chainSearch(board, c, visitedCells));
