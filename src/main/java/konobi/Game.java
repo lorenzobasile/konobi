@@ -4,43 +4,36 @@ import konobi.Entities.*;
 import konobi.InputOutput.Display;
 import konobi.InputOutput.InputHandler;
 
-import java.util.Set;
 
 public class Game {
 
-    private final Board board;
+    private final GameState state;
     private final Player player1;
     private final Player player2;
-    private Player currentPlayer;
-    private final Referee supervisor;
-    private int movesCounter;
-
-
 
     public static Game init() {
         Display.welcomeMessage();
         int dimension = InputHandler.getDimension();
         String player1Name = InputHandler.inputPlayerName(1);
         String player2Name = InputHandler.inputPlayerName(2);
-        return new Game(dimension, player1Name, player2Name);
+        Game game = new Game(dimension, player1Name, player2Name);
+        Display.playerColorsMessage(game.player1, game.player2);
+        return game;
     }
 
     public Game(int dimension, String player1Name, String player2Name) {
-        board = new Board(dimension);
-        player1  = new Player(Color.BLACK, player1Name);
-        player2  = new Player(Color.WHITE, player2Name);
-        currentPlayer = player1;
-        supervisor = new Referee();
-        movesCounter = 0;
+        player1 = new Player(Color.BLACK, player1Name);
+        player2 = new Player(Color.WHITE, player2Name);
+        state = new GameState(dimension);
     }
 
     private void checkAndApplyPieRule() {
         try {
-            if (InputHandler.inputPie(currentPlayer)) {
+            if (InputHandler.inputPie(getCurrentPlayer())) {
+                state.applyPieRule();
                 player1.switchColorsWith(player2);
-                changeTurn();
                 Display.playerColorsMessage(player1, player2);
-                Display.printBoard(board);
+                Display.printBoard(state.getBoard());
             }
         } catch(Exception wrongInput){
             Display.printExceptionCause(wrongInput);
@@ -48,81 +41,68 @@ public class Game {
         }
     }
 
-    private void changeTurn() {
-        if (currentPlayer == player1){
-            currentPlayer = player2;
-        }
-        else{
-            currentPlayer = player1;
-        }
+    private Player getCurrentPlayer(){
+        if(state.getCurrentColor()==player1.getColor()) return player1;
+        return player2;
     }
 
+    private Player getLastPlayer(){
+        if(state.getCurrentColor()==player2.getColor()) return player1;
+        return player2;
+    }
 
     public void singleTurn() {
-        movesCounter += 1;
-        if(movesCounter==1) {
-            Display.playerColorsMessage(player1, player2);
-            Display.printBoard(board);
+
+        if(state.isTurn(1)) {
+            Display.printBoard(state.getBoard());
         }
-        else{
-            changeTurn();
-        }
-        if(movesCounter==2) {
+        if(state.isTurn(2)) {
             checkAndApplyPieRule();
         }
-        Display.currentPlayerMessage(currentPlayer);
-        Set<Cell> availableCells = supervisor.availableCellsFor(currentPlayer, board);
-        checkMandatoryPass(availableCells);
-        Position inputPosition = chooseNextMove(availableCells);
-
-        Color newStone = currentPlayer.getColor();
-        board.placeStone(inputPosition, newStone);
-        Display.printBoard(board);
-
-    }
-
-    private void checkMandatoryPass(Set<Cell> availableCells) {
-        if (availableCells.isEmpty()) {
-            Display.passMessage(currentPlayer);
-            changeTurn();
+        Display.currentPlayerMessage(getCurrentPlayer());
+        if(state.currentPlayerHasToPass()){
+            Display.passMessage(getCurrentPlayer());
         }
+        else{
+            Position inputPosition = chooseNextMove();
+            state.updateBoard(inputPosition);
+            Display.printBoard(state.getBoard());
+        }
+
     }
 
-
-    private Position chooseNextMove(Set<Cell> availableCells) {
-        Cell inputCell;
+    private Position chooseNextMove() {
         Position inputPosition;
         try{
             inputPosition = InputHandler.inputMove();
         } catch(NumberFormatException notANumber){
             Display.notAnIntegerMessage();
-            return chooseNextMove(availableCells);
+            return chooseNextMove();
         } catch(Exception negativeCoordinate){
             Display.printExceptionCause(negativeCoordinate);
-            return chooseNextMove(availableCells);
+            return chooseNextMove();
         }
-        inputCell = board.getCell(inputPosition);
-        if(inputCell==null){
+        if(state.outsideBoardMove(inputPosition)){
             Display.positionOutsideBoardMessage();
-            return chooseNextMove(availableCells);
+            return chooseNextMove();
         }
-        else if(inputCell.isOccupied()){
+        else if(state.isAlreadyOccupied(inputPosition)){
             Display.alreadyPlayedPositionMessage();
-            return chooseNextMove(availableCells);
+            return chooseNextMove();
         }
-        else if(!availableCells.contains(inputCell)){
+        else if(state.isInvalidMove(inputPosition)){
             Display.invalidMoveMessage();
-            return chooseNextMove(availableCells);
+            return chooseNextMove();
         }
         return inputPosition;
     }
 
     public boolean checkWin() {
-        boolean someoneHasWon = supervisor.validateChain(board, currentPlayer.getColor());
-        if(someoneHasWon) {
-            Display.winMessage(currentPlayer);
+        if(state.someoneHasWon()) {
+            Display.winMessage(getLastPlayer());
+            return true;
         }
-        return someoneHasWon;
+        return false;
     }
 
 }

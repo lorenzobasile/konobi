@@ -9,33 +9,38 @@ import java.util.stream.Collectors;
 public class Referee {
     WeakConnectionRule ruleOne = new WeakConnectionRule();
     CrossCutRule ruleTwo = new CrossCutRule();
+    Board board;
 
-    public boolean validateMove(Board board, Cell cell, Color color){
+    public Referee(Board board){
+        this.board=board;
+    }
+
+    public boolean validateMove(Cell cell, Color color){
         return ruleOne.isValid(board, cell, color) && ruleTwo.isValid(board, cell, color);
     }
 
-    public Set<Cell> availableCellsFor(Player player, Board board) {
+    public Set<Cell> availableCellsFor(Color color) {
         return board.stream()
                           .filter(c->!c.isOccupied())
-                          .filter(c->validateMove(board, c, player.getColor()))
+                          .filter(c->validateMove(c, color))
                           .collect(Collectors.toSet());
     }
 
-    public boolean validateChain(Board board, Color color) {
+    public boolean validateChain(Color color) {
         Set<Position> visitedCells = new HashSet<>();
         return board.startEdge(color).stream()
                                      .filter(Cell::isOccupied)
                                      .filter(c->!visitedCells.contains(c.getPosition()))
                                      .filter(c->c.hasColor(color))
-                                     .anyMatch(c->chainSearch(board, c, visitedCells));
+                                     .anyMatch(c->chainSearch(c, visitedCells));
     }
 
-    private boolean chainSearch(Board board, Cell source, Set<Position> visitedCells) {
+    private boolean chainSearch(Cell source, Set<Position> visitedCells) {
         visitedCells.add(source.getPosition());
         if(source.isOnEndEdge(board.dimension())) return true;
         return board.connectionsOf(source).stream()
                                           .filter(c->!visitedCells.contains(c.getPosition()))
-                                          .anyMatch(c->chainSearch(board, c, visitedCells));
+                                          .anyMatch(c->chainSearch(c, visitedCells));
     }
 
 }
