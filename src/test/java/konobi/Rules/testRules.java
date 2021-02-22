@@ -1,4 +1,4 @@
-package konobi;
+package konobi.Rules;
 
 import konobi.Entities.Board;
 import konobi.Entities.Cell;

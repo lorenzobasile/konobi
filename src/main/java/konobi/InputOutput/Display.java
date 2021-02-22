@@ -2,16 +2,7 @@ package konobi.InputOutput;
 
 import konobi.Entities.*;
 
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
-
 import static konobi.Entities.Position.at;
-import java.util.function.Function;
-
 
 
 public class Display {
@@ -30,6 +21,8 @@ public class Display {
     public static final String ANSI_WHITE = "\u001B[37m";
     public static final String ANSI_BROWN = "\u001b[48;5;179m";
     public static final String ANSI_BEIGE = "\u001b[48;5;130m";
+    public static final String ANSI_BLACK_CIRCLE = "\u26AB";
+    public static final String ANSI_WHITE_CIRCLE = "\u26AA";
 
     public static void welcomeMessage(){
         System.out.println(KONOBI_LOGO);
@@ -114,25 +107,34 @@ public class Display {
 
         for (int i = board.dimension(); i>0; i--){
             for(int j = 1; j<=board.dimension(); j++){
-                if((i+j) % 2 == 0){
-                    System.out.print(ANSI_BROWN);
-                }
-                else{
-                    System.out.print(ANSI_BEIGE);
-                }
-                if (board.getCell(at(j, i)).isOccupied()){
-                    Cell cell = board.getCell(at(j, i));
-                    if (cell.hasColor(Color.BLACK)){
-                        System.out.print(ANSI_BLACK + "\u26AB"  + ANSI_RESET);
-                    }
-                    else{
-                        System.out.print(ANSI_WHITE + "\u26AA" + ANSI_RESET);
-                    }
-                } else {
-                    System.out.print("  " + ANSI_RESET);
-                }
+                Position position = at(j, i);
+                drawSquareAt(position);
+                ifPresentDrawStoneAt(position, board);
             }
             System.out.println();
+        }
+    }
+
+    private static void ifPresentDrawStoneAt(Position position, Board board) {
+        Cell cell = board.getCell(position);
+        if (board.getCell(position).isOccupied()){
+            if (cell.hasColor(Color.BLACK)){
+                System.out.print(ANSI_BLACK + ANSI_BLACK_CIRCLE + ANSI_RESET);
+            }
+            else{
+                System.out.print(ANSI_WHITE + ANSI_WHITE_CIRCLE + ANSI_RESET);
+            }
+        } else {
+            System.out.print("  " + ANSI_RESET);
+        }
+    }
+
+    private static void drawSquareAt(Position position) {
+        if((position.getX()+ position.getY()) % 2 == 0){
+            System.out.print(ANSI_BROWN);
+        }
+        else{
+            System.out.print(ANSI_BEIGE);
         }
     }
 

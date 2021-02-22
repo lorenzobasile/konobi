@@ -3,9 +3,9 @@ package konobi;
 public class GameRunner {
 
     public static void main(String[] args){
-        Game game = Game.init();
+        Match match = Match.init();
         do {
-            game.singleTurn();
-        } while (!game.checkWin());
+            match.singleTurn();
+        } while (!match.checkWin());
     }
 }

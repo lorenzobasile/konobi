@@ -5,35 +5,36 @@ import konobi.InputOutput.Display;
 import konobi.InputOutput.InputHandler;
 
 
-public class Game {
+public class Match {
 
-    private final GameState state;
+    private final Game game;
     private final Player player1;
     private final Player player2;
 
-    public static Game init() {
+    public static Match init() {
         Display.welcomeMessage();
         int dimension = InputHandler.getDimension();
         String player1Name = InputHandler.inputPlayerName(1);
         String player2Name = InputHandler.inputPlayerName(2);
-        Game game = new Game(dimension, player1Name, player2Name);
-        Display.playerColorsMessage(game.player1, game.player2);
-        return game;
+        Player player1 = new Player(Color.BLACK, player1Name);
+        Player player2 = new Player(Color.WHITE, player2Name);
+        Match match = new Match(dimension, player1, player2);
+        Display.playerColorsMessage(player1, player2);
+        return match;
     }
 
-    public Game(int dimension, String player1Name, String player2Name) {
-        player1 = new Player(Color.BLACK, player1Name);
-        player2 = new Player(Color.WHITE, player2Name);
-        state = new GameState(dimension);
+    public Match(int dimension, Player player1, Player player2) {
+        this.player1 = player1;
+        this.player2 = player2;
+        game = new Game(dimension, player1.getColor());
     }
 
     private void checkAndApplyPieRule() {
         try {
             if (InputHandler.inputPie(getCurrentPlayer())) {
-                state.applyPieRule();
+                game.applyPieRule();
                 player1.switchColorsWith(player2);
                 Display.playerColorsMessage(player1, player2);
-                Display.printBoard(state.getBoard());
             }
         } catch(Exception wrongInput){
             Display.printExceptionCause(wrongInput);
@@ -42,33 +43,34 @@ public class Game {
     }
 
     private Player getCurrentPlayer(){
-        if(state.getCurrentColor()==player1.getColor()) return player1;
-        return player2;
+        if(game.getCurrentColor()==player1.getColor())
+            return player1;
+        else
+            return player2;
     }
 
     private Player getLastPlayer(){
-        if(state.getCurrentColor()==player2.getColor()) return player1;
-        return player2;
+        if(getCurrentPlayer()==player1)
+            return player2;
+        else
+            return player1;
     }
 
     public void singleTurn() {
-
-        if(state.isTurn(1)) {
-            Display.printBoard(state.getBoard());
-        }
-        if(state.isTurn(2)) {
+        if(game.currentPlayerCanApplyPieRule()) {
             checkAndApplyPieRule();
         }
         Display.currentPlayerMessage(getCurrentPlayer());
-        if(state.currentPlayerHasToPass()){
-            Display.passMessage(getCurrentPlayer());
+        if(game.currentPlayerHasToPass()){
+            game.applyPass();
+            Display.passMessage(getLastPlayer());
         }
         else{
             Position inputPosition = chooseNextMove();
-            state.updateBoard(inputPosition);
-            Display.printBoard(state.getBoard());
-        }
+            game.updateBoard(inputPosition);
 
+        }
+        Display.printBoard(game.getBoard());
     }
 
     private Position chooseNextMove() {
@@ -82,15 +84,15 @@ public class Game {
             Display.printExceptionCause(negativeCoordinate);
             return chooseNextMove();
         }
-        if(state.outsideBoardMove(inputPosition)){
+        if(game.outsideBoardMove(inputPosition)){
             Display.positionOutsideBoardMessage();
             return chooseNextMove();
         }
-        else if(state.isAlreadyOccupied(inputPosition)){
+        else if(game.isAlreadyOccupied(inputPosition)){
             Display.alreadyPlayedPositionMessage();
             return chooseNextMove();
         }
-        else if(state.isInvalidMove(inputPosition)){
+        else if(game.isInvalidMove(inputPosition)){
             Display.invalidMoveMessage();
             return chooseNextMove();
         }
@@ -98,7 +100,7 @@ public class Game {
     }
 
     public boolean checkWin() {
-        if(state.someoneHasWon()) {
+        if(game.someoneHasWon()) {
             Display.winMessage(getLastPlayer());
             return true;
         }

@@ -1,4 +1,4 @@
-package konobi;
+package konobi.InputOutput;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

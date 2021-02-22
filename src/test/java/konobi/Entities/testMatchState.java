@@ -1,6 +1,5 @@
-package konobi;
+package konobi.Entities;
 
-import konobi.Entities.GameState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,13 +7,13 @@ import static konobi.Entities.Position.at;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-public class testGameState {
+public class testMatchState {
 
-    private GameState state;
+    private Game state;
 
     @BeforeEach
     public void initialize(){
-        state = new GameState(5);
+        state = new Game(5, Color.BLACK);
     }
 
     @Test

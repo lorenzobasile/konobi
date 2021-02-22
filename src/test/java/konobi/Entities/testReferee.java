@@ -1,4 +1,4 @@
-package konobi;
+package konobi.Entities;
 
 import konobi.Entities.*;
 import org.junit.jupiter.api.BeforeEach;
