@@ -7,7 +7,7 @@ import konobi.InputOutput.InputHandler;
 
 public class Match {
 
-    private final Game game;
+    private final GameState gameState;
     private final Player player1;
     private final Player player2;
 
@@ -26,13 +26,13 @@ public class Match {
     public Match(int dimension, Player player1, Player player2) {
         this.player1 = player1;
         this.player2 = player2;
-        game = new Game(dimension, player1.getColor());
+        gameState = new GameState(dimension, player1.getColor());
     }
 
     private void checkAndApplyPieRule() {
         try {
             if (InputHandler.inputPie(getCurrentPlayer())) {
-                game.applyPieRule();
+                gameState.applyPieRule();
                 player1.switchColorsWith(player2);
                 Display.playerColorsMessage(player1, player2);
             }
@@ -43,7 +43,7 @@ public class Match {
     }
 
     private Player getCurrentPlayer(){
-        if(game.getCurrentColor()==player1.getColor())
+        if(gameState.getCurrentColor()==player1.getColor())
             return player1;
         else
             return player2;
@@ -57,20 +57,20 @@ public class Match {
     }
 
     public void singleTurn() {
-        if(game.currentPlayerCanApplyPieRule()) {
+        if(gameState.currentPlayerCanApplyPieRule()) {
             checkAndApplyPieRule();
         }
         Display.currentPlayerMessage(getCurrentPlayer());
-        if(game.currentPlayerHasToPass()){
-            game.applyPass();
+        if(gameState.currentPlayerHasToPass()){
+            gameState.applyPass();
             Display.passMessage(getLastPlayer());
         }
         else{
             Position inputPosition = chooseNextMove();
-            game.updateBoard(inputPosition);
+            gameState.updateBoard(inputPosition);
 
         }
-        Display.printBoard(game.getBoard());
+        Display.printBoard(gameState.getBoard());
     }
 
     private Position chooseNextMove() {
@@ -84,15 +84,15 @@ public class Match {
             Display.printExceptionCause(negativeCoordinate);
             return chooseNextMove();
         }
-        if(game.outsideBoardMove(inputPosition)){
+        if(gameState.outsideBoardMove(inputPosition)){
             Display.positionOutsideBoardMessage();
             return chooseNextMove();
         }
-        else if(game.isAlreadyOccupied(inputPosition)){
+        else if(gameState.isAlreadyOccupied(inputPosition)){
             Display.alreadyPlayedPositionMessage();
             return chooseNextMove();
         }
-        else if(game.isInvalidMove(inputPosition)){
+        else if(gameState.isInvalidMove(inputPosition)){
             Display.invalidMoveMessage();
             return chooseNextMove();
         }
@@ -100,7 +100,7 @@ public class Match {
     }
 
     public boolean checkWin() {
-        if(game.someoneHasWon()) {
+        if(gameState.someoneHasWon()) {
             Display.winMessage(getLastPlayer());
             return true;
         }

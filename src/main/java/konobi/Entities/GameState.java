@@ -2,7 +2,7 @@ package konobi.Entities;
 
 import java.util.Set;
 
-public class Game {
+public class GameState {
     private final Board board;
     private Color currentColor;
     private final Referee referee;
@@ -16,7 +16,7 @@ public class Game {
         return currentColor;
     }
 
-    public Game(int dimension, Color initialColor){
+    public GameState(int dimension, Color initialColor){
         board = new Board(dimension);
         currentColor = initialColor;
         referee = new Referee(board);
