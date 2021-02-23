@@ -1,37 +1,29 @@
-package konobi;
+package konobi.StandardIO;
 
 import konobi.Entities.*;
 import konobi.InputOutput.Display;
 import konobi.InputOutput.InputHandler;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.Socket;
 
 
 public class Match {
 
-    private final GameState gameState;
+    protected final GameState gameState;
     private final Player player1;
     private final Player player2;
-    private InputHandler inputHandler;
-    private Display display;
+    protected InputHandler inputHandler;
+    protected Display display;
 
-
-    public static Match init(InputStream client1InputStream, InputStream client2InputStream, OutputStream client1OutputStream, OutputStream client2OutputStream) throws IOException {
+    public static Match init() throws IOException {
         Display display=new Display();
-        InputHandler inputHandler=new InputHandler(System.in, display);
-        display.setOut(client1OutputStream);
-        inputHandler.setIn(client1InputStream);
+        InputHandler inputHandler=new InputHandler(display);
         display.welcomeMessage();
         int dimension = inputHandler.getDimension();
         String player1Name = inputHandler.inputPlayerName(1);
-        display.setOut(client2OutputStream);
-        inputHandler.setIn(client2InputStream);
         String player2Name = inputHandler.inputPlayerName(2);
-        Player player1 = new Player(Color.BLACK, player1Name, client1InputStream, client1OutputStream);
-        Player player2 = new Player(Color.WHITE, player2Name, client2InputStream, client2OutputStream);
+        Player player1 = new Player(Color.BLACK, player1Name);
+        Player player2 = new Player(Color.WHITE, player2Name);
         Match match = new Match(dimension, player1, player2, inputHandler, display);
         display.playerColorsMessage(player1, player2);
         return match;
@@ -45,7 +37,7 @@ public class Match {
         gameState = new GameState(dimension, player1.getColor());
     }
 
-    private void checkAndApplyPieRule() {
+    protected void checkAndApplyPieRule() {
         try {
             if (inputHandler.inputPie(getCurrentPlayer())) {
                 gameState.applyPieRule();
@@ -58,14 +50,14 @@ public class Match {
         }
     }
 
-    private Player getCurrentPlayer(){
+    protected Player getCurrentPlayer(){
         if(gameState.getCurrentColor()==player1.getColor())
             return player1;
         else
             return player2;
     }
 
-    private Player getLastPlayer(){
+    protected Player getLastPlayer(){
         if(getCurrentPlayer()==player1)
             return player2;
         else
@@ -73,13 +65,8 @@ public class Match {
     }
 
     public void singleTurn() throws IOException {
-        inputHandler.setIn(getCurrentPlayer().getInputStream());
-        display.setOut(getCurrentPlayer().getOutputStream());
-        display.printBoard(gameState.getBoard());
         if(gameState.currentPlayerCanApplyPieRule()) {
             checkAndApplyPieRule();
-            inputHandler.setIn(getCurrentPlayer().getInputStream());
-            display.setOut(getCurrentPlayer().getOutputStream());
         }
         display.currentPlayerMessage(getCurrentPlayer());
         if(gameState.currentPlayerHasToPass()){
@@ -94,7 +81,7 @@ public class Match {
         display.printBoard(gameState.getBoard());
     }
 
-    private Position chooseNextMove() {
+    protected Position chooseNextMove() {
         Position inputPosition;
         try{
             inputPosition = inputHandler.inputMove();
