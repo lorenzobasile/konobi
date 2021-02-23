@@ -7,7 +7,6 @@ import java.util.Scanner;
 import static konobi.Entities.Position.at;
 
 import konobi.Entities.Color;
-import konobi.InputOutput.InputHandler;
 import konobi.Entities.Player;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,7 +19,7 @@ public class testInputHandler {
     public void dimensionFiveIsReceived() throws Exception{
         String dimension = "5";
         InputStream in = new ByteArrayInputStream(dimension.getBytes());
-        InputHandler.setStdIn(new Scanner(in));
+        InputHandler.setIn(in);
         assertEquals(5, InputHandler.inputDimension());
     }
 
@@ -28,7 +27,7 @@ public class testInputHandler {
     public void yesAnswerIsReceived() throws Exception{
         String input = "y";
         InputStream in = new ByteArrayInputStream(input.getBytes());
-        InputHandler.setStdIn(new Scanner(in));
+        InputHandler.setIn(in);
         assertTrue(InputHandler.inputPie(new Player(Color.BLACK, "player")));
 
     }
@@ -38,7 +37,7 @@ public class testInputHandler {
         String x = "1\n1";
         InputStream in = new ByteArrayInputStream(x.getBytes());
         System.setIn(in);
-        InputHandler.setStdIn(new Scanner(in));
+        InputHandler.setIn(in);
         assertEquals(at(1, 1), InputHandler.inputMove());
 
     }

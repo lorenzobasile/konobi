@@ -4,20 +4,28 @@ import konobi.Entities.*;
 import konobi.InputOutput.Display;
 import konobi.InputOutput.InputHandler;
 
+import java.io.IOException;
+import java.net.Socket;
+
 
 public class Match {
 
     private final GameState gameState;
     private final Player player1;
     private final Player player2;
+    private Socket client1Socket;
+    private Socket client2Socket;
 
-    public static Match init() {
+
+    public static Match init() throws IOException {
         Display.welcomeMessage();
         int dimension = InputHandler.getDimension();
         String player1Name = InputHandler.inputPlayerName(1);
         String player2Name = InputHandler.inputPlayerName(2);
         Player player1 = new Player(Color.BLACK, player1Name);
         Player player2 = new Player(Color.WHITE, player2Name);
+        Socket client1Socket = new Socket();
+        Socket client2Socket = new Socket();
         Match match = new Match(dimension, player1, player2);
         Display.playerColorsMessage(player1, player2);
         return match;
