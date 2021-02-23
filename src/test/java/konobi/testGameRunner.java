@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class testGameRunner {
+/*
     @ParameterizedTest
     @CsvSource({"match.txt", "match2.txt", "match3.txt", "match4_crosscut.txt", "match_pass.txt"})
     public void simulateGameAndCheckWinner(String fileName) throws IOException, URISyntaxException {
@@ -35,6 +36,6 @@ public class testGameRunner {
         List<String> outputLines = outputString.lines().collect(Collectors.toList());
         String winnerOutputString = outputLines.get(outputLines.size()-1);
         assertEquals("Congratulations " + expectedWinnerName + ", you won!", winnerOutputString);
-    }
+    }*/
 
 }

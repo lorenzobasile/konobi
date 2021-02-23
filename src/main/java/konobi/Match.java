@@ -5,6 +5,8 @@ import konobi.InputOutput.Display;
 import konobi.InputOutput.InputHandler;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 
 
@@ -17,19 +19,19 @@ public class Match {
     private Display display;
 
 
-    public static Match init(Socket client1Socket, Socket client2Socket) throws IOException {
+    public static Match init(InputStream client1InputStream, InputStream client2InputStream, OutputStream client1OutputStream, OutputStream client2OutputStream) throws IOException {
         Display display=new Display();
         InputHandler inputHandler=new InputHandler(System.in, display);
-        display.setOut(client1Socket.getOutputStream());
-        inputHandler.setIn(client1Socket.getInputStream());
+        display.setOut(client1OutputStream);
+        inputHandler.setIn(client1InputStream);
         display.welcomeMessage();
         int dimension = inputHandler.getDimension();
         String player1Name = inputHandler.inputPlayerName(1);
-        display.setOut(client2Socket.getOutputStream());
-        inputHandler.setIn(client2Socket.getInputStream());
+        display.setOut(client2OutputStream);
+        inputHandler.setIn(client2InputStream);
         String player2Name = inputHandler.inputPlayerName(2);
-        Player player1 = new Player(Color.BLACK, player1Name, client1Socket.getInputStream(), client1Socket.getOutputStream());
-        Player player2 = new Player(Color.WHITE, player2Name, client2Socket.getInputStream(), client2Socket.getOutputStream());
+        Player player1 = new Player(Color.BLACK, player1Name, client1InputStream, client1OutputStream);
+        Player player2 = new Player(Color.WHITE, player2Name, client2InputStream, client2OutputStream);
         Match match = new Match(dimension, player1, player2, inputHandler, display);
         display.playerColorsMessage(player1, player2);
         return match;

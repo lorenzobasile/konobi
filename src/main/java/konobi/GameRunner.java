@@ -15,7 +15,7 @@ public class GameRunner {
             ServerSocket serverSocket = new ServerSocket(4444);
             Socket client1Socket = serverSocket.accept();
             Socket client2Socket = serverSocket.accept();
-            Match match = Match.init(client1Socket, client2Socket);
+            Match match = Match.init(client1Socket.getInputStream(), client2Socket.getInputStream(), client1Socket.getOutputStream(), client2Socket.getOutputStream());
             do {
                 match.singleTurn();
             } while (!match.checkWin());
