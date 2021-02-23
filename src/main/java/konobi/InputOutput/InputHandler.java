@@ -15,43 +15,51 @@ import static konobi.Entities.Position.at;
 
 public class InputHandler {
 
-    public static void setIn(InputStream in) {
-        InputHandler.in = new BufferedReader(new InputStreamReader(in));
+    public void setIn(InputStream in) {
+        this.in = new BufferedReader(new InputStreamReader(in));
     }
 
-    private static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+    private BufferedReader in;
+    private Display display;
 
-    public static int getDimension(){
+    public InputHandler(InputStream in, Display display){
+        this.in = new BufferedReader(new InputStreamReader(in));
+        this.display=display;
+    }
+    public int getDimension(){
         int dimension;
         try {
             dimension = inputDimension();
         } catch(NumberFormatException notANumber){
-            Display.notAnIntegerMessage();
+            display.notAnIntegerMessage();
             return getDimension();
-        } catch(Exception negativeDimension){
-            Display.printExceptionCause(negativeDimension);
+        } catch(NegativeNumberException negativeDimension){
+            display.printExceptionCause(negativeDimension);
+            return getDimension();
+        } catch(Exception generalException){
+            display.printExceptionCause(generalException);
             return getDimension();
         }
         return dimension;
     }
 
-    public static int inputDimension() throws Exception{
-        Display.inputBoardDimensionMessage();
+    public int inputDimension() throws Exception{
+        display.inputBoardDimensionMessage();
         String stringDimension = in.readLine();
         int dimension = Integer.parseInt(stringDimension);
         if (dimension < 1) {
             throw new NegativeNumberException("Negative dimension: please reinsert");
         }
-        Display.printEmptyLine();
+        display.printEmptyLine();
         return dimension;
     }
 
 
-    public static Position inputMove() throws Exception{
-        Display.inputXCoordinateMessage();
+    public Position inputMove() throws Exception{
+        display.inputXCoordinateMessage();
         String stringInput = in.readLine();
         int x = Integer.parseInt(stringInput);
-        Display.inputYCoordinateMessage();
+        display.inputYCoordinateMessage();
         stringInput = in.readLine();
         int y = Integer.parseInt(stringInput);
         if (x<1 || y<1) {
@@ -60,8 +68,8 @@ public class InputHandler {
         return at(x,y);
     }
 
-    public static boolean inputPie(Player currentPlayer) throws Exception{
-        Display.askPieRuleMessage(currentPlayer.getName());
+    public boolean inputPie(Player currentPlayer) throws Exception{
+        display.askPieRuleMessage(currentPlayer.getName());
         String answer = in.readLine();
         if(answer.equals("y"))
             return true;
@@ -72,8 +80,8 @@ public class InputHandler {
     }
 
 
-    public static String inputPlayerName(int whichPlayer) throws IOException {
-        Display.playerNameMessage(whichPlayer);
+    public String inputPlayerName(int whichPlayer) throws IOException {
+        display.playerNameMessage(whichPlayer);
         return in.readLine();
     }
 

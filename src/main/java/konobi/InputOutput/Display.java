@@ -2,10 +2,20 @@ package konobi.InputOutput;
 
 import konobi.Entities.*;
 
+import java.io.OutputStream;
+import java.io.PrintWriter;
+
 import static konobi.Entities.Position.at;
 
 
 public class Display {
+
+    public void setOut(OutputStream out) {
+        this.out = new PrintWriter(out, true);
+    }
+
+    PrintWriter out = new PrintWriter(System.out, true);
+
 
     private static final String KONOBI_LOGO = " __  ___   ______   .__   __.   ______   .______    __ \n" +
             "|  |/  /  /  __  \\  |  \\ |  |  /  __  \\  |   _  \\  |  |\n" +
@@ -24,79 +34,84 @@ public class Display {
     public static final String ANSI_BLACK_CIRCLE = "\u26AB";
     public static final String ANSI_WHITE_CIRCLE = "\u26AA";
 
-    public static void welcomeMessage(){
-        System.out.println(KONOBI_LOGO);
-        System.out.println("Welcome to Konobi!");
-        System.out.println("Official rules and documentation: "+RULES_PAGE);
-        System.out.println();
+    public void welcomeMessage(){
+        out.println(KONOBI_LOGO);
+        out.println("Welcome to Konobi!");
+        out.println("Official rules and documentation: "+RULES_PAGE);
+        out.println();
     }
 
-    public static void printEmptyLine(){
-        System.out.println();
+    public void printEmptyLine(){
+        out.println();
     }
 
-    public static void inputBoardDimensionMessage() {
-        System.out.print("Please, insert the dimension of the board: ");
+    public void inputBoardDimensionMessage() {
+        out.print("Please, insert the dimension of the board: ");
+        out.flush();
     }
 
-    public static void notAnIntegerMessage() {
-        System.out.println("Not an integer: reinsert");
+    public void notAnIntegerMessage() {
+        out.println("Not an integer: reinsert");
     }
 
-    public static void inputXCoordinateMessage() {
-        System.out.print("Enter x coordinate: ");
+    public void inputXCoordinateMessage() {
+        out.print("Enter x coordinate: ");
+        out.flush();
     }
 
-    public static void inputYCoordinateMessage() {
-        System.out.print("Enter y coordinate: ");
+    public void inputYCoordinateMessage() {
+        out.print("Enter y coordinate: ");
+        out.flush();
     }
 
-    public static void askPieRuleMessage(String name) {
-        System.out.print(name + ", do you want to apply the pie rule? (y/n) ");
+    public void askPieRuleMessage(String name) {
+        out.print(name + ", do you want to apply the pie rule? (y/n) ");
+        out.flush();
     }
 
-    public static void playerColorsMessage(Player player1, Player player2){
-        System.out.println();
-        System.out.println(player1.getName()+" is "+player1.getColor()+", "+player2.getName()+" is "+player2.getColor());
+    public void playerColorsMessage(Player player1, Player player2){
+        out.println();
+        out.println(player1.getName()+" is "+player1.getColor()+", "+player2.getName()+" is "+player2.getColor());
     }
 
-    public static void currentPlayerMessage(Player currentPlayer) {
-        System.out.println();
-        System.out.println(currentPlayer.getName()+", it's your turn!");
+    public void currentPlayerMessage(Player currentPlayer) {
+        out.println();
+        out.println(currentPlayer.getName()+", it's your turn!");
     }
 
-    public static void playerNameMessage(int whichPlayer) {
-        System.out.print("Player " + whichPlayer + ": what's your name? ");
+    public void playerNameMessage(int whichPlayer) {
+        out.print("Player " + whichPlayer + ": what's your name? ");
+        out.flush();
     }
 
-    public static void winMessage(Player currentPlayer) {
-        System.out.println("Congratulations " + currentPlayer.getName() + ", you won!");
+    public void winMessage(Player currentPlayer) {
+        out.println("Congratulations " + currentPlayer.getName() + ", you won!");
     }
 
-    public static void positionOutsideBoardMessage() {
-        System.out.println("The position you inserted is outside the board, please reinsert");
+    public void positionOutsideBoardMessage() {
+        out.println("The position you inserted is outside the board, please reinsert");
     }
 
-    public static void invalidMoveMessage() {
-        System.out.println("This move is illegal, please reinsert");
+    public void invalidMoveMessage() {
+        out.println("This move is illegal, please reinsert");
     }
 
-    public static void alreadyPlayedPositionMessage() {
-        System.out.println("This position is already occupied, please reinsert");
+    public void alreadyPlayedPositionMessage() {
+        out.println("This position is already occupied, please reinsert");
     }
 
-    public static void passMessage(Player currentPlayer) {
-        System.out.println("No available moves for "+currentPlayer.getName()+", who must pass");
+    public void passMessage(Player currentPlayer) {
+        out.println("No available moves for "+currentPlayer.getName()+", who must pass");
     }
 
-    public static void printExceptionCause(Exception e) {
-        System.out.println(e.getMessage());
+    public void printExceptionCause(Exception e) {
+        out.println(e.getMessage());
     }
 
     //private static BiConsumer<Position, Board> printConsumer = (position, board) -> displayPosition(position, board);
 
-    public static void printBoard(Board board) {
-        System.out.println();
+    public void printBoard(Board board) {
+        out.println();
         /*IntStream.range(0, board.dimension())
                 .map(i -> board.dimension() - i)
                 .mapToObj(i -> IntStream.rangeClosed(1, board.dimension())
@@ -111,50 +126,50 @@ public class Display {
                 drawSquareAt(position);
                 ifPresentDrawStoneAt(position, board);
             }
-            System.out.println();
+            out.println();
         }
     }
 
-    private static void ifPresentDrawStoneAt(Position position, Board board) {
+    private void ifPresentDrawStoneAt(Position position, Board board) {
         Cell cell = board.getCell(position);
         if (board.getCell(position).isOccupied()){
             if (cell.hasColor(Color.BLACK)){
-                System.out.print(ANSI_BLACK + ANSI_BLACK_CIRCLE + ANSI_RESET);
+                out.print(ANSI_BLACK + ANSI_BLACK_CIRCLE + ANSI_RESET);
             }
             else{
-                System.out.print(ANSI_WHITE + ANSI_WHITE_CIRCLE + ANSI_RESET);
+                out.print(ANSI_WHITE + ANSI_WHITE_CIRCLE + ANSI_RESET);
             }
         } else {
-            System.out.print("  " + ANSI_RESET);
+            out.print("  " + ANSI_RESET);
         }
     }
 
-    private static void drawSquareAt(Position position) {
+    private void drawSquareAt(Position position) {
         if((position.getX()+ position.getY()) % 2 == 0){
-            System.out.print(ANSI_BROWN);
+            out.print(ANSI_BROWN);
         }
         else{
-            System.out.print(ANSI_BEIGE);
+            out.print(ANSI_BEIGE);
         }
     }
 
 /*
 public static void displayPosition(Position position, Board board) {
     if ((position.getX() + position.getY()) % 2 == 0) {
-        System.out.print(ANSI_BROWN);
+        out.print(ANSI_BROWN);
     } else {
-        System.out.print(ANSI_BEIGE);
+        out.print(ANSI_BEIGE);
     }
     if (board.getCell(position).isOccupied()) {
         Cell cell = board.getCell(position);
         if (cell.hasColor(Color.BLACK)) {
-            System.out.print(ANSI_BLACK + "\u26AB" + ANSI_RESET);
+            out.print(ANSI_BLACK + "\u26AB" + ANSI_RESET);
         } else {
-            System.out.print(ANSI_WHITE + "\u26AA" + ANSI_RESET);
+            out.print(ANSI_WHITE + "\u26AA" + ANSI_RESET);
         }
     } else {
-        System.out.print("  " + ANSI_RESET);
+        out.print("  " + ANSI_RESET);
     }
-    if(position.getX()==board.dimension()) System.out.println();
+    if(position.getX()==board.dimension()) out.println();
 }*/
 }
