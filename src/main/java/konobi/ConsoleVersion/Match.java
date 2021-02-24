@@ -39,17 +39,10 @@ public class Match {
         gameState = new GameState(dimension, player1.getColor());
     }
 
-    protected void checkAndApplyPieRule() throws IOException{
-        try {
-            if (inputHandler.inputPie(getCurrentPlayer())) {
-                gameState.applyPieRule();
-                player1.switchColorsWith(player2);
-                display.playerColorsMessage(player1, player2);
-            }
-        } catch(WrongAnswerException wrongInput){
-            display.printExceptionCause(wrongInput);
-            checkAndApplyPieRule();
-        }
+    protected void applyPieRule() {
+        gameState.applyPieRule();
+        player1.switchColorsWith(player2);
+        display.playerColorsMessage(player1, player2);
     }
 
     protected Player getCurrentPlayer(){
@@ -67,20 +60,26 @@ public class Match {
     }
 
     public void singleTurn() throws IOException {
-        if(gameState.currentPlayerCanApplyPieRule()) {
-            checkAndApplyPieRule();
-        }
-        display.currentPlayerMessage(getCurrentPlayer());
-        if(gameState.currentPlayerHasToPass()){
-            gameState.applyPass();
-            display.passMessage(getLastPlayer());
-        }
-        else{
-            Position inputPosition = chooseNextMove();
-            gameState.updateBoard(inputPosition);
 
+        display.currentPlayerMessage(getCurrentPlayer());
+        if(gameState.currentPlayerCanApplyPieRule() && inputHandler.playerWantsToApplyPieRule(getCurrentPlayer())) {
+            applyPieRule();
+        } else {
+            regularMove();
         }
         display.printBoard(gameState.getBoard());
+        gameState.changeTurn();
+    }
+
+
+    protected void regularMove() throws IOException {
+        if(gameState.currentPlayerHasToPass()) {
+            display.passMessage(getLastPlayer());
+        }
+        else {
+            Position inputPosition = chooseNextMove();
+            gameState.updateBoard(inputPosition);
+        }
     }
 
     protected Position chooseNextMove() throws IOException{

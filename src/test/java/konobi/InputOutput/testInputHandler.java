@@ -28,7 +28,7 @@ public class testInputHandler {
         String input = "y";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         inputHandler.setIn(in);
-        assertTrue(inputHandler.inputPie(new Player(Color.BLACK, "player", System.in, System.out)));
+        assertTrue(inputHandler.playerWantsToApplyPieRule(new Player(Color.BLACK, "player", System.in, System.out)));
 
     }
 

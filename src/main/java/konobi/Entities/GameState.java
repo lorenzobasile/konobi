@@ -23,6 +23,7 @@ public class GameState {
         movesCounter = 1;
     }
 
+
     private void switchCurrentColor() {
         currentColor=currentColor.opposite();
     }
@@ -31,24 +32,24 @@ public class GameState {
         movesCounter += 1;
     }
 
+    public void changeTurn() {
+        switchCurrentColor();
+        incrementCounter();
+    }
+
     public void updateBoard(Position inputPosition){
         Color newStone = currentColor;
         board.placeStone(inputPosition, newStone);
-        incrementCounter();
-        switchCurrentColor();
     }
 
     public void applyPieRule(){
-        incrementCounter();
+        switchCurrentColor();
     }
 
     public boolean currentPlayerCanApplyPieRule() {
         return movesCounter==2;
     }
 
-    public void applyPass() {
-        switchCurrentColor();
-    }
 
     public boolean currentPlayerHasToPass() {
         Set<Cell> availableCells = referee.availableCellsFor(currentColor);

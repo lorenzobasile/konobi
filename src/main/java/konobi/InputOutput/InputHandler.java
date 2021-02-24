@@ -69,7 +69,7 @@ public class InputHandler {
         return at(x,y);
     }
 
-    public boolean inputPie(Player currentPlayer) throws IOException, WrongAnswerException{
+    public boolean getAnswerForPieRule(Player currentPlayer) throws WrongAnswerException, IOException {
         display.askPieRuleMessage(currentPlayer.getName());
         String answer = in.readLine();
         if(answer.equals("y"))
@@ -78,6 +78,18 @@ public class InputHandler {
             return false;
         else
             throw new WrongAnswerException("Invalid answer: please reinsert");
+    }
+
+    public boolean playerWantsToApplyPieRule(Player currentPlayer) throws IOException {
+        boolean answer;
+        try {
+            answer = getAnswerForPieRule(currentPlayer);
+        }
+        catch(WrongAnswerException exception) {
+            display.printExceptionCause(exception);
+            return playerWantsToApplyPieRule(currentPlayer);
+        }
+        return answer;
     }
 
 

@@ -46,7 +46,9 @@ public class testGameState {
     @Test
     public void nextMoveIsInvalid() {
         state.updateBoard(at(1,1));
+        state.changeTurn();
         state.updateBoard(at(2,1));
+        state.changeTurn();
         assertTrue(state.isInvalidMove(at(2,2)));
     }
 
@@ -61,6 +63,7 @@ public class testGameState {
             int x = Integer.parseInt(fileLines.get(i));
             int y = Integer.parseInt(fileLines.get(i+1));
             state.updateBoard(at(x, y));
+            state.changeTurn();
         }
 
         assertTrue(state.currentPlayerHasToPass());

@@ -1,3 +1,4 @@
+
 package konobi.ClientServerVersion;
 
 import konobi.Entities.Color;
@@ -36,22 +37,16 @@ public class MatchCS extends Match {
     public void singleTurn() throws IOException {
         setIO();
         display.printBoard(gameState.getBoard());
-        if(gameState.currentPlayerCanApplyPieRule()) {
-            checkAndApplyPieRule();
-            setIO();
-        }
         display.currentPlayerMessage(getCurrentPlayer());
-        if(gameState.currentPlayerHasToPass()){
-            gameState.applyPass();
-            display.passMessage(getLastPlayer());
-        }
-        else{
-            Position inputPosition = chooseNextMove();
-            gameState.updateBoard(inputPosition);
-
+        if(gameState.currentPlayerCanApplyPieRule() && inputHandler.playerWantsToApplyPieRule(getCurrentPlayer())) {
+            applyPieRule();
+        } else {
+            regularMove();
         }
         display.printBoard(gameState.getBoard());
+        gameState.changeTurn();
     }
+
 
 
     private void setIO() {

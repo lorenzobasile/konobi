@@ -10,7 +10,7 @@ repositories {
 jar {
     manifest {
         attributes (
-                'Main-Class': 'konobi.GameRunner'
+                'Main-Class': 'konobi.ConsoleVersion.GameRunner'
         )
     }
 }
