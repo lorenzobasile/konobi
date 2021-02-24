@@ -1,7 +1,9 @@
-package konobi.StandardIO;
+package konobi.ConsoleVersion;
 
 import konobi.Entities.*;
 import konobi.InputOutput.Display;
+import konobi.InputOutput.Exceptions.NegativeNumberException;
+import konobi.InputOutput.Exceptions.WrongAnswerException;
 import konobi.InputOutput.InputHandler;
 
 import java.io.IOException;
@@ -37,14 +39,14 @@ public class Match {
         gameState = new GameState(dimension, player1.getColor());
     }
 
-    protected void checkAndApplyPieRule() {
+    protected void checkAndApplyPieRule() throws IOException{
         try {
             if (inputHandler.inputPie(getCurrentPlayer())) {
                 gameState.applyPieRule();
                 player1.switchColorsWith(player2);
                 display.playerColorsMessage(player1, player2);
             }
-        } catch(Exception wrongInput){
+        } catch(WrongAnswerException wrongInput){
             display.printExceptionCause(wrongInput);
             checkAndApplyPieRule();
         }
@@ -81,14 +83,14 @@ public class Match {
         display.printBoard(gameState.getBoard());
     }
 
-    protected Position chooseNextMove() {
+    protected Position chooseNextMove() throws IOException{
         Position inputPosition;
         try{
             inputPosition = inputHandler.inputMove();
         } catch(NumberFormatException notANumber){
             display.notAnIntegerMessage();
             return chooseNextMove();
-        } catch(Exception negativeCoordinate){
+        } catch(NegativeNumberException negativeCoordinate){
             display.printExceptionCause(negativeCoordinate);
             return chooseNextMove();
         }

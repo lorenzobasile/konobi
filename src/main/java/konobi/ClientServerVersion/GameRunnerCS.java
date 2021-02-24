@@ -1,4 +1,4 @@
-package konobi.ClientServer;
+package konobi.ClientServerVersion;
 
 import java.io.IOException;
 import java.net.ServerSocket;

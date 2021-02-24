@@ -1,7 +1,7 @@
 package konobi;
 
 
-import konobi.StandardIO.GameRunner;
+import konobi.ConsoleVersion.GameRunner;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 

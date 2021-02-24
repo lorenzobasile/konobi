@@ -9,12 +9,20 @@ import static konobi.Entities.Position.at;
 
 
 public class Display {
+    PrintWriter out;
 
     public void setOut(OutputStream out) {
         this.out = new PrintWriter(out, true);
     }
 
-    PrintWriter out = new PrintWriter(System.out, true);
+
+    public Display(OutputStream out) {
+        this.out = new PrintWriter(out, true);
+    }
+
+    public Display(){
+        out = new PrintWriter(System.out, true);
+    }
 
 
     private static final String KONOBI_LOGO = " __  ___   ______   .__   __.   ______   .______    __ \n" +

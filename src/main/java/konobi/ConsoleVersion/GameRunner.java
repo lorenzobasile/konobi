@@ -1,4 +1,4 @@
-package konobi.StandardIO;
+package konobi.ConsoleVersion;
 
 import java.io.IOException;
 

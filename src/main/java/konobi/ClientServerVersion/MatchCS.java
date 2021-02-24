@@ -1,11 +1,11 @@
-package konobi.ClientServer;
+package konobi.ClientServerVersion;
 
 import konobi.Entities.Color;
 import konobi.Entities.Player;
 import konobi.Entities.Position;
 import konobi.InputOutput.Display;
 import konobi.InputOutput.InputHandler;
-import konobi.StandardIO.Match;
+import konobi.ConsoleVersion.Match;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,10 +14,8 @@ import java.io.OutputStream;
 public class MatchCS extends Match {
 
     public static MatchCS init(InputStream client1InputStream, InputStream client2InputStream, OutputStream client1OutputStream, OutputStream client2OutputStream) throws IOException {
-        Display display=new Display();
-        InputHandler inputHandler=new InputHandler(System.in, display);
-        display.setOut(client1OutputStream);
-        inputHandler.setIn(client1InputStream);
+        Display display=new Display(client1OutputStream);
+        InputHandler inputHandler=new InputHandler(client1InputStream, display);
         display.welcomeMessage();
         int dimension = inputHandler.getDimension();
         String player1Name = inputHandler.inputPlayerName(1);

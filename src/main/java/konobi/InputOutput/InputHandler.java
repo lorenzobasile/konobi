@@ -30,7 +30,7 @@ public class InputHandler {
         this.display=display;
     }
 
-    public int getDimension(){
+    public int getDimension() throws IOException{
         int dimension;
         try {
             dimension = inputDimension();
@@ -40,14 +40,11 @@ public class InputHandler {
         } catch(NegativeNumberException negativeDimension){
             display.printExceptionCause(negativeDimension);
             return getDimension();
-        } catch(Exception generalException){
-            display.printExceptionCause(generalException);
-            return getDimension();
         }
         return dimension;
     }
 
-    public int inputDimension() throws Exception{
+    public int inputDimension() throws IOException, NegativeNumberException, NumberFormatException{
         display.inputBoardDimensionMessage();
         String stringDimension = in.readLine();
         int dimension = Integer.parseInt(stringDimension);
@@ -59,7 +56,7 @@ public class InputHandler {
     }
 
 
-    public Position inputMove() throws Exception{
+    public Position inputMove() throws NegativeNumberException, IOException, NumberFormatException{
         display.inputXCoordinateMessage();
         String stringInput = in.readLine();
         int x = Integer.parseInt(stringInput);
@@ -72,7 +69,7 @@ public class InputHandler {
         return at(x,y);
     }
 
-    public boolean inputPie(Player currentPlayer) throws Exception{
+    public boolean inputPie(Player currentPlayer) throws IOException, WrongAnswerException{
         display.askPieRuleMessage(currentPlayer.getName());
         String answer = in.readLine();
         if(answer.equals("y"))
