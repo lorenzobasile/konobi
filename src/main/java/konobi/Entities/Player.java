@@ -1,34 +1,33 @@
 package konobi.Entities;
 
+import konobi.InputOutput.Display;
+import konobi.InputOutput.InputHandler;
+
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 public class Player {
     private Color color;
     private final String name;
-    private InputStream inputStream=System.in;
-    private OutputStream outputStream=System.out;
+    private InputHandler inputHandler;
+    private Display display;
 
-    public OutputStream getOutputStream() {
-        return outputStream;
+    public InputHandler getInputHandler() {
+        return inputHandler;
     }
 
-    public InputStream getInputStream() {
-        return inputStream;
+    public Display getDisplay() {
+        return display;
     }
 
 
-    public Player(Color color, String name, InputStream inputStream, OutputStream outputStream) {
+    public Player(Color color, String name, InputHandler inputHandler, Display display) {
         this.color = color;
         this.name = name;
-        this.inputStream = inputStream;
-        this.outputStream = outputStream;
+        this.inputHandler = inputHandler;
+        this.display = display;
     }
-    public Player(Color color, String name){
-        this.color=color;
-        this.name=name;
-    }
-
 
     public String getName() {
         return name;

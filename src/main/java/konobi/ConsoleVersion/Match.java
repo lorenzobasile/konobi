@@ -3,7 +3,6 @@ package konobi.ConsoleVersion;
 import konobi.Entities.*;
 import konobi.InputOutput.Display;
 import konobi.InputOutput.Exceptions.NegativeNumberException;
-import konobi.InputOutput.Exceptions.WrongAnswerException;
 import konobi.InputOutput.InputHandler;
 
 import java.io.IOException;
@@ -12,37 +11,51 @@ import java.io.IOException;
 public class Match {
 
     protected final GameState gameState;
-    private final Player player1;
-    private final Player player2;
-    protected InputHandler inputHandler;
-    protected Display display;
+    protected final Player player1;
+    protected final Player player2;
+    
+    public InputHandler currentInputHandler(){
+        return getCurrentPlayer().getInputHandler();
+    }
+    public Display currentDisplay(){
+        return getCurrentPlayer().getDisplay();
+    }
+
+    public InputHandler otherInputHandler(){
+        return getOtherPlayer().getInputHandler();
+    }
+    public Display otherDisplay(){
+        return getOtherPlayer().getDisplay();
+    }
 
     public static Match init() throws IOException {
-        Display display=new Display();
-        InputHandler inputHandler=new InputHandler(display);
-        display.welcomeMessage();
-        int dimension = inputHandler.getDimension();
-        String player1Name = inputHandler.inputPlayerName(1);
-        String player2Name = inputHandler.inputPlayerName(2);
-        Player player1 = new Player(Color.BLACK, player1Name);
-        Player player2 = new Player(Color.WHITE, player2Name);
-        Match match = new Match(dimension, player1, player2, inputHandler, display);
-        display.playerColorsMessage(player1, player2);
+        Display commonDisplay=new Display();
+        InputHandler commonInputHandler=new InputHandler(System.in, commonDisplay);
+        commonDisplay.welcomeMessage();
+        int dimension = commonInputHandler.getDimension();
+        String player1Name = commonInputHandler.inputPlayerName(1);
+        String player2Name = commonInputHandler.inputPlayerName(2);
+        Player player1 = new Player(Color.BLACK, player1Name, commonInputHandler, commonDisplay);
+        Player player2 = new Player(Color.WHITE, player2Name, commonInputHandler, commonDisplay);
+        Match match = new Match(dimension, player1, player2);
+        commonDisplay.playerColorsMessage(player1, player2);
         return match;
     }
 
-    public Match(int dimension, Player player1, Player player2, InputHandler inputHandler, Display display) {
+    public Match(int dimension, Player player1, Player player2) {
         this.player1 = player1;
         this.player2 = player2;
-        this.inputHandler = inputHandler;
-        this.display = display;
         gameState = new GameState(dimension, player1.getColor());
     }
 
     protected void applyPieRule() {
         gameState.applyPieRule();
         player1.switchColorsWith(player2);
-        display.playerColorsMessage(player1, player2);
+        notifyPieRule();
+    }
+
+    protected void notifyPieRule() {
+        currentDisplay().playerColorsMessage(player1, player2);
     }
 
     protected Player getCurrentPlayer(){
@@ -52,7 +65,7 @@ public class Match {
             return player2;
     }
 
-    protected Player getLastPlayer(){
+    protected Player getOtherPlayer(){
         if(getCurrentPlayer()==player1)
             return player2;
         else
@@ -61,20 +74,23 @@ public class Match {
 
     public void singleTurn() throws IOException {
 
-        display.currentPlayerMessage(getCurrentPlayer());
-        if(gameState.currentPlayerCanApplyPieRule() && inputHandler.playerWantsToApplyPieRule(getCurrentPlayer())) {
+        currentDisplay().currentPlayerMessage(getCurrentPlayer());
+        if(gameState.currentPlayerCanApplyPieRule() && currentInputHandler().playerWantsToApplyPieRule(getCurrentPlayer())) {
             applyPieRule();
         } else {
             regularMove();
         }
-        display.printBoard(gameState.getBoard());
+        printBoard(gameState.getBoard());
         gameState.changeTurn();
     }
 
+    protected void printBoard(Board board){
+        currentDisplay().printBoard(board);
+    }
 
     protected void regularMove() throws IOException {
         if(gameState.currentPlayerHasToPass()) {
-            display.passMessage(getLastPlayer());
+            currentDisplay().passMessage(getOtherPlayer());
         }
         else {
             Position inputPosition = chooseNextMove();
@@ -85,24 +101,24 @@ public class Match {
     protected Position chooseNextMove() throws IOException{
         Position inputPosition;
         try{
-            inputPosition = inputHandler.inputMove();
+            inputPosition = currentInputHandler().inputMove();
         } catch(NumberFormatException notANumber){
-            display.notAnIntegerMessage();
+            currentDisplay().notAnIntegerMessage();
             return chooseNextMove();
         } catch(NegativeNumberException negativeCoordinate){
-            display.printExceptionCause(negativeCoordinate);
+            currentDisplay().printExceptionCause(negativeCoordinate);
             return chooseNextMove();
         }
         if(gameState.outsideBoardMove(inputPosition)){
-            display.positionOutsideBoardMessage();
+            currentDisplay().positionOutsideBoardMessage();
             return chooseNextMove();
         }
         else if(gameState.isAlreadyOccupied(inputPosition)){
-            display.alreadyPlayedPositionMessage();
+            currentDisplay().alreadyPlayedPositionMessage();
             return chooseNextMove();
         }
         else if(gameState.isInvalidMove(inputPosition)){
-            display.invalidMoveMessage();
+            currentDisplay().invalidMoveMessage();
             return chooseNextMove();
         }
         return inputPosition;
@@ -110,10 +126,14 @@ public class Match {
 
     public boolean checkWin() {
         if(gameState.someoneHasWon()) {
-            display.winMessage(getLastPlayer());
+            notifyEndOfMatch();
             return true;
         }
         return false;
+    }
+
+    protected void notifyEndOfMatch() {
+        otherDisplay().winMessage(getOtherPlayer());
     }
 
 }

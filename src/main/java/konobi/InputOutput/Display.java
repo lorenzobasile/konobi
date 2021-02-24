@@ -77,6 +77,10 @@ public class Display {
         out.flush();
     }
 
+    public void pieRuleHasBeenApplied() {
+        out.println("Pie rule has been applied: now you are WHITE");
+    }
+
     public void playerColorsMessage(Player player1, Player player2){
         out.println();
         out.println(player1.getName()+" is "+player1.getColor()+", "+player2.getName()+" is "+player2.getColor());
@@ -89,6 +93,11 @@ public class Display {
 
     public void playerNameMessage(int whichPlayer) {
         out.print("Player " + whichPlayer + ": what's your name? ");
+        out.flush();
+    }
+
+    public void playerNameMessage() {
+        out.print("What's your name? ");
         out.flush();
     }
 
@@ -159,6 +168,10 @@ public class Display {
         else{
             out.print(ANSI_BEIGE);
         }
+    }
+
+    public void lossMessage(Player currentPlayer) {
+        out.println(currentPlayer.getName()+" you lost!");
     }
 
 /*

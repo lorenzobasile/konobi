@@ -98,5 +98,10 @@ public class InputHandler {
         return in.readLine();
     }
 
+    public String inputPlayerName() throws IOException {
+        display.playerNameMessage();
+        return in.readLine();
+    }
+
 
 }

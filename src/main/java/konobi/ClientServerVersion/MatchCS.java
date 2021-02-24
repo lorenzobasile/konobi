@@ -1,9 +1,9 @@
 
 package konobi.ClientServerVersion;
 
+import konobi.Entities.Board;
 import konobi.Entities.Color;
 import konobi.Entities.Player;
-import konobi.Entities.Position;
 import konobi.InputOutput.Display;
 import konobi.InputOutput.InputHandler;
 import konobi.ConsoleVersion.Match;
@@ -14,51 +14,44 @@ import java.io.OutputStream;
 
 public class MatchCS extends Match {
 
+
+
     public static MatchCS init(InputStream client1InputStream, InputStream client2InputStream, OutputStream client1OutputStream, OutputStream client2OutputStream) throws IOException {
-        Display display=new Display(client1OutputStream);
-        InputHandler inputHandler=new InputHandler(client1InputStream, display);
-        display.welcomeMessage();
-        int dimension = inputHandler.getDimension();
-        String player1Name = inputHandler.inputPlayerName(1);
-        display.setOut(client2OutputStream);
-        inputHandler.setIn(client2InputStream);
-        String player2Name = inputHandler.inputPlayerName(2);
-        Player player1 = new Player(Color.BLACK, player1Name, client1InputStream, client1OutputStream);
-        Player player2 = new Player(Color.WHITE, player2Name, client2InputStream, client2OutputStream);
-        MatchCS match = new MatchCS(dimension, player1, player2, inputHandler, display);
-        display.playerColorsMessage(player1, player2);
+        Display client1Display=new Display(client1OutputStream);
+        Display client2Display=new Display(client2OutputStream);
+        InputHandler client1InputHandler=new InputHandler(client1InputStream, client1Display);
+        InputHandler client2InputHandler=new InputHandler(client2InputStream, client2Display);
+        client1Display.welcomeMessage();
+        client2Display.welcomeMessage();
+        int dimension = client1InputHandler.getDimension();
+        String player1Name = client1InputHandler.inputPlayerName(1);
+        String player2Name = client2InputHandler.inputPlayerName(2);
+        Player player1 = new Player(Color.BLACK, player1Name, client1InputHandler, client1Display);
+        Player player2 = new Player(Color.WHITE, player2Name, client2InputHandler, client2Display);
+        MatchCS match = new MatchCS(dimension, player1, player2);
+        client1Display.playerColorsMessage(player1, player2);
+        client2Display.playerColorsMessage(player1, player2);
         return match;
     }
 
-    public MatchCS(int dimension, Player player1, Player player2, InputHandler inputHandler, Display display) {
-        super(dimension, player1, player2, inputHandler, display);
+    public MatchCS(int dimension, Player player1, Player player2) {
+        super(dimension, player1, player2);
     }
 
-    public void singleTurn() throws IOException {
-        setIO();
-        display.printBoard(gameState.getBoard());
-        display.currentPlayerMessage(getCurrentPlayer());
-        if(gameState.currentPlayerCanApplyPieRule() && inputHandler.playerWantsToApplyPieRule(getCurrentPlayer())) {
-            applyPieRule();
-        } else {
-            regularMove();
-        }
-        display.printBoard(gameState.getBoard());
-        gameState.changeTurn();
+    public void notifyPieRule() {
+        currentDisplay().playerColorsMessage(player1, player2);
+        otherDisplay().pieRuleHasBeenApplied();
+        otherDisplay().playerColorsMessage(player1, player2);
     }
 
-
-
-    private void setIO() {
-        inputHandler.setIn(getCurrentInputStream());
-        display.setOut(getCurrentOutputStream());
+    public void printBoard(Board board){
+        currentDisplay().printBoard(board);
+        otherDisplay().printBoard(board);
     }
 
-    private OutputStream getCurrentOutputStream() {
-        return getCurrentPlayer().getOutputStream();
+    public void notifyEndOfMatch() {
+        otherDisplay().winMessage(getOtherPlayer());
+        currentDisplay().lossMessage(getCurrentPlayer());
     }
 
-    private InputStream getCurrentInputStream() {
-        return getCurrentPlayer().getInputStream();
-    }
 }
