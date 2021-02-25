@@ -8,13 +8,9 @@ import konobi.InputOutput.Display;
 import konobi.InputOutput.InputHandler;
 import konobi.ConsoleVersion.Match;
 
-import java.io.IOException;
-
 public class MatchCS extends Match {
 
-
-
-    public static MatchCS init(InputHandler client1InputHandler, InputHandler client2InputHandler, Display client1Display, Display client2Display) throws IOException {
+    public static MatchCS init(InputHandler client1InputHandler, InputHandler client2InputHandler, Display client1Display, Display client2Display) {
         client1Display.welcomeMessage();
         client2Display.welcomeMessage();
         int dimension = client1InputHandler.getDimension();

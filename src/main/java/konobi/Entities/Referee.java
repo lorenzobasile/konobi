@@ -12,7 +12,7 @@ public class Referee {
     Board board;
 
     public Referee(Board board){
-        this.board=board;
+        this.board = board;
     }
 
     public boolean validateMove(Cell cell, Color color){

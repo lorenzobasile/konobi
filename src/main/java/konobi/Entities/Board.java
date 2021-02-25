@@ -13,7 +13,7 @@ public class Board extends HashSet<Cell>{
 
     public Board(int dimension) {
         Set<Cell> cellSet = IntStream.rangeClosed(1,dimension)
-                              .mapToObj(i -> IntStream.rangeClosed(1,dimension)
+                                     .mapToObj(i -> IntStream.rangeClosed(1,dimension)
                                                       .mapToObj(j -> new Cell(at(i,j))))
                               .flatMap(Function.identity())
                               .collect(Collectors.toSet());
@@ -36,7 +36,6 @@ public class Board extends HashSet<Cell>{
         cellToOccupy.setColor(color);
     }
 
-
     public Set<Cell> startEdge(Color color){
         return this.stream()
                 .filter(c->c.hasColor(color))
@@ -44,23 +43,16 @@ public class Board extends HashSet<Cell>{
                 .collect(Collectors.toSet());
     }
 
-
-
     public Set<Cell> strongConnectionsOf(Cell cell) {
-        if(!cell.isOccupied())
-            return null;
-
+        if(!cell.isOccupied()) return null;
         return cell.orthogonalNeighborsIn(this).stream()
                                                     .filter(Cell::isOccupied)
                                                     .filter(c->c.hasSameColorAs(cell))
                                                     .collect(Collectors.toSet());
     }
 
-
     public Set<Cell> weakConnectionsOf(Cell cell) {
-        if(!cell.isOccupied())
-            return null;
-
+        if(!cell.isOccupied()) return null;
         return cell.diagonalNeighborsIn(this).stream()
                                                    .filter(Cell::isOccupied)
                                                    .filter(c->c.hasSameColorAs(cell))

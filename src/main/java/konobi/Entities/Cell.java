@@ -12,6 +12,7 @@ public class Cell {
         position = cellPosition;
         isOccupied = false;
     }
+
     public void reset(){
         color = null;
         isOccupied = false;
@@ -21,6 +22,10 @@ public class Cell {
         return position;
     }
 
+    public boolean isAt(Position location){
+        return position.equals(location);
+    }
+
     public boolean isOccupied() {
         return isOccupied;
     }
@@ -28,10 +33,6 @@ public class Cell {
     public void setColor(Color stoneColor) {
         color = stoneColor;
         isOccupied = true;
-    }
-
-    public boolean isAt(Position location){
-        return position.equals(location);
     }
 
     public boolean hasColor(Color color) {
@@ -76,12 +77,4 @@ public class Cell {
         return position.getX()==dimension && color==Color.WHITE || position.getY()==1 && color==Color.BLACK;
     }
 
-    @Override
-    public String toString() {
-        return "Cell{" +
-                "position=" + position +
-                ", isOccupied=" + isOccupied +
-                ", color=" + color +
-                '}';
-    }
 }

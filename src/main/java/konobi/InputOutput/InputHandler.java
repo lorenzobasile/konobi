@@ -4,33 +4,26 @@ import konobi.Entities.Position;
 import konobi.InputOutput.Exceptions.NegativeNumberException;
 import konobi.InputOutput.Exceptions.WrongAnswerException;
 import konobi.Entities.Player;
-
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.util.Scanner;
 
 import static konobi.Entities.Position.at;
 
 public class InputHandler {
 
-    public void setIn(InputStream in) {
-        this.in = new BufferedReader(new InputStreamReader(in));
-    }
-
-    private BufferedReader in=new BufferedReader(new InputStreamReader(System.in));
-    private Display display;
+    private Scanner in;
+    private final Display display;
 
     public InputHandler(InputStream in, Display display){
-        this.in = new BufferedReader(new InputStreamReader(in));
-        this.display=display;
+        this.in = new Scanner(in);
+        this.display = display;
     }
 
-    public InputHandler(Display display){
-        this.display=display;
+    public void setIn(InputStream in) {
+        this.in = new Scanner(in);
     }
-
-    public int getDimension() throws IOException{
+    
+    public int getDimension() {
         int dimension;
         try {
             dimension = inputDimension();
@@ -41,9 +34,9 @@ public class InputHandler {
         return dimension;
     }
 
-    public int inputDimension() throws IOException, NegativeNumberException, NumberFormatException{
+    public int inputDimension() throws NegativeNumberException, NumberFormatException{
         display.inputBoardDimensionMessage();
-        String stringDimension = in.readLine();
+        String stringDimension = in.nextLine();
         int dimension = Integer.parseInt(stringDimension);
         if (dimension < 1) {
             throw new NegativeNumberException("Negative dimension: please reinsert");
@@ -51,14 +44,13 @@ public class InputHandler {
         display.printEmptyLine();
         return dimension;
     }
-
-
-    public Position inputMove() throws NegativeNumberException, IOException, NumberFormatException{
+    
+    public Position inputMove() throws NegativeNumberException, NumberFormatException{
         display.inputXCoordinateMessage();
-        String stringInput = in.readLine();
+        String stringInput = in.nextLine();
         int x = Integer.parseInt(stringInput);
         display.inputYCoordinateMessage();
-        stringInput = in.readLine();
+        stringInput = in.nextLine();
         int y = Integer.parseInt(stringInput);
         if (x<1 || y<1) {
             throw new NegativeNumberException("The position you inserted is outside the board, please reinsert");
@@ -66,9 +58,9 @@ public class InputHandler {
         return at(x,y);
     }
 
-    public boolean getAnswerForPieRule(Player currentPlayer) throws WrongAnswerException, IOException {
+    public boolean getAnswerForPieRule(Player currentPlayer) throws WrongAnswerException {
         display.askPieRuleMessage(currentPlayer.getName());
-        String answer = in.readLine();
+        String answer = in.nextLine();
         if(answer.equals("y"))
             return true;
         else if(answer.equals("n"))
@@ -77,7 +69,7 @@ public class InputHandler {
             throw new WrongAnswerException("Invalid answer: please reinsert");
     }
 
-    public boolean playerWantsToApplyPieRule(Player currentPlayer) throws IOException {
+    public boolean playerWantsToApplyPieRule(Player currentPlayer) {
         boolean answer;
         try {
             answer = getAnswerForPieRule(currentPlayer);
@@ -89,16 +81,9 @@ public class InputHandler {
         return answer;
     }
 
-
-    public String inputPlayerName(int whichPlayer) throws IOException {
+    public String inputPlayerName(int whichPlayer) {
         display.playerNameMessage(whichPlayer);
-        return in.readLine();
+        return in.nextLine();
     }
-
-    public String inputPlayerName() throws IOException {
-        display.playerNameMessage();
-        return in.readLine();
-    }
-
 
 }

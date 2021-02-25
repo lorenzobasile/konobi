@@ -8,6 +8,13 @@ public class GameState {
     private final Referee referee;
     private int movesCounter;
 
+    public GameState(int dimension, Color initialColor){
+        board = new Board(dimension);
+        currentColor = initialColor;
+        referee = new Referee(board);
+        movesCounter = 1;
+    }
+
     public Board getBoard() {
         return board;
     }
@@ -16,16 +23,12 @@ public class GameState {
         return currentColor;
     }
 
-    public GameState(int dimension, Color initialColor){
-        board = new Board(dimension);
-        currentColor = initialColor;
-        referee = new Referee(board);
-        movesCounter = 1;
+    private Color getLastColor(){
+        return currentColor.opposite();
     }
 
-
     private void switchCurrentColor() {
-        currentColor=currentColor.opposite();
+        currentColor = currentColor.opposite();
     }
 
     private void incrementCounter() {
@@ -37,31 +40,21 @@ public class GameState {
         incrementCounter();
     }
 
-    public void updateBoard(Position inputPosition){
-        Color newStone = currentColor;
-        board.placeStone(inputPosition, newStone);
+    public boolean currentPlayerCanApplyPieRule() {
+        return movesCounter == 2;
     }
 
     public void applyPieRule(){
         switchCurrentColor();
     }
 
-    public boolean currentPlayerCanApplyPieRule() {
-        return movesCounter==2;
-    }
-
-
     public boolean currentPlayerHasToPass() {
         Set<Cell> availableCells = referee.availableCellsFor(currentColor);
         return availableCells.isEmpty();
     }
 
-    private Color lastColor(){
-        return currentColor.opposite();
-    }
-
     public boolean someoneHasWon(){
-        return referee.validateChain(lastColor());
+        return referee.validateChain(getLastColor());
     }
 
     public boolean isAlreadyOccupied(Position inputPosition) {
@@ -78,5 +71,9 @@ public class GameState {
         return !availableCells.contains(board.getCell(inputPosition));
     }
 
+    public void updateBoard(Position inputPosition){
+        Color newStone = currentColor;
+        board.placeStone(inputPosition, newStone);
+    }
 
 }

@@ -12,6 +12,7 @@ import static konobi.Entities.Position.at;
 
 
 public class Display {
+
     PrintWriter out;
 
     private static final String KONOBI_LOGO = " __  ___   ______   .__   __.   ______   .______    __ \n" +
@@ -87,11 +88,6 @@ public class Display {
         out.flush();
     }
 
-    public void playerNameMessage() {
-        out.print("What's your name? ");
-        out.flush();
-    }
-
     public void winMessage(Player currentPlayer) {
         out.println("Congratulations " + currentPlayer.getName() + ", you won!");
     }
@@ -116,7 +112,7 @@ public class Display {
         out.println(e.getMessage());
     }
 
-    private BiConsumer<Position, Board> printConsumer = (position, board) -> printPosition(position, board);
+    private final BiConsumer<Position, Board> printConsumer = this::printPosition;
 
     public void printBoard(Board board) {
         out.println();

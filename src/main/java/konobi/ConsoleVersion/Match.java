@@ -5,29 +5,15 @@ import konobi.InputOutput.Display;
 import konobi.InputOutput.Exceptions.NegativeNumberException;
 import konobi.InputOutput.InputHandler;
 
-import java.io.IOException;
-
-
 public class Match {
 
     protected final GameState gameState;
     protected final Player player1;
     protected final Player player2;
-    
-    public InputHandler currentInputHandler(){
-        return getCurrentPlayer().getInputHandler();
-    }
-    public Display currentDisplay(){
-        return getCurrentPlayer().getDisplay();
-    }
 
-    public Display otherDisplay(){
-        return getOtherPlayer().getDisplay();
-    }
-
-    public static Match init() throws IOException {
-        Display commonDisplay=new Display();
-        InputHandler commonInputHandler=new InputHandler(System.in, commonDisplay);
+    public static Match init() {
+        Display commonDisplay = new Display();
+        InputHandler commonInputHandler = new InputHandler(System.in, commonDisplay);
         commonDisplay.welcomeMessage();
         int dimension = commonInputHandler.getDimension();
         String player1Name = commonInputHandler.inputPlayerName(1);
@@ -45,33 +31,43 @@ public class Match {
         gameState = new GameState(dimension, player1.getColor());
     }
 
-    protected void applyPieRule() {
+    public InputHandler currentInputHandler() {
+        return getCurrentPlayer().getInputHandler();
+    }
+
+    public Display currentDisplay() {
+        return getCurrentPlayer().getDisplay();
+    }
+
+    public Display otherDisplay() {
+        return getOtherPlayer().getDisplay();
+    }
+
+    private void applyPieRule() {
         gameState.applyPieRule();
         player1.switchColorsWith(player2);
         notifyPieRule();
     }
 
     protected void notifyPieRule() {
-
         currentDisplay().playerColorsMessage(player1, player2);
     }
 
     protected Player getCurrentPlayer(){
-        if(gameState.getCurrentColor()==player1.getColor())
+        if(gameState.getCurrentColor() == player1.getColor())
             return player1;
         else
             return player2;
     }
 
     protected Player getOtherPlayer(){
-        if(getCurrentPlayer()==player1)
+        if(getCurrentPlayer() == player1)
             return player2;
         else
             return player1;
     }
 
-    public void singleTurn() throws IOException {
-
+    public void singleTurn() {
         currentDisplay().currentPlayerTurnMessage(getCurrentPlayer());
         if(gameState.currentPlayerCanApplyPieRule() && currentInputHandler().playerWantsToApplyPieRule(getCurrentPlayer())) {
             applyPieRule();
@@ -86,7 +82,7 @@ public class Match {
         currentDisplay().printBoard(board);
     }
 
-    protected void regularMove() throws IOException {
+    private void regularMove() {
         if(gameState.currentPlayerHasToPass()) {
             currentDisplay().passMessage(getOtherPlayer());
         }
@@ -96,7 +92,7 @@ public class Match {
         }
     }
 
-    protected Position chooseNextMove() throws IOException{
+    private Position chooseNextMove() {
         Position inputPosition;
         try{
             inputPosition = currentInputHandler().inputMove();
