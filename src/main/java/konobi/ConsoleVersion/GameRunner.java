@@ -4,7 +4,6 @@ import java.io.IOException;
 
 public class GameRunner {
     public static void main(String[] args){
-
         try {
             Match match = Match.init();
             do {

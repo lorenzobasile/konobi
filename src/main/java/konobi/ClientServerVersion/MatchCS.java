@@ -9,18 +9,12 @@ import konobi.InputOutput.InputHandler;
 import konobi.ConsoleVersion.Match;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 public class MatchCS extends Match {
 
 
 
-    public static MatchCS init(InputStream client1InputStream, InputStream client2InputStream, OutputStream client1OutputStream, OutputStream client2OutputStream) throws IOException {
-        Display client1Display=new Display(client1OutputStream);
-        Display client2Display=new Display(client2OutputStream);
-        InputHandler client1InputHandler=new InputHandler(client1InputStream, client1Display);
-        InputHandler client2InputHandler=new InputHandler(client2InputStream, client2Display);
+    public static MatchCS init(InputHandler client1InputHandler, InputHandler client2InputHandler, Display client1Display, Display client2Display) throws IOException {
         client1Display.welcomeMessage();
         client2Display.welcomeMessage();
         int dimension = client1InputHandler.getDimension();
@@ -40,12 +34,13 @@ public class MatchCS extends Match {
 
     public void notifyPieRule() {
         currentDisplay().playerColorsMessage(player1, player2);
-        otherDisplay().pieRuleHasBeenApplied();
+        otherDisplay().pieRuleHasBeenAppliedMessage();
         otherDisplay().playerColorsMessage(player1, player2);
     }
 
     public void printBoard(Board board){
         currentDisplay().printBoard(board);
+        otherDisplay().otherPlayerHasMadeMoveMessage();
         otherDisplay().printBoard(board);
     }
 

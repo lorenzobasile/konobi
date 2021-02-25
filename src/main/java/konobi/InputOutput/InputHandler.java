@@ -34,11 +34,8 @@ public class InputHandler {
         int dimension;
         try {
             dimension = inputDimension();
-        } catch(NumberFormatException notANumber){
-            display.notAnIntegerMessage();
-            return getDimension();
-        } catch(NegativeNumberException negativeDimension){
-            display.printExceptionCause(negativeDimension);
+        } catch(NumberFormatException | NegativeNumberException wrongInput){
+            display.printExceptionCause(wrongInput);
             return getDimension();
         }
         return dimension;

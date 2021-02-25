@@ -21,9 +21,6 @@ public class Match {
         return getCurrentPlayer().getDisplay();
     }
 
-    public InputHandler otherInputHandler(){
-        return getOtherPlayer().getInputHandler();
-    }
     public Display otherDisplay(){
         return getOtherPlayer().getDisplay();
     }
@@ -55,6 +52,7 @@ public class Match {
     }
 
     protected void notifyPieRule() {
+
         currentDisplay().playerColorsMessage(player1, player2);
     }
 
@@ -74,13 +72,13 @@ public class Match {
 
     public void singleTurn() throws IOException {
 
-        currentDisplay().currentPlayerMessage(getCurrentPlayer());
+        currentDisplay().currentPlayerTurnMessage(getCurrentPlayer());
         if(gameState.currentPlayerCanApplyPieRule() && currentInputHandler().playerWantsToApplyPieRule(getCurrentPlayer())) {
             applyPieRule();
         } else {
             regularMove();
+            printBoard(gameState.getBoard());
         }
-        printBoard(gameState.getBoard());
         gameState.changeTurn();
     }
 
@@ -102,11 +100,8 @@ public class Match {
         Position inputPosition;
         try{
             inputPosition = currentInputHandler().inputMove();
-        } catch(NumberFormatException notANumber){
-            currentDisplay().notAnIntegerMessage();
-            return chooseNextMove();
-        } catch(NegativeNumberException negativeCoordinate){
-            currentDisplay().printExceptionCause(negativeCoordinate);
+        } catch(NumberFormatException | NegativeNumberException wrongInput){
+            currentDisplay().printExceptionCause(wrongInput);
             return chooseNextMove();
         }
         if(gameState.outsideBoardMove(inputPosition)){
