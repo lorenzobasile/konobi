@@ -1,7 +1,21 @@
 
 plugins {
     id 'java'
+    id 'application'
 }
+
+task(runConsole, type: JavaExec) {
+    main = 'konobi.ConsoleVersion.GameRunner'
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+    standardOutput = System.out
+}
+task(runClientServer, type: JavaExec) {
+    main = 'konobi.ClientServerVersion.GameRunnerCS'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+mainClassName='konobi.ConsoleVersion.GameRunner'
 
 repositories {
     mavenCentral()
@@ -14,6 +28,7 @@ jar {
         )
     }
 }
+
 
 dependencies {
     implementation 'org.junit.jupiter:junit-jupiter:5.4.2'
