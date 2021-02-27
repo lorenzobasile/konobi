@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class testInputHandler {
-    InputHandler inputHandler=new InputHandler(System.in, new Display());
+    InputHandler inputHandler=new InputHandler(System.in, new Display(System.out));
 
     @Test
     public void dimensionFiveIsReceived() throws Exception{
@@ -28,7 +28,7 @@ public class testInputHandler {
         String input = "y";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         inputHandler.setIn(in);
-        assertTrue(inputHandler.playerWantsToApplyPieRule(new Player(Color.BLACK, "player", inputHandler, new Display())));
+        assertTrue(inputHandler.playerWantsToApplyPieRule(new Player(Color.BLACK, "player", inputHandler, new Display(System.out))));
 
     }
 

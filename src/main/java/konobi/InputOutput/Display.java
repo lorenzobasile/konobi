@@ -34,9 +34,6 @@ public class Display {
         this.out = new PrintWriter(out, true);
     }
 
-    public Display(){
-        out = new PrintWriter(System.out, true);
-    }
 
     public void printEmptyLine(){
         out.println();

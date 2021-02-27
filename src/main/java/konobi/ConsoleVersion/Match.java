@@ -11,24 +11,16 @@ public class Match {
     protected final Player player1;
     protected final Player player2;
 
-    public static Match init() {
-        Display commonDisplay = new Display();
-        InputHandler commonInputHandler = new InputHandler(System.in, commonDisplay);
-        commonDisplay.welcomeMessage();
-        int dimension = commonInputHandler.getDimension();
-        String player1Name = commonInputHandler.inputPlayerName(1);
-        String player2Name = commonInputHandler.inputPlayerName(2);
-        Player player1 = new Player(Color.BLACK, player1Name, commonInputHandler, commonDisplay);
-        Player player2 = new Player(Color.WHITE, player2Name, commonInputHandler, commonDisplay);
-        Match match = new Match(dimension, player1, player2);
-        commonDisplay.playerColorsMessage(player1, player2);
-        return match;
-    }
-
     public Match(int dimension, Player player1, Player player2) {
         this.player1 = player1;
         this.player2 = player2;
         gameState = new GameState(dimension, player1.getColor());
+    }
+
+    public void play() {
+        do {
+            singleTurn();
+        } while (!checkWin());
     }
 
     public InputHandler currentInputHandler() {

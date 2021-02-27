@@ -1,4 +1,7 @@
-package konobi.ClientServerVersion;
+package konobi;
+
+import konobi.ClientServerVersion.GameRunnerCS;
+import konobi.ClientServerVersion.MatchCS;
 
 import java.io.IOException;
 

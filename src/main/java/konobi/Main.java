@@ -1,4 +1,7 @@
-package konobi.ConsoleVersion;
+package konobi;
+
+import konobi.ConsoleVersion.GameRunner;
+import konobi.ConsoleVersion.Match;
 
 public class Main {
 
