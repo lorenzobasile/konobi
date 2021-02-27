@@ -88,11 +88,13 @@ public class Match {
         Position inputPosition;
         try{
             inputPosition = currentInputHandler().inputMove();
-        } catch(NumberFormatException | NegativeNumberException wrongInput){
+        } catch (NumberFormatException notANumber){
+            currentDisplay().notANumberMessage();
+            return chooseNextMove();
+        } catch (NegativeNumberException wrongInput){
             currentDisplay().printExceptionCause(wrongInput);
             return chooseNextMove();
-        }
-        if(gameState.outsideBoardMove(inputPosition)){
+        }        if(gameState.outsideBoardMove(inputPosition)){
             currentDisplay().positionOutsideBoardMessage();
             return chooseNextMove();
         }

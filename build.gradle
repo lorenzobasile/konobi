@@ -5,17 +5,17 @@ plugins {
 }
 
 task(runConsole, type: JavaExec) {
-    main = 'konobi.ConsoleVersion.Main'
+    main = 'konobi.Main'
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     standardOutput = System.out
 }
 task(runClientServer, type: JavaExec) {
-    main = 'konobi.ClientServerVersion.MainCS'
+    main = 'konobi.MainCS'
     classpath = sourceSets.main.runtimeClasspath
 }
 
-mainClassName='konobi.ConsoleVersion.Main'
+mainClassName='konobi.Main'
 
 repositories {
     mavenCentral()
@@ -24,7 +24,7 @@ repositories {
 jar {
     manifest {
         attributes (
-                'Main-Class': 'konobi.ConsoleVersion.Main'
+                'Main-Class': 'konobi.Main'
         )
     }
 }

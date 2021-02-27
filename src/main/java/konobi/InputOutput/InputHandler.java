@@ -27,8 +27,11 @@ public class InputHandler {
         int dimension;
         try {
             dimension = inputDimension();
-        } catch(NumberFormatException | NegativeNumberException wrongInput){
+        } catch(NegativeNumberException wrongInput){
             display.printExceptionCause(wrongInput);
+            return getDimension();
+        } catch(NumberFormatException notANumber){
+            display.notANumberMessage();
             return getDimension();
         }
         return dimension;
@@ -44,7 +47,7 @@ public class InputHandler {
         display.printEmptyLine();
         return dimension;
     }
-    
+
     public Position inputMove() throws NegativeNumberException, NumberFormatException{
         display.inputXCoordinateMessage();
         String stringInput = in.nextLine();

@@ -4,10 +4,6 @@ import konobi.Entities.*;
 
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.function.BiConsumer;
-import java.util.function.Function;
-import java.util.stream.IntStream;
-
 import static konobi.Entities.Position.at;
 
 
@@ -105,36 +101,22 @@ public class Display {
         out.println("No available moves for "+currentPlayer.getName()+", who must pass");
     }
 
+    public void notANumberMessage() { out.println("Not an integer, please reinsert");}
+
     public void printExceptionCause(Exception e) {
         out.println(e.getMessage());
     }
 
-    private final BiConsumer<Position, Board> printConsumer = this::printPosition;
-
     public void printBoard(Board board) {
         out.println();
-        IntStream.range(0, board.dimension())
-                .map(i -> board.dimension() - i)
-                .mapToObj(i -> IntStream.rangeClosed(1, board.dimension())
-                                        .mapToObj(j -> at(j,i)))
-                                        .flatMap(Function.identity())
-                                        .forEachOrdered(p-> printConsumer.accept(p, board));
-
-        /*
         for (int i = board.dimension(); i>0; i--){
-            for(int j = 1; j<=board.dimension(); j++){
+            for(int j = 1; j <= board.dimension(); j++){
                 Position position = at(j, i);
                 drawSquareAt(position);
                 ifPresentDrawStoneAt(position, board);
             }
             out.println();
-        }*/
-    }
-
-    private void printPosition(Position position, Board board){
-        drawSquareAt(position);
-        ifPresentDrawStoneAt(position, board);
-        if(position.getX()==board.dimension()) out.println();
+        }
     }
 
     private void ifPresentDrawStoneAt(Position position, Board board) {
