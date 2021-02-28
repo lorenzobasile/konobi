@@ -12,6 +12,7 @@ import static konobi.Entities.Position.at;
 public class Board extends HashSet<Cell>{
 
     public Board(int dimension) {
+        super();
         Set<Cell> cellSet = IntStream.rangeClosed(1,dimension)
                                      .mapToObj(i -> IntStream.rangeClosed(1,dimension)
                                                       .mapToObj(j -> new Cell(at(i,j))))
@@ -44,7 +45,6 @@ public class Board extends HashSet<Cell>{
     }
 
     public Set<Cell> strongConnectionsOf(Cell cell) {
-        if(!cell.isOccupied()) return null;
         return cell.orthogonalNeighborsIn(this).stream()
                                                     .filter(Cell::isOccupied)
                                                     .filter(c->c.hasSameColorAs(cell))
@@ -52,7 +52,6 @@ public class Board extends HashSet<Cell>{
     }
 
     public Set<Cell> weakConnectionsOf(Cell cell) {
-        if(!cell.isOccupied()) return null;
         return cell.diagonalNeighborsIn(this).stream()
                                                    .filter(Cell::isOccupied)
                                                    .filter(c->c.hasSameColorAs(cell))

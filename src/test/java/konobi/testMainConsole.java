@@ -17,12 +17,12 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-public class testMatchInitializerConsole {
+public class testMainConsole {
 
     @ParameterizedTest
     @CsvSource({"match.txt", "match2.txt", "match3.txt", "match4_crosscut.txt", "match_pass.txt"})
     public void simulateGameAndCheckWinner(String fileName) throws IOException, URISyntaxException {
-        URL filePath = testMatchInitializerConsole.class.getClassLoader().getResource(fileName);
+        URL filePath = testMainConsole.class.getClassLoader().getResource(fileName);
         assert filePath != null;
         List<String> fileLines = Files.readAllLines(Paths.get(filePath.toURI()));
         String expectedWinnerName = fileLines.get(fileLines.size()-1);

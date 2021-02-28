@@ -1,6 +1,6 @@
 package konobi.Entities;
 
-import konobi.testMatchInitializerConsole;
+import konobi.testMainConsole;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -47,7 +47,7 @@ public class testGameState {
     @Test
     public void whitePlayerHasToPass() throws URISyntaxException, IOException {
 
-        URL filePath = testMatchInitializerConsole.class.getClassLoader().getResource("pass_test.txt");
+        URL filePath = testMainConsole.class.getClassLoader().getResource("pass_test.txt");
         assert filePath != null;
         List<String> fileLines = Files.readAllLines(Paths.get(filePath.toURI()));
 
@@ -58,7 +58,7 @@ public class testGameState {
             state.changeTurn();
         }
 
-        assertTrue(state.currentPlayerHasToPass());
+        assertTrue(state.passIsMandatory());
     }
 
 

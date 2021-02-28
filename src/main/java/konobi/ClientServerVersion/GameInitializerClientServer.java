@@ -1,7 +1,7 @@
 
 package konobi.ClientServerVersion;
 
-import konobi.Entities.MatchInitializer;
+import konobi.Entities.GameInitializer;
 import konobi.Entities.Player;
 import konobi.InputOutput.Display;
 import konobi.InputOutput.InputHandler;
@@ -10,9 +10,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class MatchInitializerClientServer extends MatchInitializer {
+public class GameInitializerClientServer extends GameInitializer {
 
-    public MatchInitializerClientServer(int portNumber) throws IOException {
+    public GameInitializerClientServer(int portNumber) throws IOException {
         ServerSocket serverSocket = new ServerSocket(portNumber);
         Socket client1Socket = serverSocket.accept();
         player1Display = new Display(client1Socket.getOutputStream());
@@ -23,8 +23,8 @@ public class MatchInitializerClientServer extends MatchInitializer {
         player2InputHandler = new InputHandler(client2Socket.getInputStream(), player2Display);
     }
 
-    protected MatchClientServer constructMatch(int dimension, Player player1, Player player2){
-        return new MatchClientServer(dimension, player1, player2);
+    protected GameClientServer constructMatch(int dimension, Player player1, Player player2){
+        return new GameClientServer(dimension, player1, player2);
     }
 
     @Override

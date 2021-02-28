@@ -1,13 +1,13 @@
 package konobi.ConsoleVersion;
 
-import konobi.Entities.Match;
+import konobi.Entities.Game;
 
 public class MainConsole {
 
     public static void main(String[] args){
-        MatchInitializerConsole matchInitializer = new MatchInitializerConsole();
-        Match match = matchInitializer.init();
-        match.play();
+        GameInitializerConsole matchInitializer = new GameInitializerConsole();
+        Game game = matchInitializer.init();
+        game.play();
 
     }
 

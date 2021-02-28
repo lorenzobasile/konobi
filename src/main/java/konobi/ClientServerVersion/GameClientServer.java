@@ -2,12 +2,12 @@
 package konobi.ClientServerVersion;
 
 import konobi.Entities.Board;
+import konobi.Entities.Game;
 import konobi.Entities.Player;
-import konobi.Entities.Match;
 
-public class MatchClientServer extends Match {
+public class GameClientServer extends Game {
 
-    public MatchClientServer(int dimension, Player player1, Player player2) {
+    public GameClientServer(int dimension, Player player1, Player player2) {
         super(dimension, player1, player2);
     }
 

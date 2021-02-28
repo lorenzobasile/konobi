@@ -76,5 +76,4 @@ public class Cell {
     public boolean isOnEndEdge(int dimension) {
         return position.getX()==dimension && color==Color.WHITE || position.getY()==1 && color==Color.BLACK;
     }
-
 }

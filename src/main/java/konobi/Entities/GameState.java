@@ -40,7 +40,7 @@ public class GameState {
         incrementCounter();
     }
 
-    public boolean currentPlayerCanApplyPieRule() {
+    public boolean pieRuleCanBeApplied() {
         return movesCounter == 2;
     }
 
@@ -48,7 +48,7 @@ public class GameState {
         switchCurrentColor();
     }
 
-    public boolean currentPlayerHasToPass() {
+    public boolean passIsMandatory() {
         Set<Cell> availableCells = referee.availableCellsFor(currentColor);
         return availableCells.isEmpty();
     }

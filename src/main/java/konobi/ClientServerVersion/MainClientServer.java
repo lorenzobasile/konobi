@@ -1,6 +1,6 @@
 package konobi.ClientServerVersion;
 
-import konobi.Entities.Match;
+import konobi.Entities.Game;
 
 import java.io.IOException;
 
@@ -17,9 +17,9 @@ public class MainClientServer {
         }
 
         try {
-            MatchInitializerClientServer matchInitializer = new MatchInitializerClientServer(portNumber);
-            Match match = matchInitializer.init();
-            match.play();
+            GameInitializerClientServer matchInitializer = new GameInitializerClientServer(portNumber);
+            Game game = matchInitializer.init();
+            game.play();
         } catch (IOException e) {
             System.err.println("I/O error: not able to establish client-server connection");
             System.exit(1);

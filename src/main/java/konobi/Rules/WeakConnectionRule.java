@@ -13,12 +13,12 @@ public class WeakConnectionRule implements Rule{
         board.placeStone(cell.getPosition(), stoneColor);
         Set<Cell> weakNeighbors = board.weakConnectionsOf(cell);
         cell.reset();
-        boolean condition = weakNeighbors.stream()
-                                         .map(c->c.orthogonalNeighborsIn(board))
-                                         .anyMatch(s->s.stream()
-                                                       .filter(c->!c.isOccupied())
-                                                       .anyMatch(c->checkIfThereAreNoWeakNeighbors(board, c, stoneColor)));
-        return !condition;
+        boolean isWeakPlacementInvalid = weakNeighbors.stream()
+                                                      .map(c->c.orthogonalNeighborsIn(board))
+                                                      .anyMatch(s->s.stream()
+                                                                    .filter(c->!c.isOccupied())
+                                                                    .anyMatch(c->checkIfThereAreNoWeakNeighbors(board, c, stoneColor)));
+        return !isWeakPlacementInvalid;
     }
 
     private boolean checkIfThereAreNoWeakNeighbors(Board board, Cell cell, Color stoneColor){
