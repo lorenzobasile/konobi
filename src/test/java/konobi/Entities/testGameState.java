@@ -1,23 +1,15 @@
 package konobi.Entities;
 
-import konobi.InputOutput.Display;
-import konobi.testGameRunner;
+import konobi.testMatchInitializerConsole;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.provider.CsvSource;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static konobi.Entities.Position.at;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -55,7 +47,7 @@ public class testGameState {
     @Test
     public void whitePlayerHasToPass() throws URISyntaxException, IOException {
 
-        URL filePath = testGameRunner.class.getClassLoader().getResource("pass_test.txt");
+        URL filePath = testMatchInitializerConsole.class.getClassLoader().getResource("pass_test.txt");
         assert filePath != null;
         List<String> fileLines = Files.readAllLines(Paths.get(filePath.toURI()));
 

@@ -1,11 +1,10 @@
-package konobi.ConsoleVersion;
+package konobi.Entities;
 
-import konobi.Entities.*;
 import konobi.InputOutput.Display;
 import konobi.InputOutput.Exceptions.NegativeNumberException;
 import konobi.InputOutput.InputHandler;
 
-public class Match {
+public abstract class Match {
 
     protected final GameState gameState;
     protected final Player player1;
@@ -41,9 +40,7 @@ public class Match {
         notifyPieRule();
     }
 
-    protected void notifyPieRule() {
-        currentDisplay().playerColorsMessage(player1, player2);
-    }
+    protected abstract void notifyPieRule();
 
     protected Player getCurrentPlayer(){
         if(gameState.getCurrentColor() == player1.getColor())
@@ -70,9 +67,7 @@ public class Match {
         gameState.changeTurn();
     }
 
-    protected void printBoard(Board board){
-        currentDisplay().printBoard(board);
-    }
+    protected abstract void printBoard(Board board);
 
     private void regularMove() {
         if(gameState.currentPlayerHasToPass()) {
@@ -117,8 +112,6 @@ public class Match {
         return false;
     }
 
-    protected void notifyEndOfMatch() {
-        otherDisplay().winMessage(getOtherPlayer());
-    }
+    protected abstract void notifyEndOfMatch();
 
 }

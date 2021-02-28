@@ -1,11 +1,10 @@
-package konobi;
+package konobi.ClientServerVersion;
 
-import konobi.ClientServerVersion.GameRunnerCS;
-import konobi.ClientServerVersion.MatchCS;
+import konobi.Entities.Match;
 
 import java.io.IOException;
 
-public class MainCS {
+public class MainClientServer {
     public static void main(String[] args) {
         int portNumber = 4444;
 
@@ -18,8 +17,8 @@ public class MainCS {
         }
 
         try {
-            GameRunnerCS gameRunner = new GameRunnerCS(portNumber);
-            MatchCS match = (MatchCS)gameRunner.init();
+            MatchInitializerClientServer matchInitializer = new MatchInitializerClientServer(portNumber);
+            Match match = matchInitializer.init();
             match.play();
         } catch (IOException e) {
             System.err.println("I/O error: not able to establish client-server connection");
