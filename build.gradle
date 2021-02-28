@@ -13,6 +13,9 @@ task(runConsole, type: JavaExec) {
 task(runClientServer, type: JavaExec) {
     main = 'konobi.MainCS'
     classpath = sourceSets.main.runtimeClasspath
+    if (project.hasProperty("ortNumber")) {
+        args(ortNumber.split(','))
+    }
 }
 
 mainClassName='konobi.Main'

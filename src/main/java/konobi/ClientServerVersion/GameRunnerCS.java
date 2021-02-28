@@ -14,9 +14,7 @@ import java.net.Socket;
 public class GameRunnerCS extends GameRunner {
 
     public GameRunnerCS(int portNumber) throws IOException {
-        System.out.println(portNumber);
         ServerSocket serverSocket = new ServerSocket(portNumber);
-        System.out.println("created server");
         Socket client1Socket = serverSocket.accept();
         player1Display = new Display(client1Socket.getOutputStream());
         player1InputHandler = new InputHandler(client1Socket.getInputStream(), player1Display);

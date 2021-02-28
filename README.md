@@ -36,15 +36,18 @@ cd konobi
 ./gradlew runConsole --console plain
 ```
 
-To run (as server) the Client-Server version of Konobi, substitute the last line with the following:
+To run (as server) the Client-Server version of Konobi, substitute the last line with one of the following:
 
 ```shell
+./gradlew runClientServer -PortNumber=<PORT_NUMBER> --console plain
 ./gradlew runClientServer --console plain
 ```
+
+The second line is equivalent to the first one with `PORT_NUMBER=4444`.
 
 Then, two clients can connect to the server and play by executing the command:
 
 ```shell
-telnet <SERVER_IP_ADDRESS> 4444
+telnet <SERVER_IP_ADDRESS> <PORT_NUMBER>
 ```
 
