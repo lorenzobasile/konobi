@@ -82,5 +82,74 @@
      \item \textbf{Mandatory pass}: if a player cannot make a move (because of placement restrictions), he has to pass
      \end{itemize}
       \end{frame}
+      
+      
+\section{Basic entities}
+\begin{frame}{Cell}
+% Lorenzo parla dei pacchetti
+% inizio a parlare delle classi color, position, cell, board (diagramma uml)
+
+\begin{columns}
+\column{0.5\textwidth}
+\texttt{Cell} represents the basic building block of the board 
+% A cell has three fields: the position of the cell in the board, a boolean isOccupied which tells whether the cell contains a stone or not, and a Color which is the color of the stone if present.
+\vspace{0.5cm}
+\begin{itemize}
+    \item \texttt{Position position }
+    % position has two fields x,y
+    \item \texttt{Color color}
+    % color is an enum with two values BLACK, WHITE
+    \item \texttt{boolean isOccupied}
+    
+
+    
+\end{itemize}
+
+\column{0.5\textwidth}
+% uml con i tre data membri
+\end{columns}
+
+\vspace{0.5cm}
+When a cell is constructed it is empty: no color is associated to it and \texttt{isOccupied=False}, when a stone is placed in the cell a color is set and \texttt{isOccupied=True}.
+
+% The methods setColor() and reset() are used for checking the rules, as we will see later. For this reason, Color is not final, even if in the game once a stone is placed it cannot be moved afterwards. The position is final because a cell is associated with a fixed position in the board.
+
+
+\end{frame}
+
+\begin{frame}{Cell: development history}
+\begin{itemize}
+\item From value \texttt{NONE} in enum \texttt{Color} to field \texttt{isOccupied} in class \texttt{Cell}
+\item Removed \texttt{Stone} data class
+\end{itemize}
+% At the beginning, the Color enum had also a NONE value, but then we thought that a Player cannot have NONE as a value for his color so we moved NONE into a new field of Cell which is a boolean called isOccupied, and the color can be only WHITE or BLACK, which is also more logical.
+%When a cell is constructed it is empty, i.e. no Color is associated to it and isOccupied=False, when a stone is placed in the Cell a Color is given and isOccupied=True with the setColor() method.
+
+% at the beginning we had a class Stone but we removed it because it was a data class (only had setters, ..) and it basically coincided with Color
+
+\end{frame}
+
+
+\begin{frame}{Board}
+
+A \texttt{Board} is represented by a set of Cells and extends \texttt{HashSet<Cell>} by overriding the \texttt{dimension()} method
+\begin{itemize}
+    \item Usage of streams
+    \item \texttt{Position} as field of \texttt{Cell}    
+\end{itemize}
+
+
+
+% The board is represented by a set of cells. The other option we considered was a 2-dimensional array. In this way we can easily use streams to perform operations on this set of cells (we will see with connections). And in addition, the Position is a property (a field) of a Cell and not a pair of indexes of a matrix.
+
+The constructor of Board creates a set of empty cells
+
+\end{frame}
+
+
+\begin{frame}{Connections among cells}
+
+
+\end{frame}
      
 \end{document}
