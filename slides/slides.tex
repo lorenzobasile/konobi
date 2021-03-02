@@ -1,38 +1,46 @@
 \documentclass{beamer}
 \usetheme{metropolis} 
+\usepackage{caption}
+\usepackage[utf8]{inputenc}
+
+
 \title{\huge Konobi}
 \date{}
 \subtitle{Software Development Methods project}
 \author{Lorenzo Basile, Irene Brugnara, Roberto Corti, Arianna Tasciotti}
-\usepackage{caption}
+
 \begin{document}
+	
   \maketitle
   \section{Introduction}
+  
   \begin{frame}{Our project}
     The goal of our project was to develop a command line version of \textbf{Konobi}, a board game for two players. The project also contains a client-server version of the game.
     \vspace{0.7cm}
     \pause
     \\What tools did we use?
     \begin{itemize}
-    \item Java 15
-    \item Gradle
-    \item TravisCI
-    \item Git \& GitHub
+	    \item Java 15
+	    \item Gradle
+	    \item TravisCI
+	    \item Git \& GitHub
     \end{itemize}
-    \end{frame}
+
+  \end{frame}
+  
   \begin{frame}{Konobi}
-    Konobi is a drawless game and it can be played either on a go board or a chess board.
-    \\Two players, black and white, take turns at placing stones of their color on the board, starting with black. The aim of the players is to build chains of connected stones of their color.
-    \vspace{0.5cm}
-    \pause
-    \\The game is won by the first player who connects the two opposite edges of the board.
-    \begin{itemize}
-    \item Black: top $\leftrightarrow$ bottom
-    \item White: left $\leftrightarrow$ right
-    \end{itemize}
-      \end{frame}
+	    Konobi is a drawless game and it can be played either on a go board or a chess board.
+	    \\Two players, black and white, take turns at placing stones of their color on the board, starting with black. The aim of the players is to build chains of connected stones of their color.
+	    \vspace{0.5cm}
+	    \pause
+	    \\The game is won by the first player who connects the two opposite edges of the board.
+	    \begin{itemize}
+	    \item Black: top $\leftrightarrow$ bottom
+	    \item White: left $\leftrightarrow$ right
+	    \end{itemize}
+   \end{frame}
       
-     \begin{frame}{Connections}
+   \begin{frame}{Connections}
      Two like-colored stones are:
      \vspace{0.5cm}
     \begin{columns}
@@ -150,6 +158,53 @@ The constructor of Board creates a set of empty cells
 \begin{frame}{Connections among cells}
 
 
+\end{frame}
+
+\section{Rules}
+
+\begin{frame}{Rule}
+	Once provided all methods related to strong and weak connection into \texttt{Board} our next step was to provide a way to check whether a move is valid or not and to announce whether there is a chain.\\
+	\vspace{0.7cm} 
+	Initially a \texttt{Rules} class was implemented...
+	
+\end{frame}
+
+\begin{frame}{Rule}
+	\small From commit \href{https://github.com/lorenzobasile/konobi/blob/eaba694d6662a1b6803f7f22943636176281e572/src/main/java/konobi/Rules.java}{eaba694}
+	\begin{figure}
+		\includegraphics[scale=0.25]{images/rules-class.png}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Rule}
+	
+	Later we realized that there would be the possibility to abstract...
+	\begin{figure}
+		\includegraphics[scale=0.4]{images/rules-uml.jpg}
+	\end{figure}
+
+	For a given \texttt{Board}, the \texttt{isValid} method will check if it is legal to place a stone of a given \texttt{Color} in the \texttt{Cell}. \\
+	\vspace{0.1cm}
+	Having a \texttt{Rule} interface will allow the possibility to add new rules over the possible player's move.
+	
+\end{frame}
+
+\begin{frame}{Referee}
+	
+	Once implemented the logic of a valid move in the cell in \texttt{Rules} package our aim was to encapsulate all methods that could announce:
+	\vspace{0.4cm}
+	\begin{itemize}
+		\item a given move is legal w.r.t \texttt{WeakConnectionRule} and \texttt{CrossCutRule}
+		\vspace{0.35cm}
+		\item the presence of a chain (i.e. end of the game)
+	\end{itemize}
+	
+\end{frame}
+
+\begin{frame}{Referee}
+	\begin{center}
+		\includegraphics[scale=0.32]{images/referee-class.jpg}
+	\end{center}
 \end{frame}
      
 \end{document}
