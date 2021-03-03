@@ -17,7 +17,7 @@ public class GameInitializerConsole extends GameInitializer {
         player2InputHandler = commonInputHandler;
     }
 
-    protected GameConsole constructMatch(int dimension, Player player1, Player player2){
+    protected GameConsole constructGame(int dimension, Player player1, Player player2){
         return new GameConsole(dimension, player1, player2);
     }
 
@@ -25,7 +25,7 @@ public class GameInitializerConsole extends GameInitializer {
         player1Display.welcomeMessage();
     }
 
-    protected void playerRolesMessage(Player player1, Player player2) {
+    protected void showPlayerColors(Player player1, Player player2) {
         player1Display.playerColorsMessage(player1, player2);
     }
 

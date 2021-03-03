@@ -14,14 +14,14 @@ public abstract class GameInitializer {
         String player2Name = player2InputHandler.inputPlayerName(2);
         Player player1 = new Player(Color.BLACK, player1Name, player1InputHandler, player1Display);
         Player player2 = new Player(Color.WHITE, player2Name, player2InputHandler, player2Display);
-        Game game = constructMatch(dimension, player1, player2);
-        playerRolesMessage(player1,player2);
+        Game game = constructGame(dimension, player1, player2);
+        showPlayerColors(player1,player2);
         return game;
     }
 
-    protected abstract Game constructMatch(int dimension, Player player1, Player player2);
+    protected abstract Game constructGame(int dimension, Player player1, Player player2);
 
     protected abstract void welcome();
 
-    protected abstract void playerRolesMessage(Player player1, Player player2);
+    protected abstract void showPlayerColors(Player player1, Player player2);
 }

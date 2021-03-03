@@ -19,7 +19,7 @@ public abstract class Game {
     public void play() {
         do {
             singleTurn();
-        } while (!checkWin());
+        } while (!checkAndNotifyWin());
     }
 
     public InputHandler currentInputHandler() {
@@ -105,7 +105,7 @@ public abstract class Game {
         return inputPosition;
     }
 
-    public boolean checkWin() {
+    public boolean checkAndNotifyWin() {
         if(gameState.someoneHasWon()) {
             notifyEndOfMatch();
             return true;

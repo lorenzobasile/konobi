@@ -233,5 +233,66 @@ The constructor of Board creates a set of empty cells
 		\includegraphics[scale=0.32]{images/referee-class.jpg}
 	\end{center}
 \end{frame}
+
+
+\section{InputOutput}
+
+\begin{frame}{InputHandler and Display}
+	Classes \texttt{InputHandler} and \texttt{Display} take care of game I/O.
+
+	 \texttt{Display} contains messages to be shown to players and a method to print the board.
+	
+	 \texttt{InputHandler} receives inputs from player and verifies their validity using exceptions.  
+\end{frame}
+
+
+\section{Game dynamics}
+
+\begin{frame}{Overview}
+	  \begin{center}
+     		\includegraphics[scale=0.25]{images/game_uml.png}
+     	\end{center}
+
+\end{frame}
+
+\begin{frame}{GameState}
+     
+     Game dynamics is managed by the \texttt{GameState} class which keeps track of current state of the game.
+     \vspace{0.4cm}
+     \\It is in charge of changing turn, updating the board when a valid move is received, verifying if someone has won and applying pie and pass rule.
+     \vspace{0.4cm}
+     \\ \texttt{GameState} acts as an intermediary between \texttt{Referee} and \texttt{Board} on one side and the higher-level class \texttt{Game} on the other 	side.
+     \begin{center}
+     	\includegraphics[scale=0.32]{images/gamestate.png}
+     \end{center}
+\end{frame}
+
+\begin{frame}{Game}
+
+	Class \texttt{Game} provides an abstraction for the game itself and instantiates a \texttt{GameState} and two players.
+	
+	 \texttt{Player} is defined by a color, a name, an \texttt{InputHandler} and a \texttt{Display}.
+	 
+	Based on the directives of \texttt{GameState}, \texttt{Game} manages the interactions with players.
+\end{frame}
+
+\begin{frame}{GameInitializer}
+
+	\texttt{GameInitializer} abstracts the initialization of the \texttt{Game}, extended by \texttt{GameInitializerConsole} and \texttt{GameInitializerClientServer}.
+	
+	The initialization includes a welcome message, the construction of a \texttt{Game} and a player color message that will all be implemented in the two 	subclasses. 
+
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
      
 \end{document}

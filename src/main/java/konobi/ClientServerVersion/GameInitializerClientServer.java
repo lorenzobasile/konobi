@@ -23,7 +23,7 @@ public class GameInitializerClientServer extends GameInitializer {
         player2InputHandler = new InputHandler(client2Socket.getInputStream(), player2Display);
     }
 
-    protected GameClientServer constructMatch(int dimension, Player player1, Player player2){
+    protected GameClientServer constructGame(int dimension, Player player1, Player player2){
         return new GameClientServer(dimension, player1, player2);
     }
 
@@ -34,7 +34,7 @@ public class GameInitializerClientServer extends GameInitializer {
     }
 
     @Override
-    protected void playerRolesMessage(Player player1, Player player2) {
+    protected void showPlayerColors(Player player1, Player player2) {
         player1Display.playerColorsMessage(player1, player2);
         player2Display.playerColorsMessage(player1, player2);
     }
