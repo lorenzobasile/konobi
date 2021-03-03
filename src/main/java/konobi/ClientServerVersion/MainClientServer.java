@@ -17,8 +17,8 @@ public class MainClientServer {
         }
 
         try {
-            GameInitializerClientServer matchInitializer = new GameInitializerClientServer(portNumber);
-            Game game = matchInitializer.init();
+            GameInitializerClientServer gameInitializer = new GameInitializerClientServer(portNumber);
+            Game game = gameInitializer.init();
             game.play();
         } catch (IOException e) {
             System.err.println("I/O error: not able to establish client-server connection");

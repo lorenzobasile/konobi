@@ -15,7 +15,7 @@
   \section{Introduction}
   
   \begin{frame}{Our project}
-    The goal of our project was to develop a command line version of \textbf{Konobi}, a board game for two players. The project also contains a client-server version of the game.
+    The goal of our project was to develop a command line version of \textbf{Konobi}, a board game for two players. The project also contains a client-server version of the game, which allows the two players to play remotely.
     \vspace{0.7cm}
     \pause
     \\What tools did we use?
@@ -86,8 +86,8 @@
       
       \begin{frame}{Additional rules}
      \begin{itemize}
-     \item \textbf{Pie rule}: at his first move, white can decide to switch colors with black instead of making a move
-     \item \textbf{Mandatory pass}: if a player cannot make a move (because of placement restrictions), he has to pass
+     \item \textbf{Pie rule}: at his first move, white can decide to switch colors with black instead of making a move.
+     \item \textbf{Mandatory pass}: if a player cannot make a move (because of placement restrictions), he has to pass. It is guaranteed that at least one player can make a move.
      \end{itemize}
       \end{frame}
       
@@ -190,16 +190,10 @@ The constructor of Board creates a set of empty cells
 \section{Rules}
 
 \begin{frame}{Rule}
-	Once provided all methods related to strong and weak connection into \texttt{Board} our next step was to provide a way to check whether a move is valid or not and to announce whether there is a chain.\\
-	\vspace{0.7cm} 
-	Initially a \texttt{Rules} class was implemented...
-	
-\end{frame}
-
-\begin{frame}{Rule}
-	\small From commit \href{https://github.com/lorenzobasile/konobi/blob/eaba694d6662a1b6803f7f22943636176281e572/src/main/java/konobi/Rules.java}{eaba694}
+	Initially, a \texttt{Rules} class was implemented to provide a way to check whether a move is valid or not and to announce whether there is a chain.
+	%\\ \small From commit \href{https://github.com/lorenzobasile/konobi/blob/eaba694d6662a1b6803f7f22943636176281e572/src/main/java/konobi/Rules.java}{eaba694}
 	\begin{figure}
-		\includegraphics[scale=0.25]{images/rules-class.png}
+		\includegraphics[scale=0.28]{images/rules-class.png}
 	\end{figure}
 \end{frame}
 
@@ -217,22 +211,25 @@ The constructor of Board creates a set of empty cells
 \end{frame}
 
 \begin{frame}{Referee}
-	
-	Once implemented the logic of a valid move in the cell in \texttt{Rules} package our aim was to encapsulate all methods that could announce:
+	\begin{columns}
+\column{0.5\textwidth}
+	Once implemented the logic of a valid move in \texttt{Rules} package, our aim was to group together all the methods needed to check if:
 	\vspace{0.4cm}
 	\begin{itemize}
-		\item a given move is legal w.r.t \texttt{WeakConnectionRule} and \texttt{CrossCutRule}
-		\vspace{0.35cm}
-		\item the presence of a chain (i.e. end of the game)
+		\item a given move is legal w.r.t. \texttt{WeakConnectionRule} and \texttt{CrossCutRule}
+		\vspace{0.25cm}
+		\item a winning chain is present
+		\vspace{0.25cm}
+		\item the current player has to pass
 	\end{itemize}
 	
+	\column{0.5\textwidth}
+	
+		\includegraphics[scale=0.27]{images/referee-class.jpg}
+	
+	\end{columns}
 \end{frame}
 
-\begin{frame}{Referee}
-	\begin{center}
-		\includegraphics[scale=0.32]{images/referee-class.jpg}
-	\end{center}
-\end{frame}
 
 
 \section{InputOutput}
@@ -280,11 +277,34 @@ The constructor of Board creates a set of empty cells
 
 	\texttt{GameInitializer} abstracts the initialization of the \texttt{Game}, extended by \texttt{GameInitializerConsole} and \texttt{GameInitializerClientServer}.
 	
-	The initialization includes a welcome message, the construction of a \texttt{Game} and a player color message that will all be implemented in the two 	subclasses. 
+	The initialization includes a welcome message, the construction of a \texttt{Game} and a player color message that will all be implemented in the two subclasses. 
 
 \end{frame}
 
+\section{Running the game}
 
+\begin{frame}{Versions of Konobi}
+INSERT UML HERE
+Konobi can be played by the two players on the same terminal or in a Client-Server version, with the two players connecting through \texttt{telnet} to a Server running the game.
+\end{frame}
+
+\begin{frame}{Comparison between Console and C/S}
+\begin{columns}
+\column{0.5\linewidth}
+\includegraphics[scale=0.27]{images/mainCo.png}
+\column{0.5\linewidth}
+Console version: a \texttt{Game} is initialized and its \texttt{play} method is called.
+\end{columns}
+\vspace{0.5cm}
+\begin{columns}
+\column{0.5\linewidth}
+\includegraphics[scale=0.21]{images/mainCS.png}
+\column{0.5\linewidth}
+Client-Server version: The server creates the socket and waits for two clients to connect to it. The port number can be decided using command-line arguments.
+\end{columns}\end{frame}
+\begin{frame}{Inheritance in GameInitializer}
+
+\end{frame}
 
 
 

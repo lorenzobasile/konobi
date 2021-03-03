@@ -27,13 +27,11 @@ public class GameInitializerClientServer extends GameInitializer {
         return new GameClientServer(dimension, player1, player2);
     }
 
-    @Override
     protected void welcome() {
         player1Display.welcomeMessage();
         player2Display.welcomeMessage();
     }
 
-    @Override
     protected void showPlayerColors(Player player1, Player player2) {
         player1Display.playerColorsMessage(player1, player2);
         player2Display.playerColorsMessage(player1, player2);
