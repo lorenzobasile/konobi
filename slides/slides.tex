@@ -168,21 +168,41 @@ The constructor of Board creates a set of empty cells
 % These were the entities that make our game. Then we implemented the relationships between these entities, which are the connections, i.e. strong and weak connections between stones.
 
 \begin{frame}{Strong connections}
-\begin{itemize}
-	\item We implemented a concept of orthogonal adjacency which only depends on the relative positions of two stones: the euclidean distance is 1
-	\item Given the set of orthogonally adjacent stones, we implemented a method that filters only those with the same color and returns the set of strongly connected stones
-\end{itemize}
+	\begin{itemize}
+		\item We implemented a concept of orthogonal adjacency which only depends on the relative positions of two cells: their euclidean distance must be 1
+		\item Given the set of stones that are orthogonally adjacent to a given stone, by filtering only those with the same color we obtain the set of strongly connected neighbors
+	\end{itemize}
 	
 \end{frame}
 
 \begin{frame}{Weak connections}
-\begin{itemize}
-		\item Same concept used for weak connections: two stones are diagonally adjacent if their square euclidean distance is 2.	
-		\item Then to obtain the set of weakly connected stones it is also necessary to filter out diagonally adjacent stones with common strong neighbors
+	\begin{itemize}
+		\item Same concept applies for weak connections: two cells are diagonally adjacent if their squared euclidean distance is 2	
+		\item To obtain the set of weak neighbors, in this case it is also necessary to filter out diagonally adjacent stones with common strong neighbors
 		% in this case it is not sufficient to filter based on color 
-\end{itemize}
+	\end{itemize}
+\end{frame}
 
-	
+
+\begin{frame}{Tests}
+	Different test cases for orthogonal and diagonal adjacency: inner cell, cell on edge, cell on corner\\  % the same for diagonal adjacency
+	\vspace{0.8cm}
+	Example of tests for strong and weak connection: 
+	\begin{columns}
+		\column{0.5\textwidth}
+		\begin{figure}
+			\includegraphics[scale=0.15]{images/test-strong-connection.png}
+			
+			the two stones are \\\textit{not} strongly connected
+		\end{figure}
+		
+		\column{0.5\textwidth}
+		\begin{figure}
+			\includegraphics[scale=0.15]{images/test-weak-connection.png}
+			
+			the two stones are \\\textit{not} weakly connected
+		\end{figure}
+	\end{columns}
 \end{frame}
 
 
