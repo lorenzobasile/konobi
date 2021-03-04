@@ -1,3 +1,10 @@
 .idea/*
 .gradle/*
 build/
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.synctex.gz
+*.toc

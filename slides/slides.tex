@@ -206,14 +206,53 @@ The constructor of Board creates a set of empty cells
 
 	For a given \texttt{Board}, the \texttt{isValid} method will check if it is legal to place a stone of a given \texttt{Color} in the \texttt{Cell}. \\
 	\vspace{0.1cm}
-	Having a \texttt{Rule} interface will allow the possibility to add new rules over the possible player's move.
+	A \texttt{Rule} interface will allow the possibility to add new rules on the game.
+	
+\end{frame}
+
+\begin{frame}[t]{How were implemented}
+	
+	We implemented \texttt{WeakConnectionRule} and \texttt{CrossCutRule} by following TDD principles based on some examples...\\
+	\vspace{0.1cm}
+	\textbf{Legal moves}
+	\begin{columns}
+		\column{0.5\textwidth}
+		%codice
+		\begin{figure}[t]
+			\includegraphics[scale=0.2]{images/test-legal-weak.png}
+		\end{figure}
+		\column{0.3\textwidth}
+		%esempio
+		\begin{figure}[t]
+			\includegraphics[scale=0.15]{images/legal-move.png}
+		\end{figure}
+		
+	\end{columns}
+
+	\textbf{Illegal moves}
+		\begin{columns}
+		\column{0.3\textwidth}
+		%codice
+		\begin{figure}[t]
+			\includegraphics[scale=0.2]{images/illegal-move.png}
+		\end{figure}
+		\column{0.5\textwidth}
+		%esempio
+		\begin{figure}
+			\includegraphics[scale=0.2]{images/test-illegal-weak.png}
+		\end{figure}
+		
+	\end{columns}
+	
+
+	
 	
 \end{frame}
 
 \begin{frame}{Referee}
 	\begin{columns}
 \column{0.5\textwidth}
-	Once implemented the logic of a valid move in \texttt{Rules} package, our aim was to group together all the methods needed to check if:
+	Given the logic of a valid move in \texttt{Rules} package, our aim was to group together all the methods needed to check if:
 	\vspace{0.4cm}
 	\begin{itemize}
 		\item a given move is legal w.r.t. \texttt{WeakConnectionRule} and \texttt{CrossCutRule}
