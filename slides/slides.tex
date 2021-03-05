@@ -290,15 +290,17 @@ The constructor of Board creates a set of empty cells
 \end{frame}
 
 
-
 \section{InputOutput}
 
 \begin{frame}{InputHandler and Display}
 	Classes \texttt{InputHandler} and \texttt{Display} take care of game I/O.
 
-	 \texttt{Display} contains messages to be shown to players and a method to print the board.
+	\begin{itemize}
+		\item \texttt{Display}: interaction with players
+	 	\item \texttt{InputHandler}: management of player inputs
+	\end{itemize}
 	
-	 \texttt{InputHandler} receives inputs from player and verifies their validity using exceptions.  
+	INSERIRE UML INPUTOUTPUT E EXCEPTIONS
 \end{frame}
 
 
@@ -313,32 +315,38 @@ The constructor of Board creates a set of empty cells
 
 \begin{frame}{GameState}
      
-     Game dynamics is managed by the \texttt{GameState} class which keeps track of current state of the game.
-     \vspace{0.4cm}
-     \\It is in charge of changing turn, updating the board when a valid move is received, verifying if someone has won and applying pie and pass rule.
-     \vspace{0.4cm}
-     \\ \texttt{GameState} acts as an intermediary between \texttt{Referee} and \texttt{Board} on one side and the higher-level class \texttt{Game} on the other 	side.
+     \texttt{GameState} class keeps track of current state of the game.
+     
+     METTERE UML DEI METODI PUBBLICI PIUTTOSTO CHE QUESTO DEI MEMBRI.
      \begin{center}
      	\includegraphics[scale=0.32]{images/gamestate.png}
      \end{center}
+    
+     \vspace{0.4cm}
+   \texttt{GameState} acts as an intermediary between \texttt{Referee} and \texttt{Board} on one side and the higher-level class \texttt{Game} on the other 	side.
+     
 \end{frame}
 
-\begin{frame}{Game}
-
-	Class \texttt{Game} provides an abstraction for the game itself and instantiates a \texttt{GameState} and two players.
-	
-	 \texttt{Player} is defined by a color, a name, an \texttt{InputHandler} and a \texttt{Display}.
-	 
+\begin{frame}{Game}	 
 	Based on the directives of \texttt{GameState}, \texttt{Game} manages the interactions with players.
+	\\
+	\vspace{0.5cm}
+     	\pause
+	\includegraphics[scale=0.26]{images/play.png}
+   	\pause
+	\includegraphics[scale=0.26]{images/singleturn.png}
+	\pause
+	\includegraphics[scale=0.26]{images/regularmove.png}
 \end{frame}
 
 \begin{frame}{GameInitializer}
 
-	\texttt{GameInitializer} abstracts the initialization of the \texttt{Game}, extended by \texttt{GameInitializerConsole} and \texttt{GameInitializerClientServer}.
+	\texttt{GameInitializer} abstracts the initialization of the \texttt{Game}.
 	
-	The initialization includes a welcome message, the construction of a \texttt{Game} and a player color message that will all be implemented in the two subclasses. 
+	AGGIUNGERE UML METODI DI GAMEINITIALIZER
 
 \end{frame}
+
 
 \section{Running the game}
 
