@@ -105,7 +105,7 @@ public abstract class Game {
         return inputPosition;
     }
 
-    public boolean checkAndNotifyWin() {
+    private boolean checkAndNotifyWin() {
         if(gameState.someoneHasWon()) {
             notifyEndOfMatch();
             return true;

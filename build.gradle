@@ -4,21 +4,17 @@ plugins {
     id 'application'
 }
 
-task(runConsole, type: JavaExec) {
-    main = 'konobi.ConsoleVersion.MainConsole'
-    classpath = sourceSets.main.runtimeClasspath
+task(runKonobi, type: JavaExec) {
+    main = 'konobi.Main'
     standardInput = System.in
     standardOutput = System.out
-}
-task(runClientServer, type: JavaExec) {
-    main = 'konobi.ClientServerVersion.MainClientServer'
     classpath = sourceSets.main.runtimeClasspath
     if (project.hasProperty("ortNumber")) {
         args(ortNumber.split(','))
     }
 }
 
-mainClassName='konobi.ConsoleVersion.MainConsole'
+mainClassName='konobi.Main'
 
 repositories {
     mavenCentral()
@@ -27,7 +23,7 @@ repositories {
 jar {
     manifest {
         attributes (
-                'Main-Class': 'konobi.ConsoleVersion.MainConsole'
+                'Main-Class': 'konobi.Main'
         )
     }
 }

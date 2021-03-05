@@ -33,17 +33,14 @@ To download and run the console version of Konobi, execute the following command
 ```bash
 git clone https://github.com/lorenzobasile/konobi.git
 cd konobi
-./gradlew runConsole --console plain
+./gradlew runKonobi --console plain
 ```
 
-To run (as server) the Client-Server version of Konobi, substitute the last line with one of the following:
+To run (as server) the Client-Server version of Konobi, a port number has to be specified using the following command:
 
 ```shell
-./gradlew runClientServer -PortNumber=<PORT_NUMBER> --console plain
-./gradlew runClientServer --console plain
+./gradlew runKonobi -PortNumber=<PORT_NUMBER> --console plain
 ```
-
-The second line is equivalent to the first one with `PORT_NUMBER=4444`.
 
 Then, two clients can connect to the server and play by executing the command:
 

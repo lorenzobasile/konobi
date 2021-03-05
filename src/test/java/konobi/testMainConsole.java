@@ -1,7 +1,6 @@
 package konobi;
 
 
-import konobi.ConsoleVersion.MainConsole;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -31,7 +30,7 @@ public class testMainConsole {
         System.setIn(fileInputStream);
         System.setOut(new PrintStream(fakeStandardOutput));
 
-        MainConsole.main(null);
+        Main.main(null);
 
         String outputString = fakeStandardOutput.toString();
         List<String> outputLines = outputString.lines().collect(Collectors.toList());
