@@ -35,6 +35,8 @@ public class Display {
         out.println();
     }
 
+
+
     public void welcomeMessage(){
         out.println(KONOBI_LOGO);
         out.println("Welcome to Konobi!");

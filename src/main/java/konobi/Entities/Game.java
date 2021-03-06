@@ -2,7 +2,7 @@ package konobi.Entities;
 
 import konobi.InputOutput.Display;
 import konobi.InputOutput.Exceptions.NegativeNumberException;
-import konobi.InputOutput.InputHandler;
+import konobi.InputOutput.InputTerminal;
 
 public abstract class Game {
 
@@ -13,7 +13,7 @@ public abstract class Game {
     public Game(int dimension, Player player1, Player player2) {
         this.player1 = player1;
         this.player2 = player2;
-        gameState = new GameState(dimension, player1.getColor());
+        this.gameState = new GameState(dimension, player1.getColor());
     }
 
     public void play() {
@@ -22,15 +22,15 @@ public abstract class Game {
         } while (!checkAndNotifyWin());
     }
 
-    public InputHandler currentInputHandler() {
-        return getCurrentPlayer().getInputHandler();
+    private InputTerminal getCurrentInputTerminal() {
+        return getCurrentPlayer().getInputTerminal();
     }
 
-    public Display currentDisplay() {
+    protected Display getCurrentDisplay() {
         return getCurrentPlayer().getDisplay();
     }
 
-    public Display otherDisplay() {
+    protected Display getOtherDisplay() {
         return getOtherPlayer().getDisplay();
     }
 
@@ -56,9 +56,9 @@ public abstract class Game {
             return player1;
     }
 
-    public void singleTurn() {
-        currentDisplay().currentPlayerTurnMessage(getCurrentPlayer());
-        if(gameState.pieRuleCanBeApplied() && currentInputHandler().playerWantsToApplyPieRule(getCurrentPlayer())) {
+    private void singleTurn() {
+        getCurrentDisplay().currentPlayerTurnMessage(getCurrentPlayer());
+        if(gameState.canPieRuleBeApplied() && getCurrentInputTerminal().playerWantsToApplyPieRule(getCurrentPlayer())) {
             applyAndNotifyPieRule();
         } else {
             regularMove();
@@ -70,8 +70,8 @@ public abstract class Game {
     protected abstract void printBoard(Board board);
 
     private void regularMove() {
-        if(gameState.passIsMandatory()) {
-            currentDisplay().passMessage(getOtherPlayer());
+        if(gameState.isPassMandatory()) {
+            notifyMandatoryPass();
         }
         else {
             Position inputPosition = chooseNextMove();
@@ -79,34 +79,36 @@ public abstract class Game {
         }
     }
 
+    protected abstract void notifyMandatoryPass();
+
     private Position chooseNextMove() {
         Position inputPosition;
         try{
-            inputPosition = currentInputHandler().inputMove();
+            inputPosition = getCurrentInputTerminal().inputMove();
         } catch (NumberFormatException notANumber){
-            currentDisplay().notANumberMessage();
+            getCurrentDisplay().notANumberMessage();
             return chooseNextMove();
         } catch (NegativeNumberException wrongInput){
-            currentDisplay().printExceptionCause(wrongInput);
+            getCurrentDisplay().printExceptionCause(wrongInput);
             return chooseNextMove();
         }
-        if(gameState.outsideBoardMove(inputPosition)){
-            currentDisplay().positionOutsideBoardMessage();
+        if(gameState.isMoveOutsideBoard(inputPosition)){
+            getCurrentDisplay().positionOutsideBoardMessage();
             return chooseNextMove();
         }
         else if(gameState.isAlreadyOccupied(inputPosition)){
-            currentDisplay().alreadyPlayedPositionMessage();
+            getCurrentDisplay().alreadyPlayedPositionMessage();
             return chooseNextMove();
         }
-        else if(gameState.isInvalidMove(inputPosition)){
-            currentDisplay().invalidMoveMessage();
+        else if(gameState.isMoveInvalid(inputPosition)){
+            getCurrentDisplay().invalidMoveMessage();
             return chooseNextMove();
         }
         return inputPosition;
     }
 
     private boolean checkAndNotifyWin() {
-        if(gameState.someoneHasWon()) {
+        if(gameState.hasTheLastPlayerWon()) {
             notifyEndOfMatch();
             return true;
         }

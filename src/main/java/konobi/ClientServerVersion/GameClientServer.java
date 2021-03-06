@@ -12,20 +12,25 @@ public class GameClientServer extends Game {
     }
 
     public void notifyPieRule() {
-        currentDisplay().playerColorsMessage(player1, player2);
-        otherDisplay().pieRuleHasBeenAppliedMessage();
-        otherDisplay().playerColorsMessage(player1, player2);
+        getCurrentDisplay().playerColorsMessage(player1, player2);
+        getOtherDisplay().pieRuleHasBeenAppliedMessage();
+        getOtherDisplay().playerColorsMessage(player1, player2);
+    }
+
+    protected void notifyMandatoryPass(){
+        getCurrentDisplay().passMessage(getCurrentPlayer());
+        getOtherDisplay().passMessage(getCurrentPlayer());
     }
 
     public void printBoard(Board board){
-        currentDisplay().printBoard(board);
-        otherDisplay().otherPlayerHasMadeMoveMessage();
-        otherDisplay().printBoard(board);
+        getCurrentDisplay().printBoard(board);
+        getOtherDisplay().otherPlayerHasMadeMoveMessage();
+        getOtherDisplay().printBoard(board);
     }
 
     public void notifyEndOfMatch() {
-        otherDisplay().winMessage(getOtherPlayer());
-        currentDisplay().lossMessage(getCurrentPlayer());
+        getOtherDisplay().winMessage(getOtherPlayer());
+        getCurrentDisplay().lossMessage(getCurrentPlayer());
     }
 
 }

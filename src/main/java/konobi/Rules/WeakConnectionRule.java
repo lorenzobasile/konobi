@@ -12,7 +12,7 @@ public class WeakConnectionRule implements Rule{
     public boolean isValid(Board board, Cell cell, Color stoneColor) {
         board.placeStone(cell.getPosition(), stoneColor);
         Set<Cell> weakNeighbors = board.weakConnectionsOf(cell);
-        cell.reset();
+        cell.removeStone();
         boolean isWeakPlacementInvalid = weakNeighbors.stream()
                                                       .map(c->c.orthogonalNeighborsIn(board))
                                                       .anyMatch(s->s.stream()
@@ -24,7 +24,7 @@ public class WeakConnectionRule implements Rule{
     private boolean checkIfThereAreNoWeakNeighbors(Board board, Cell cell, Color stoneColor){
         board.placeStone(cell.getPosition(), stoneColor);
         Set<Cell> weakConnectionsOfCell = board.weakConnectionsOf(cell);
-        cell.reset();
+        cell.removeStone();
         return weakConnectionsOfCell.isEmpty();
     }
 }

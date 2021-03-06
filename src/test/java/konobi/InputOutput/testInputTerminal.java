@@ -12,23 +12,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-public class testInputHandler {
-    InputHandler inputHandler=new InputHandler(System.in, new Display(System.out));
+public class testInputTerminal {
+    InputTerminal inputTerminal =new InputTerminal(System.in, new Display(System.out));
 
     @Test
     public void dimensionFiveIsReceived() throws Exception{
         String dimension = "5";
         InputStream in = new ByteArrayInputStream(dimension.getBytes());
-        inputHandler.setIn(in);
-        assertEquals(5, inputHandler.inputDimension());
+        inputTerminal.setIn(in);
+        assertEquals(5, inputTerminal.inputDimension());
     }
 
     @Test
     public void yesAnswerIsReceived() throws Exception{
         String input = "y";
         InputStream in = new ByteArrayInputStream(input.getBytes());
-        inputHandler.setIn(in);
-        assertTrue(inputHandler.playerWantsToApplyPieRule(new Player(Color.BLACK, "player", inputHandler, new Display(System.out))));
+        this.inputTerminal.setIn(in);
+        assertTrue(this.inputTerminal.playerWantsToApplyPieRule(new Player(Color.BLACK, "player", this.inputTerminal, new Display(System.out))));
 
     }
 
@@ -37,8 +37,8 @@ public class testInputHandler {
         String x = "1\n1";
         InputStream in = new ByteArrayInputStream(x.getBytes());
         System.setIn(in);
-        inputHandler.setIn(in);
-        assertEquals(at(1, 1), inputHandler.inputMove());
+        inputTerminal.setIn(in);
+        assertEquals(at(1, 1), inputTerminal.inputMove());
 
     }
 

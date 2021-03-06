@@ -4,9 +4,11 @@ public enum Color {
     BLACK,
     WHITE;
 
-    public Color opposite(){
-        if (this==BLACK) return WHITE;
-        return BLACK;
+    public Color getOpposite(){
+        if (this==BLACK)
+            return WHITE;
+        else
+            return BLACK;
     }
 }
 

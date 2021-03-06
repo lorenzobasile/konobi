@@ -29,9 +29,7 @@ public class testMainConsole {
         ByteArrayOutputStream fakeStandardOutput = new ByteArrayOutputStream();
         System.setIn(fileInputStream);
         System.setOut(new PrintStream(fakeStandardOutput));
-
-        Main.main(null);
-
+        Main.main(new String[0]);
         String outputString = fakeStandardOutput.toString();
         List<String> outputLines = outputString.lines().collect(Collectors.toList());
         String winnerOutputString = outputLines.get(outputLines.size()-1);

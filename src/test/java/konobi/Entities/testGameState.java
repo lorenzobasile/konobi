@@ -32,7 +32,7 @@ public class testGameState {
 
     @Test
     public void moveOutsideBoard(){
-        assertTrue(state.outsideBoardMove(at(6, 6)));
+        assertTrue(state.isMoveOutsideBoard(at(6, 6)));
     }
 
     @Test
@@ -41,7 +41,7 @@ public class testGameState {
         state.changeTurn();
         state.updateBoard(at(2,1));
         state.changeTurn();
-        assertTrue(state.isInvalidMove(at(2,2)));
+        assertTrue(state.isMoveInvalid(at(2,2)));
     }
 
     @Test
@@ -58,7 +58,7 @@ public class testGameState {
             state.changeTurn();
         }
 
-        assertTrue(state.passIsMandatory());
+        assertTrue(state.isPassMandatory());
     }
 
 

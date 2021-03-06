@@ -24,11 +24,11 @@ public class GameState {
     }
 
     private Color getLastColor(){
-        return currentColor.opposite();
+        return currentColor.getOpposite();
     }
 
     private void switchCurrentColor() {
-        currentColor = currentColor.opposite();
+        currentColor = currentColor.getOpposite();
     }
 
     private void incrementCounter() {
@@ -40,7 +40,7 @@ public class GameState {
         incrementCounter();
     }
 
-    public boolean pieRuleCanBeApplied() {
+    public boolean canPieRuleBeApplied() {
         return movesCounter == 2;
     }
 
@@ -48,13 +48,13 @@ public class GameState {
         switchCurrentColor();
     }
 
-    public boolean passIsMandatory() {
-        Set<Cell> availableCells = referee.availableCellsFor(currentColor);
+    public boolean isPassMandatory() {
+        Set<Cell> availableCells = referee.availableMovesFor(currentColor);
         return availableCells.isEmpty();
     }
 
-    public boolean someoneHasWon(){
-        return referee.validateChain(getLastColor());
+    public boolean hasTheLastPlayerWon(){
+        return referee.isThereAWinningChainFor(getLastColor());
     }
 
     public boolean isAlreadyOccupied(Position inputPosition) {
@@ -62,12 +62,12 @@ public class GameState {
         return cell.isOccupied();
     }
 
-    public boolean outsideBoardMove(Position inputPosition){
+    public boolean isMoveOutsideBoard(Position inputPosition){
         return board.getCell(inputPosition) == null;
     }
 
-    public boolean isInvalidMove(Position inputPosition) {
-        Set<Cell> availableCells = referee.availableCellsFor(currentColor);
+    public boolean isMoveInvalid(Position inputPosition) {
+        Set<Cell> availableCells = referee.availableMovesFor(currentColor);
         return !availableCells.contains(board.getCell(inputPosition));
     }
 
@@ -75,5 +75,4 @@ public class GameState {
         Color newStone = currentColor;
         board.placeStone(inputPosition, newStone);
     }
-
 }

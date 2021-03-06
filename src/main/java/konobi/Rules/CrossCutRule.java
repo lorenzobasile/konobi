@@ -15,7 +15,7 @@ public class CrossCutRule implements Rule{
                                                 .map(c->c.commonOrthogonalNeighborsWith(cell, board))
                                                 .anyMatch(s->s.stream()
                                                               .allMatch(c->c.isOccupied() && !c.hasSameColorAs(cell)));
-        cell.reset();
+        cell.removeStone();
         return !isThereACrossCut;
 
     }

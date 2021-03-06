@@ -1,15 +1,6 @@
 package konobi.Entities;
 
-
-import konobi.Entities.Board;
-import konobi.Entities.Cell;
-import konobi.Entities.Color;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-
-import java.util.Set;
-
 import static konobi.Entities.Position.at;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -61,29 +52,6 @@ public class testBoard {
         assertEquals(4,board.weakConnectionsOf(board.getCell(at(3,3))).size());
     }
 
-    @ParameterizedTest
-    @CsvSource({"1, 3",
-            "2, 3",
-            "3, 3"})
-    public void blackStonesAtTopAreInStartEdge(int x, int y){
-        Board board = new Board(3);
-        board.placeStone(at(x, y), Color.BLACK);
-        Cell cell  = board.getCell(at(x, y));
-        Set<Cell> cellsOnTopEdge = board.startEdge(Color.BLACK);
-        assertTrue(cellsOnTopEdge.contains(cell));
-    }
-
-    @ParameterizedTest
-    @CsvSource({"1, 1",
-            "1, 2",
-            "1, 3"})
-    public void whiteStonesAtLeftAreInStartEdge(int x, int y){
-        Board board = new Board(3);
-        board.placeStone(at(x, y), Color.WHITE);
-        Cell cell  = board.getCell(at(x, y));
-        Set<Cell> cellsOnTopEdge = board.startEdge(Color.WHITE);
-        assertTrue(cellsOnTopEdge.contains(cell));
-    }
 
 
 }

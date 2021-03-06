@@ -9,12 +9,12 @@ import java.util.Scanner;
 
 import static konobi.Entities.Position.at;
 
-public class InputHandler {
+public class InputTerminal {
 
     private Scanner in;
     private final Display display;
 
-    public InputHandler(InputStream in, Display display){
+    public InputTerminal(InputStream in, Display display){
         this.in = new Scanner(in);
         this.display = display;
     }

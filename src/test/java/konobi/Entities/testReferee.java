@@ -1,6 +1,5 @@
 package konobi.Entities;
 
-import konobi.Entities.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,12 +20,12 @@ public class testReferee {
 
     @Test
     public void initiallyAllBlackMovesAreLegal() {
-        assertEquals(board, referee.availableCellsFor(Color.BLACK));
+        assertEquals(board, referee.availableMovesFor(Color.BLACK));
     }
 
     @Test
     public void initiallyAllWhiteMovesAreLegal() {
-        assertEquals(board, referee.availableCellsFor(Color.WHITE));
+        assertEquals(board, referee.availableMovesFor(Color.WHITE));
     }
 
     @Test
@@ -37,7 +36,7 @@ public class testReferee {
         board.placeStone(at(3,3), Color.WHITE);
         board.placeStone(at(2,2), Color.BLACK);
         Cell cellToVerify = board.getCell(at(2,1));
-        Set<Cell> availableCellsForBlack = referee.availableCellsFor(Color.BLACK);
+        Set<Cell> availableCellsForBlack = referee.availableMovesFor(Color.BLACK);
         assertTrue(availableCellsForBlack.contains(cellToVerify));
 
     }
@@ -50,7 +49,7 @@ public class testReferee {
         board.placeStone(at(3,3), Color.WHITE);
         board.placeStone(at(2,2), Color.BLACK);
         Cell cellToVerify = board.getCell(at(2,1));
-        Set<Cell> availableCellsForWhite = referee.availableCellsFor(Color.WHITE);
+        Set<Cell> availableCellsForWhite = referee.availableMovesFor(Color.WHITE);
         assertFalse(availableCellsForWhite.contains(cellToVerify));
 
     }
@@ -70,7 +69,7 @@ public class testReferee {
         board.placeStone(at(4,3), Color.WHITE);
         board.placeStone(at(5,1), Color.WHITE);
         board.placeStone(at(3,5), Color.BLACK);
-        assertTrue(referee.validateChain(Color.BLACK));
+        assertTrue(referee.isThereAWinningChainFor(Color.BLACK));
     }
 
     @Test
@@ -87,7 +86,7 @@ public class testReferee {
         board.placeStone(at(1,1), Color.WHITE);
         board.placeStone(at(4,3), Color.WHITE);
         board.placeStone(at(5,1), Color.WHITE);
-        assertFalse(referee.validateChain(Color.BLACK));
+        assertFalse(referee.isThereAWinningChainFor(Color.BLACK));
     }
 
     @Test
@@ -105,7 +104,7 @@ public class testReferee {
         board.placeStone(at(3,3), Color.BLACK);
         board.placeStone(at(4,1), Color.BLACK);
         board.placeStone(at(5,3), Color.BLACK);
-        assertTrue(referee.validateChain(Color.WHITE));
+        assertTrue(referee.isThereAWinningChainFor(Color.WHITE));
     }
 
     @Test
@@ -120,6 +119,6 @@ public class testReferee {
         board.placeStone(at(4,4), Color.WHITE);
         board.placeStone(at(1,4), Color.BLACK);
         board.placeStone(at(5,4), Color.BLACK);
-        assertFalse(referee.validateChain(Color.WHITE));
+        assertFalse(referee.isThereAWinningChainFor(Color.WHITE));
     }
 }

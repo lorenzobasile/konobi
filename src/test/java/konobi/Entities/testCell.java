@@ -1,18 +1,12 @@
 package konobi.Entities;
 
-
-import konobi.Entities.Board;
-import konobi.Entities.Cell;
-import konobi.Entities.Color;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-
 import static konobi.Entities.Position.at;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -85,10 +79,32 @@ public class testCell {
     }
 
     @ParameterizedTest
+    @CsvSource({"1, 3",
+                "2, 3",
+                "3, 3"})
+    public void blackStonesAtTopAreInStartEdge(int x, int y){
+        Board board = new Board(3);
+        board.placeStone(at(x, y), Color.BLACK);
+        Cell cell  = board.getCell(at(x, y));
+        assertTrue(cell.isOnStartEdge(board.dimension()));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1, 1",
+                "1, 2",
+                "1, 3"})
+    public void whiteStonesAtLeftAreInStartEdge(int x, int y){
+        Board board = new Board(3);
+        board.placeStone(at(x, y), Color.WHITE);
+        Cell cell  = board.getCell(at(x, y));
+        assertTrue(cell.isOnStartEdge(board.dimension()));
+    }
+
+    @ParameterizedTest
     @CsvSource({"1, 1",
                 "2, 1",
                 "3, 1"})
-    public void blackStonesAtLeftAreInEndEdge(int x, int y){
+    public void blackStonesAtBottomAreInEndEdge(int x, int y){
         Board board = new Board(3);
         board.placeStone(at(x, y), Color.BLACK);
         Cell cell  = board.getCell(at(x, y));

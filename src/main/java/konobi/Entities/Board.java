@@ -1,12 +1,10 @@
 package konobi.Entities;
 
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
 import static konobi.Entities.Position.at;
 
 public class Board extends HashSet<Cell>{
@@ -15,9 +13,9 @@ public class Board extends HashSet<Cell>{
         super();
         Set<Cell> cellSet = IntStream.rangeClosed(1,dimension)
                                      .mapToObj(i -> IntStream.rangeClosed(1,dimension)
-                                                      .mapToObj(j -> new Cell(at(i,j))))
-                              .flatMap(Function.identity())
-                              .collect(Collectors.toSet());
+                                                             .mapToObj(j -> new Cell(at(i,j))))
+                                     .flatMap(Function.identity())
+                                     .collect(Collectors.toSet());
         this.addAll(cellSet);
     }
 
@@ -27,21 +25,14 @@ public class Board extends HashSet<Cell>{
 
     public Cell getCell(Position position) {
         return this.stream()
-                    .filter(c->c.isAt(position))
-                    .findFirst()
-                    .orElse(null);
+                   .filter(c->c.isAt(position))
+                   .findFirst()
+                   .orElse(null);
     }
 
     public void placeStone(Position position, Color color) {
-        Cell cellToOccupy = this.getCell(position);
+        Cell cellToOccupy = getCell(position);
         cellToOccupy.setColor(color);
-    }
-
-    public Set<Cell> startEdge(Color color){
-        return this.stream()
-                .filter(c->c.hasColor(color))
-                .filter(c->c.isOnStartEdge(dimension()))
-                .collect(Collectors.toSet());
     }
 
     public Set<Cell> strongConnectionsOf(Cell cell) {
@@ -66,11 +57,10 @@ public class Board extends HashSet<Cell>{
     }
 
     private Set<Cell> commonStrongConnectionsBetween(Cell cell, Cell otherCell) {
-        return cell.commonOrthogonalNeighborsWith(otherCell, this).stream()
-                                                                   .filter(Cell::isOccupied)
-                                                                   .filter(c->c.hasSameColorAs(cell))
-                                                                   .filter(c->c.hasSameColorAs(otherCell))
-                                                                   .collect(Collectors.toSet());
+        Set<Cell> strongNeighborsOfCell = strongConnectionsOf(cell);
+        Set<Cell> strongNeighborsOfOtherCell = strongConnectionsOf(otherCell);
+        strongNeighborsOfCell.retainAll(strongNeighborsOfOtherCell);
+        return strongNeighborsOfCell;
     }
 
 }

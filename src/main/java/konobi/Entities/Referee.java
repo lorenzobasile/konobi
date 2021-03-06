@@ -19,20 +19,22 @@ public class Referee {
         return ruleOne.isValid(board, cell, color) && ruleTwo.isValid(board, cell, color);
     }
 
-    public Set<Cell> availableCellsFor(Color color) {
+    public Set<Cell> availableMovesFor(Color color) {
         return board.stream()
-                          .filter(c->!c.isOccupied())
-                          .filter(c->validateMove(c, color))
-                          .collect(Collectors.toSet());
+                    .filter(c->!c.isOccupied())
+                    .filter(c->validateMove(c, color))
+                    .collect(Collectors.toSet());
     }
 
-    public boolean validateChain(Color color) {
+    public boolean isThereAWinningChainFor(Color color) {
         Set<Position> visitedCells = new HashSet<>();
-        return board.startEdge(color).stream()
-                                     .filter(Cell::isOccupied)
-                                     .filter(c->!visitedCells.contains(c.getPosition()))
-                                     .filter(c->c.hasColor(color))
-                                     .anyMatch(c->chainSearch(c, visitedCells));
+        return board.stream()
+                    .filter(c->c.hasColor(color))
+                    .filter(c->c.isOnStartEdge(board.dimension()))
+                    .filter(Cell::isOccupied)
+                    .filter(c->!visitedCells.contains(c.getPosition()))
+                    .filter(c->c.hasColor(color))
+                    .anyMatch(c->chainSearch(c, visitedCells));
     }
 
     private boolean chainSearch(Cell source, Set<Position> visitedCells) {

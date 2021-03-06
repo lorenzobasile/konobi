@@ -1,23 +1,23 @@
 package konobi.Entities;
 
 import konobi.InputOutput.Display;
-import konobi.InputOutput.InputHandler;
+import konobi.InputOutput.InputTerminal;
 
 public class Player {
     private Color color;
     private final String name;
-    private final InputHandler inputHandler;
+    private final InputTerminal inputTerminal;
     private final Display display;
 
-    public Player(Color color, String name, InputHandler inputHandler, Display display) {
+    public Player(Color color, String name, InputTerminal inputTerminal, Display display) {
         this.color = color;
         this.name = name;
-        this.inputHandler = inputHandler;
+        this.inputTerminal = inputTerminal;
         this.display = display;
     }
 
-    public InputHandler getInputHandler() {
-        return inputHandler;
+    public InputTerminal getInputTerminal() {
+        return inputTerminal;
     }
 
     public Display getDisplay() {
@@ -34,7 +34,7 @@ public class Player {
 
     public void switchColorsWith(Player otherPlayer) {
         Color temp = otherPlayer.color;
-        otherPlayer.color = color;
-        color = temp;
+        otherPlayer.color = this.color;
+        this.color = temp;
     }
 }

@@ -13,7 +13,7 @@ public class Cell {
         isOccupied = false;
     }
 
-    public void reset(){
+    public void removeStone(){
         color = null;
         isOccupied = false;
     }
@@ -22,8 +22,8 @@ public class Cell {
         return position;
     }
 
-    public boolean isAt(Position location){
-        return position.equals(location);
+    public boolean isAt(Position givenPosition){
+        return position.equals(givenPosition);
     }
 
     public boolean isOccupied() {
@@ -43,11 +43,12 @@ public class Cell {
         return hasColor(cell.color);
     }
 
-    private boolean isOrthogonallyAdjacentTo(Cell cell) {
-        return position.squareEuclideanDistanceFrom(cell.position)==1;
+    private boolean isOrthogonallyAdjacentTo(Cell otherCell) {
+        return this.position.squareEuclideanDistanceFrom(otherCell.position)==1;
     }
-    private boolean isDiagonallyAdjacentTo(Cell cell) {
-        return position.squareEuclideanDistanceFrom(cell.position)==2;
+
+    private boolean isDiagonallyAdjacentTo(Cell otherCell) {
+        return this.position.squareEuclideanDistanceFrom(otherCell.position)==2;
     }
 
     public Set<Cell> orthogonalNeighborsIn(Set<Cell> cells) {
@@ -70,10 +71,16 @@ public class Cell {
     }
 
     public boolean isOnStartEdge(int dimension) {
-        return position.getX()==1 && color==Color.WHITE || position.getY()==dimension && color==Color.BLACK;
+        if(color==Color.WHITE)
+            return position.getX()==1;
+        else
+            return position.getY()==dimension;
     }
 
     public boolean isOnEndEdge(int dimension) {
-        return position.getX()==dimension && color==Color.WHITE || position.getY()==1 && color==Color.BLACK;
+        if(color==Color.WHITE)
+            return position.getX()==dimension;
+        else
+            return position.getY()==1;
     }
 }
