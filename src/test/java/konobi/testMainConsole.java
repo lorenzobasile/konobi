@@ -1,9 +1,7 @@
 package konobi;
 
-
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -12,14 +10,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
 public class testMainConsole {
-
     @ParameterizedTest
-    @CsvSource({"match.txt", "match2.txt", "match3.txt", "match4_crosscut.txt", "match_pass.txt"})
+    @CsvSource({"match1.txt", "match2.txt", "match3.txt", "match4_crosscut.txt", "match5_pass.txt"})
     public void simulateGameAndCheckWinner(String fileName) throws IOException, URISyntaxException {
         URL filePath = testMainConsole.class.getClassLoader().getResource(fileName);
         assert filePath != null;

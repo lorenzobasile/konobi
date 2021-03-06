@@ -5,7 +5,6 @@ import konobi.Entities.GameInitializer;
 import konobi.InputOutput.Display;
 import konobi.InputOutput.InputTerminal;
 
-
 public class GameInitializerConsole extends GameInitializer {
     public GameInitializerConsole() {
         Display commonDisplay = new Display(System.out);
@@ -16,14 +15,17 @@ public class GameInitializerConsole extends GameInitializer {
         player2InputTerminal = commonInputTerminal;
     }
 
+    @Override
     protected GameConsole constructGame(int dimension, Player player1, Player player2){
         return new GameConsole(dimension, player1, player2);
     }
 
+    @Override
     protected void welcome() {
         player1Display.welcomeMessage();
     }
 
+    @Override
     protected void showPlayerColors(Player player1, Player player2) {
         player1Display.playerColorsMessage(player1, player2);
     }

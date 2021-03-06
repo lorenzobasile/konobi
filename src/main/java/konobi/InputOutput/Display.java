@@ -1,11 +1,9 @@
 package konobi.InputOutput;
 
 import konobi.Entities.*;
-
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import static konobi.Entities.Position.at;
-
 
 public class Display {
 
@@ -19,7 +17,6 @@ public class Display {
             "|__|\\__\\  \\______/  |__| \\__|  \\______/  |______/  |__|\n" +
             "                                                       ";
     private static final String RULES_PAGE = "https://boardgamegeek.com/boardgame/123213/konobi";
-
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BROWN = "\u001b[48;5;179m";
     public static final String ANSI_BEIGE = "\u001b[48;5;130m";
@@ -30,17 +27,10 @@ public class Display {
         this.out = new PrintWriter(out, true);
     }
 
-
-    public void printEmptyLine(){
-        out.println();
-    }
-
-
-
     public void welcomeMessage(){
         out.println(KONOBI_LOGO);
         out.println("Welcome to Konobi!");
-        out.println("Official rules and documentation: "+RULES_PAGE);
+        out.println("Official rules and documentation: " + RULES_PAGE);
         printEmptyLine();
     }
 
@@ -70,12 +60,12 @@ public class Display {
 
     public void playerColorsMessage(Player player1, Player player2){
         printEmptyLine();
-        out.println(player1.getName()+" is "+player1.getColor()+", "+player2.getName()+" is "+player2.getColor());
+        out.println(player1.getName() + " is "+player1.getColor() + ", " + player2.getName() + " is " + player2.getColor());
     }
 
     public void currentPlayerTurnMessage(Player currentPlayer) {
         printEmptyLine();
-        out.println(currentPlayer.getName()+", it's your turn!");
+        out.println(currentPlayer.getName() + ", it's your turn!");
     }
 
     public void playerNameMessage(int whichPlayer) {
@@ -100,24 +90,26 @@ public class Display {
     }
 
     public void passMessage(Player currentPlayer) {
-        out.println("No available moves for "+currentPlayer.getName()+", who must pass");
+        out.println("No available moves for " + currentPlayer.getName() + ", who must pass");
     }
 
-    public void notANumberMessage() { out.println("Not an integer, please reinsert");}
+    public void notANumberMessage() {
+        out.println("Not an integer, please reinsert");
+    }
 
     public void printExceptionCause(Exception e) {
         out.println(e.getMessage());
     }
 
     public void printBoard(Board board) {
-        out.println();
+        printEmptyLine();
         for (int i = board.dimension(); i>0; i--){
             for(int j = 1; j <= board.dimension(); j++){
                 Position position = at(j, i);
                 drawSquareAt(position);
                 ifPresentDrawStoneAt(position, board);
             }
-            out.println();
+            printEmptyLine();
         }
     }
 
@@ -141,7 +133,7 @@ public class Display {
     }
 
     public void lossMessage(Player currentPlayer) {
-        out.println(currentPlayer.getName()+" you lost!");
+        out.println(currentPlayer.getName() + " you lost!");
     }
 
     public void otherPlayerHasMadeMoveMessage() {
@@ -151,5 +143,9 @@ public class Display {
 
     public void waitingForOtherPlayerMessage() {
         out.println("Waiting for the other player...");
+    }
+
+    public void printEmptyLine(){
+        out.println();
     }
 }

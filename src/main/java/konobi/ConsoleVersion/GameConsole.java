@@ -10,18 +10,22 @@ public class GameConsole extends Game {
         super(dimension, player1, player2);
     }
 
+    @Override
     protected void notifyPieRule() {
         getCurrentDisplay().playerColorsMessage(player1, player2);
     }
 
+    @Override
     protected void notifyMandatoryPass(){
         getCurrentDisplay().passMessage(getCurrentPlayer());
     }
 
+    @Override
     protected void printBoard(Board board){
         getCurrentDisplay().printBoard(board);
     }
 
+    @Override
     protected void notifyEndOfMatch() {
         getOtherDisplay().winMessage(getOtherPlayer());
     }

@@ -3,7 +3,6 @@ package konobi.Rules;
 import konobi.Entities.Board;
 import konobi.Entities.Cell;
 import konobi.Entities.Color;
-
 import java.util.Set;
 
 public class CrossCutRule implements Rule{
@@ -17,7 +16,6 @@ public class CrossCutRule implements Rule{
                                                               .allMatch(c->c.isOccupied() && !c.hasSameColorAs(cell)));
         cell.removeStone();
         return !isThereACrossCut;
-
     }
 
 }

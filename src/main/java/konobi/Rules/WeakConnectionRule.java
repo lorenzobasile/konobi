@@ -3,11 +3,9 @@ package konobi.Rules;
 import konobi.Entities.Board;
 import konobi.Entities.Cell;
 import konobi.Entities.Color;
-
 import java.util.Set;
 
 public class WeakConnectionRule implements Rule{
-
     @Override
     public boolean isValid(Board board, Cell cell, Color stoneColor) {
         board.placeStone(cell.getPosition(), stoneColor);

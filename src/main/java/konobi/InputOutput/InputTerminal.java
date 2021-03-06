@@ -6,29 +6,23 @@ import konobi.InputOutput.Exceptions.WrongAnswerException;
 import konobi.Entities.Player;
 import java.io.InputStream;
 import java.util.Scanner;
-
 import static konobi.Entities.Position.at;
 
 public class InputTerminal {
-
-    private Scanner in;
+    private final Scanner in;
     private final Display display;
 
     public InputTerminal(InputStream in, Display display){
         this.in = new Scanner(in);
         this.display = display;
     }
-
-    public void setIn(InputStream in) {
-        this.in = new Scanner(in);
-    }
     
     public int getDimension() {
         int dimension;
         try {
             dimension = inputDimension();
-        } catch(NegativeNumberException wrongInput){
-            display.printExceptionCause(wrongInput);
+        } catch(NegativeNumberException negativeNumber){
+            display.printExceptionCause(negativeNumber);
             return getDimension();
         } catch(NumberFormatException notANumber){
             display.notANumberMessage();
@@ -37,7 +31,7 @@ public class InputTerminal {
         return dimension;
     }
 
-    public int inputDimension() throws NegativeNumberException, NumberFormatException{
+    private int inputDimension() throws NegativeNumberException, NumberFormatException{
         display.inputBoardDimensionMessage();
         String stringDimension = in.nextLine();
         int dimension = Integer.parseInt(stringDimension);
@@ -61,17 +55,6 @@ public class InputTerminal {
         return at(x,y);
     }
 
-    public boolean getAnswerForPieRule(Player currentPlayer) throws WrongAnswerException {
-        display.askPieRuleMessage(currentPlayer.getName());
-        String answer = in.nextLine();
-        if(answer.equals("y"))
-            return true;
-        else if(answer.equals("n"))
-            return false;
-        else
-            throw new WrongAnswerException("Invalid answer: please reinsert");
-    }
-
     public boolean playerWantsToApplyPieRule(Player currentPlayer) {
         boolean answer;
         try {
@@ -82,6 +65,17 @@ public class InputTerminal {
             return playerWantsToApplyPieRule(currentPlayer);
         }
         return answer;
+    }
+
+    private boolean getAnswerForPieRule(Player currentPlayer) throws WrongAnswerException {
+        display.askPieRuleMessage(currentPlayer.getName());
+        String answer = in.nextLine();
+        if(answer.equals("y"))
+            return true;
+        else if(answer.equals("n"))
+            return false;
+        else
+            throw new WrongAnswerException("Invalid answer: please reinsert");
     }
 
     public String inputPlayerName(int whichPlayer) {

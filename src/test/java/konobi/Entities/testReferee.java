@@ -2,9 +2,7 @@ package konobi.Entities;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.Set;
-
 import static konobi.Entities.Position.at;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,11 +22,6 @@ public class testReferee {
     }
 
     @Test
-    public void initiallyAllWhiteMovesAreLegal() {
-        assertEquals(board, referee.availableMovesFor(Color.WHITE));
-    }
-
-    @Test
     public void checkIfMoveIsLegal() {
         board.placeStone(at(1,1), Color.BLACK);
         board.placeStone(at(1,2), Color.WHITE);
@@ -38,7 +31,6 @@ public class testReferee {
         Cell cellToVerify = board.getCell(at(2,1));
         Set<Cell> availableCellsForBlack = referee.availableMovesFor(Color.BLACK);
         assertTrue(availableCellsForBlack.contains(cellToVerify));
-
     }
 
     @Test
@@ -51,7 +43,6 @@ public class testReferee {
         Cell cellToVerify = board.getCell(at(2,1));
         Set<Cell> availableCellsForWhite = referee.availableMovesFor(Color.WHITE);
         assertFalse(availableCellsForWhite.contains(cellToVerify));
-
     }
 
     @Test

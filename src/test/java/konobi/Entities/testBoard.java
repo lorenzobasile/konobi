@@ -5,7 +5,6 @@ import static konobi.Entities.Position.at;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class testBoard {
-
     @Test
     public void afterPlacingStoneCellIsOccupied() {
         Board board = new Board(3);
@@ -15,7 +14,7 @@ public class testBoard {
     }
 
     @Test
-    public void stoneOfOppositeColorIsNotStronglyConnected() {
+    public void stonesOfOppositeColorsAreNotStronglyConnected() {
         Board board = new Board(3);
         board.placeStone(at(2,2), Color.BLACK);
         board.placeStone(at(2,1), Color.WHITE);
@@ -51,7 +50,5 @@ public class testBoard {
         board.placeStone(at(4,2), Color.BLACK);
         assertEquals(4,board.weakConnectionsOf(board.getCell(at(3,3))).size());
     }
-
-
 
 }

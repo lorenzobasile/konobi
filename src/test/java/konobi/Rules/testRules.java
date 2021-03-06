@@ -3,15 +3,11 @@ package konobi.Rules;
 import konobi.Entities.Board;
 import konobi.Entities.Cell;
 import konobi.Entities.Color;
-import konobi.Rules.CrossCutRule;
-import konobi.Rules.WeakConnectionRule;
 import org.junit.jupiter.api.Test;
 import static konobi.Entities.Position.at;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class testRules {
-
-
     @Test
     public void blackStoneMakesLegalWeakConnectionPlacement() {
         Board board = new Board(5);
@@ -39,7 +35,6 @@ public class testRules {
         Cell cellToVerify = board.getCell(at(2,3));
         assertTrue(rule.isValid(board, cellToVerify, Color.WHITE));
     }
-
 
     @Test
     public void blackStoneMakesIllegalWeakConnectionPlacement() {
@@ -82,7 +77,6 @@ public class testRules {
         Cell cellToVerify = board.getCell(at(2,1));
         assertFalse(rule.isValid(board, cellToVerify, Color.WHITE));
     }
-
 
     @Test
     public void blackStoneDoesNotMakeCrosscut()  {

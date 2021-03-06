@@ -12,14 +12,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class testCell {
-
     @ParameterizedTest
     @CsvSource({"2, 3",
                 "4, 2",
                 "3, 3"})
-    public void verifyOrthogonalNeighborsOfInnerCells(int x, int y) {
+    public void innerCellHasAllFourOrthogonalNeighbors(int x, int y) {
         Board board = new Board(7);
-
         Cell cell = board.getCell(at(x,y));
         Cell right = board.getCell(at(x+1,y));
         Cell left = board.getCell(at(x-1,y));
@@ -32,7 +30,7 @@ public class testCell {
     @ParameterizedTest
     @CsvSource({"1, 2",
                 "1, 4"})
-    public void verifyOrthogonalNeighborsOfCellsOnLeftEdge(int x, int y) {
+    public void cellOnLeftEdgeHasThreeOrthogonalNeighbors(int x, int y) {
         Board board = new Board(7);
         Cell cell = board.getCell(at(x,y));
         Cell right = board.getCell(at(x+1,y));
@@ -43,7 +41,7 @@ public class testCell {
     }
 
     @Test
-    public void verifyOrthogonalNeighborsOfCellsOnTopRightCorner() {
+    public void cellOnTopRightCornerHasTwoOrthogonalNeighbors() {
         Board board = new Board(7);
         Cell cell = board.getCell(at(7,7));
         Cell left = board.getCell(at(6,7));
@@ -52,14 +50,12 @@ public class testCell {
         assertEquals(neighborsList,cell.orthogonalNeighborsIn(board));
     }
 
-
     @ParameterizedTest
     @CsvSource({"2, 3",
                 "4, 2",
                 "3, 3"})
-    public void verifyDiagonalNeighborsOfInnerCells(int x, int y) {
+    public void innerCellHasAllFourDiagonalNeighbors(int x, int y) {
         Board board = new Board(7);
-
         Cell cell = board.getCell(at(x,y));
         Cell upperRight = board.getCell(at(x+1,y+1));
         Cell lowerRight = board.getCell(at(x+1,y-1));
@@ -70,7 +66,7 @@ public class testCell {
     }
 
     @Test
-    public void verifyDiagonalNeighborsOfTopRightCorner() {
+    public void cellOnTopRightCornerHasOneDiagonalNeighbor() {
         Board board = new Board(7);
         Cell cell = board.getCell(at(7,7));
         Cell lowerLeft = board.getCell(at(6,6));
@@ -85,7 +81,7 @@ public class testCell {
     public void blackStonesAtTopAreInStartEdge(int x, int y){
         Board board = new Board(3);
         board.placeStone(at(x, y), Color.BLACK);
-        Cell cell  = board.getCell(at(x, y));
+        Cell cell = board.getCell(at(x, y));
         assertTrue(cell.isOnStartEdge(board.dimension()));
     }
 
@@ -96,7 +92,7 @@ public class testCell {
     public void whiteStonesAtLeftAreInStartEdge(int x, int y){
         Board board = new Board(3);
         board.placeStone(at(x, y), Color.WHITE);
-        Cell cell  = board.getCell(at(x, y));
+        Cell cell = board.getCell(at(x, y));
         assertTrue(cell.isOnStartEdge(board.dimension()));
     }
 
@@ -107,7 +103,7 @@ public class testCell {
     public void blackStonesAtBottomAreInEndEdge(int x, int y){
         Board board = new Board(3);
         board.placeStone(at(x, y), Color.BLACK);
-        Cell cell  = board.getCell(at(x, y));
+        Cell cell = board.getCell(at(x, y));
         assertTrue(cell.isOnEndEdge(board.dimension()));
     }
 
@@ -118,9 +114,8 @@ public class testCell {
     public void whiteStonesAtRightAreInEndEdge(int x, int y){
         Board board = new Board(3);
         board.placeStone(at(x, y), Color.WHITE);
-        Cell cell  = board.getCell(at(x, y));
+        Cell cell = board.getCell(at(x, y));
         assertTrue(cell.isOnEndEdge(board.dimension()));
     }
-
 
 }
