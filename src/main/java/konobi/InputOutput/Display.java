@@ -17,11 +17,17 @@ public class Display {
             "|__|\\__\\  \\______/  |__| \\__|  \\______/  |______/  |__|\n" +
             "                                                       ";
     private static final String RULES_PAGE = "https://boardgamegeek.com/boardgame/123213/konobi";
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BROWN = "\u001b[48;5;179m";
-    public static final String ANSI_BEIGE = "\u001b[48;5;130m";
-    public static final String ANSI_BLACK_CIRCLE = "\u26AB";
-    public static final String ANSI_WHITE_CIRCLE = "\u26AA";
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_BROWN = "\u001b[48;5;179m";
+    private static final String ANSI_BEIGE = "\u001b[48;5;130m";
+    private static final String ANSI_BLACK_CIRCLE = "\u26AB";
+    private static final String ANSI_WHITE_CIRCLE = "\u26AA";
+    private static final String CROSS_SYMBOL = "X";
+    private static final String CIRCLE_SYMBOL = "O";
+    private static final String CELL_CROSS_SYMBOL = "|X|";
+    private static final String CELL_CIRCLE_SYMBOL = "|O|";
+    private static final String CELL_EMPTY_SYMBOL = "|_|";
+
 
     public Display(OutputStream out) {
         this.out = new PrintWriter(out, true);
@@ -60,8 +66,18 @@ public class Display {
 
     public void playerColorsMessage(Player player1, Player player2){
         printEmptyLine();
-        out.println(player1.getName() + " is "+player1.getColor() + ", " + player2.getName() + " is " + player2.getColor());
+        out.println(player1.getName() + " is "+ playerSymbol(player1.getColor()) + ", " + player2.getName() + " is " + playerSymbol(player2.getColor()) );
     }
+
+    private String playerSymbol(Color playerColor){
+        if(isWindows()){
+            return playerColor == Color.BLACK ? CROSS_SYMBOL : CIRCLE_SYMBOL;
+        }
+        else{
+            return playerColor.toString();
+        }
+    }
+
 
     public void currentPlayerTurnMessage(Player currentPlayer) {
         printEmptyLine();
@@ -117,19 +133,29 @@ public class Display {
         Cell cell = board.getCell(position);
         if (board.getCell(position).isOccupied()){
             if (cell.hasColor(Color.BLACK)){
-                out.print(ANSI_BLACK_CIRCLE + ANSI_RESET);
+                String blackCircleRepresentation = isWindows() ? CELL_CROSS_SYMBOL : ANSI_BLACK_CIRCLE + ANSI_RESET;
+                out.print(blackCircleRepresentation);
             }
             else{
-                out.print(ANSI_WHITE_CIRCLE + ANSI_RESET);
+                String whiteColorRepresentation = isWindows() ? CELL_CIRCLE_SYMBOL : ANSI_WHITE_CIRCLE + ANSI_RESET;
+                out.print(whiteColorRepresentation);
             }
         } else {
-            out.print("  " + ANSI_RESET);
+            String emptyCellRepresentation = isWindows() ? CELL_EMPTY_SYMBOL : "  " + ANSI_RESET;
+            out.print(emptyCellRepresentation);
         }
     }
 
     private void drawSquareAt(Position position) {
+        if (isWindows())
+            return;
         String squareRepresentation = ((position.getX()+ position.getY()) % 2 == 0) ? ANSI_BROWN : ANSI_BEIGE;
         out.print(squareRepresentation);
+    }
+
+    private boolean isWindows(){
+        String OS = System.getProperty("os.name").toLowerCase();
+        return OS.contains("windows");
     }
 
     public void lossMessage(Player currentPlayer) {
