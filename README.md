@@ -4,7 +4,7 @@
 
 Final project for Software Development Methods exam.
 
-Authors: Lorenzo Basile, Irene Brugnara, Roberto Corti, Arianna Tasciotti
+
 
 ## Rules
 
@@ -24,27 +24,72 @@ If a player cannot make a move on his turn, he must pass. Passing is otherwise n
 
 The game is won by the player who completes a chain of stones of his color touching the two opposite board edges: White chains should connect left and right edges, while Black chains should connect top and bottom edges. Draws are not possible.
 
+
+
+## Tools
+
+* Java 15
+
+* Gradle
+
+* TravisCI
+
+* Git & Github
+
+  
+
 ## How to compile and run
 
-The project was developed and tested using OpenJDK 15.
+### Unix-like systems 
 
-To download and run the console version of Konobi, execute the following commands:
+**Command Line Version** 
+Go to the root folder of the project and execute this command on the terminal:
 
 ```bash
-git clone https://github.com/lorenzobasile/konobi.git
-cd konobi
 ./gradlew runKonobi --console plain
 ```
 
-To run (as server) the Client-Server version of Konobi, a port number has to be specified using the following command:
+**Client Server Version**
+To run (as server) the Client-Server version, a port number has to be specified using the following command:
 
-```shell
+  ```bash
 ./gradlew runKonobi -PortNumber=<PORT_NUMBER> --console plain
-```
+  ```
 
 Then, two clients can connect to the server and play by executing the command:
 
-```shell
+```bash
 telnet <SERVER_IP_ADDRESS> <PORT_NUMBER>
 ```
 
+
+### Windows
+
+**Command Line Version** 
+Go to the root folder of the project and execute this command on the terminal:
+
+```bash
+gradlew.bat runKonobi --console plain
+```
+
+**Client Server Version**
+To run (as server) the Client-Server version, a port number has to be specified using the following command:
+
+  ```bash
+gradlew.bat runKonobi -PortNumber=<PORT_NUMBER> --console plain
+  ```
+
+Then, two clients can connect to the server and play by executing the command:
+
+```bash
+telnet <SERVER_IP_ADDRESS> <PORT_NUMBER>
+```
+
+
+
+## Authors
+
+* Lorenzo Basile
+* Irene Brugnara
+* Roberto Corti
+* Arianna Tasciotti
