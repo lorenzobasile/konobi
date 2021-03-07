@@ -1,6 +1,7 @@
 \documentclass{beamer}
 \usetheme{metropolis} 
 \usepackage{caption}
+\usepackage[export]{adjustbox}
 \usepackage[utf8]{inputenc}
 
 
@@ -246,28 +247,45 @@ Reasons for this choice of data structure:
 
 \section{Rules}
 
-\begin{frame}{Rule}
-	Initially, a \texttt{Rules} class was implemented to provide a way to check whether a move is valid or not and to announce whether there is a chain.
+\begin{frame}{Placement rules: how to implement them?}
+	Initially, a \texttt{Rules} class was implemented
+	\vspace{0.2cm}
 	%\\ \small From commit \href{https://github.com/lorenzobasile/konobi/blob/eaba694d6662a1b6803f7f22943636176281e572/src/main/java/konobi/Rules.java}{eaba694}
 	\begin{figure}
 		\includegraphics[scale=0.28]{images/rules-class.png}
 	\end{figure}
 \end{frame}
 
-\begin{frame}{Rule}
+\begin{frame}{Rules package}
 	
 	Later we realized that there would be the possibility to abstract...
 	\begin{figure}
 		\includegraphics[scale=0.4]{images/rules-uml.jpg}
 	\end{figure}
-
+	
 	For a given \texttt{Board}, the \texttt{isValid} method will check if it is legal to place a stone of a given \texttt{Color} in the \texttt{Cell}. \\
 	\vspace{0.1cm}
 	A \texttt{Rule} interface will allow the possibility to add new rules on the game.
 	
 \end{frame}
 
-\begin{frame}[t]{How were implemented}
+\begin{frame}[t]{How they were implemented }
+	\begin{itemize}
+		\item \texttt{WeakConnectionRule}
+		\vspace{0.2cm}
+		\
+		\begin{figure}
+			\includegraphics[scale=0.16, center]{images/weakconnectionrule-code.png}
+		\end{figure}
+		\item \texttt{CrossCutRule}
+		\vspace{0.2cm}
+		\begin{figure}
+			\includegraphics[scale=0.2, center]{images/crosscutrule-code.png}
+		\end{figure}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[t]{How they were tested }
 	
 	We implemented \texttt{WeakConnectionRule} and \texttt{CrossCutRule} by following TDD principles based on some examples...\\
 	\vspace{0.1cm}
@@ -285,9 +303,9 @@ Reasons for this choice of data structure:
 		\end{figure}
 		
 	\end{columns}
-
+	
 	\textbf{Illegal moves}
-		\begin{columns}
+	\begin{columns}
 		\column{0.3\textwidth}
 		%codice
 		\begin{figure}[t]
@@ -301,29 +319,40 @@ Reasons for this choice of data structure:
 		
 	\end{columns}
 	
-
+	
 	
 	
 \end{frame}
 
-\begin{frame}{Referee}
+\begin{frame}{A new entity comes: Referee }
 	\begin{columns}
-\column{0.5\textwidth}
-	Given the logic of a valid move in \texttt{Rules} package, our aim was to group together all the methods needed to check if:
-	\vspace{0.4cm}
-	\begin{itemize}
-		\item a given move is legal w.r.t. \texttt{WeakConnectionRule} and \texttt{CrossCutRule}
-		\vspace{0.25cm}
-		\item a winning chain is present
-		\vspace{0.25cm}
-		\item the current player has to pass
-	\end{itemize}
-	
-	\column{0.5\textwidth}
-	
+		\column{0.5\textwidth}
+		Given the logic of a valid move in \texttt{Rules} package, our aim was to group together all the methods needed to check if:
+		\vspace{0.4cm}
+		\begin{itemize}
+			\item a given move is legal w.r.t. \texttt{WeakConnectionRule} and \texttt{CrossCutRule}
+			\vspace{0.25cm}
+			\item a winning chain is present
+			\vspace{0.25cm}
+			\item the current player has to pass
+		\end{itemize}
+		
+		\column{0.5\textwidth}
+		
 		\includegraphics[scale=0.27]{images/referee-class.jpg}
-	
+		
 	\end{columns}
+\end{frame}
+
+\begin{frame}{How to find a chain}
+	\texttt{validateChain} method is used to find a chain of a given \texttt{Color} in the game's board.
+	
+	
+	\begin{figure}
+		\includegraphics[scale=0.2, width=7cm]{images/chainsearch-code.png}
+	\end{figure}
+	
+	\textbf{Recursive approach}: starting from all stones already placed on the start edge, we explore the set of their connected stones inside the board until we find a stone in the end edge.
 \end{frame}
 
 
