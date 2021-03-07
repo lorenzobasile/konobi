@@ -7,7 +7,7 @@ import static konobi.Entities.Position.at;
 
 public class Display {
 
-    PrintWriter out;
+    private final PrintWriter out;
 
     private static final String KONOBI_LOGO = " __  ___   ______   .__   __.   ______   .______    __ \n" +
             "|  |/  /  /  __  \\  |  \\ |  |  /  __  \\  |   _  \\  |  |\n" +

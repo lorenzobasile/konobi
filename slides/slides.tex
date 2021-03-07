@@ -1,7 +1,6 @@
 \documentclass{beamer}
 \usetheme{metropolis} 
 \usepackage{caption}
-\usepackage[export]{adjustbox}
 \usepackage[utf8]{inputenc}
 
 
@@ -92,18 +91,30 @@
      \end{itemize}
       \end{frame}
       
+\section{Let's see a live demo}
+      
+      
+      
+      
+      
       
 \section{Basic entities}
-\begin{frame}{Cell}
-% Lorenzo parla dei pacchetti
-% inizio a parlare delle classi color, position, cell, board che stanno nel pacchetto Entities
+\begin{frame}{The basic building block: \texttt{Cell}}
 
 \begin{columns}
-\column{0.5\textwidth}
-\texttt{Cell} represents the basic building block of the board 
-% A cell has three fields: the position of the cell in the board, a boolean isOccupied which tells whether the cell contains a stone or not, and a Color which is the color of the stone if present. Position is a class with two fields x,y; color is an enum with two values BLACK, WHITE (it's used to mark Players as well as stones, as we will see)
+\column{0.6\textwidth}
+\begin{itemize}
+\item When a cell is constructed it is empty: no color is associated to it and \texttt{isOccupied} is \texttt{False}
+\item When a stone is placed in the cell, a color is set and \texttt{isOccupied} becomes \texttt{True}
+\end{itemize}
+\vspace{0.8cm}
+Development history:
+\begin{itemize}
+	\item From value \texttt{NONE} in enum \texttt{Color} to field \texttt{isOccupied} in class \texttt{Cell}
+	\item Removed \texttt{Stone} data class
+\end{itemize}
 
-\column{0.5\textwidth}
+\column{0.4\textwidth}
 \begin{figure}
 	\includegraphics[scale=0.4]{images/cell-class.png}
 \end{figure}
@@ -115,27 +126,10 @@
 
 
 
-\begin{frame}{Cell}
-	% the constructor of Cell creates an empty cell
-	When a cell is constructed it is empty: no color is associated to it and \texttt{isOccupied} is \texttt{False}. When a stone is placed in the cell a color is set and \texttt{isOccupied} becomes \texttt{True}.
-	\vspace{0.5cm}
-	% The methods setColor() and reset() are used for checking the rules, as we will see later. For this reason, Color is not declared as final, even if in the game once a stone is placed it cannot be moved afterwards. The position is final because a cell is associated with a fixed position in the board.
 
-Development history:
-\begin{itemize}
-\item From value \texttt{NONE} in enum \texttt{Color} to field \texttt{isOccupied} in class \texttt{Cell}
-\item Removed \texttt{Stone} data class
-\end{itemize}
-% At the beginning, the Color enum had also a NONE value, but then we thought that a Player cannot have NONE as a value for his color so we moved NONE into a new field of Cell which is a boolean called isOccupied, and the color can be only WHITE or BLACK, which is also more logical.
+\begin{frame}{\texttt{Board}}
 
-% at the beginning we had a class Stone but we removed it because it was a data class (only had setters, ..) and it basically coincided with Color
-
-\end{frame}
-
-
-\begin{frame}{Board}
-
-A \texttt{Board} is represented by a set of cells and extends \texttt{HashSet<Cell>} by overriding the \texttt{dimension()} method
+A \texttt{Board} is represented by a set of cells and extends \texttt{HashSet<Cell>} 
 
 \vspace{0.5cm}
 Reasons for this choice of data structure:
@@ -145,60 +139,47 @@ Reasons for this choice of data structure:
 \end{itemize}
 
 
-
-% The board is represented by a set of cells. The other option we considered was a 2-dimensional array. In this way we can easily use streams to perform operations on this set of cells (we will see with connections). And in addition, the Position is a property (a field) of a Cell and not a pair of indexes of a matrix.
-
-%The constructor of Board creates a set of empty cells
-
 \end{frame}
 
 
 \section{Connections}
-% These were the entities that make our game. Then we implemented the relationships between these entities, which are the connections, i.e. strong and weak connections between stones.
+
 
 \begin{frame}{Strong connections}
-	\begin{itemize}
-		\item We implemented a concept of orthogonal adjacency which only depends on the relative positions of two cells: their euclidean distance must be 1
-		% it's a relationship between cells, not stones
-		\item Given the set of stones that are orthogonally adjacent to a given stone, by filtering only those with the same color we obtain the set of strongly connected neighbors
-	\end{itemize}
 
-\begin{columns}
-	\column{0.3\textwidth}
+
 	in class \texttt{Position}:
-	
-	  \vspace{0.9cm}
+
+	\begin{figure}
+		\includegraphics[scale=0.15]{images/position.png}
+	\end{figure}
+
+
+
 	in class \texttt{Cell}:
+
+	\begin{figure}
+		\includegraphics[scale=0.15]{images/cell1.png}
+		\includegraphics[scale=0.15]{images/cell2.png}
+	\end{figure}
+
 	
-	  \vspace{0.9cm}
 	in class \texttt{Board}:
 
-	\column{0.7\textwidth}
+	\begin{figure}
+		\includegraphics[scale=0.15]{images/board1.png}
+	\end{figure}
 
-\begin{figure}
-	\includegraphics[scale=0.2]{images/connections-position.png}
-	
-  \vspace{0.2cm}
-	\includegraphics[scale=0.2]{images/connections-cell.png}
-
-  \vspace{0.2cm}
-	\includegraphics[scale=0.2]{images/connections-board.png}
-\end{figure}
-\end{columns}
 
 	
 \end{frame}
 
 \begin{frame}{Weak connections}
 
-	\begin{itemize}
-		\item Same concept applies for weak connections: two cells are diagonally adjacent if their squared euclidean distance is 2	
-		\item To obtain the set of weak neighbors, in this case it is also necessary to filter out diagonally adjacent stones with common strong neighbors
-		% in this case it is not sufficient to filter based on color 
-	\end{itemize}
 	in class \texttt{Board}:
 \begin{figure}
-	\includegraphics[scale=0.25]{images/connections-common.png}
+	\includegraphics[width=0.74\textwidth]{images/board2.png}
+	\includegraphics[width=1\textwidth]{images/board3.png}
 \end{figure}
 
 \end{frame}
@@ -206,21 +187,21 @@ Reasons for this choice of data structure:
 
 
 \begin{frame}{Tests}
-	Different test cases for orthogonal and diagonal adjacency:
+	Different test cases for diagonal adjacency (same for orthogonal):
 \begin{columns}
 \column{0.33\textwidth}
 	\begin{figure}
-		\includegraphics[scale=0.15]{images/diagonal_inner.png}
+		\includegraphics[scale=0.15]{images/inner.png}
 		\\inner cell
 	\end{figure}
 \column{0.33\textwidth}
 	\begin{figure}
-		\includegraphics[scale=0.15]{images/orthogonal_edge.png}
+		\includegraphics[scale=0.15]{images/edge.png}
 		\\cell on edge
 	\end{figure}
 \column{0.33\textwidth}
 	\begin{figure}
-	\includegraphics[scale=0.15]{images/diagonal_corner.png}
+	\includegraphics[scale=0.15]{images/corner.png}
     \\cell on corner
 \end{figure}
 \end{columns}
@@ -241,202 +222,264 @@ Reasons for this choice of data structure:
 			the two stones are \\\textit{not} weakly connected
 		\end{figure}
 	\end{columns}
-\end{frame}
-
-
-
+\end{frame}      
+      
+      
+      
+      
+      
+      
+      
+      
 \section{Rules}
 
 \begin{frame}{Placement rules: how to implement them?}
-	Initially, a \texttt{Rules} class was implemented
-	\vspace{0.2cm}
-	%\\ \small From commit \href{https://github.com/lorenzobasile/konobi/blob/eaba694d6662a1b6803f7f22943636176281e572/src/main/java/konobi/Rules.java}{eaba694}
-	\begin{figure}
-		\includegraphics[scale=0.28]{images/rules-class.png}
-	\end{figure}
+ A feature that Konobi has to provide is that a player must make a move which respects placement rules:
+ \vspace{0.3cm}
+ 
+ \begin{itemize}
+  \item It's illegal to make a weak connection to a certain stone unless it's impossible to make a placement which is both strongly connected to that stone and not weakly connected to another (\textbf{Weak Connection Rule})
+  \item It's illegal to make a 2x2 pattern of stones consisting of two diagonally adjacent Black stones and two diagonally adjacent White stones. (\textbf{Crosscut Rule})
+ \end{itemize}
+
+ \vspace{0.2cm}
+ 
+ Initially, a \texttt{Rules} class was implemented... 
 \end{frame}
 
 \begin{frame}{Rules package}
-	
-	Later we realized that there would be the possibility to abstract...
-	\begin{figure}
-		\includegraphics[scale=0.4]{images/rules-uml.jpg}
-	\end{figure}
-	
-	For a given \texttt{Board}, the \texttt{isValid} method will check if it is legal to place a stone of a given \texttt{Color} in the \texttt{Cell}. \\
-	\vspace{0.1cm}
-	A \texttt{Rule} interface will allow the possibility to add new rules on the game.
-	
+ ...but later we realized that there could be a way to abstract
+ \begin{figure}
+  \includegraphics[scale=0.4]{images/rules-uml.png}
+ \end{figure}
+ 
+ For a given \texttt{Board}, the \texttt{isValid} method will check if it is legal to place a stone of a given \texttt{Color} in the \texttt{Cell}. \\
+ \vspace{0.1cm}
+ A \texttt{Rule} interface will allow the possibility to add new rules on the game.
+ 
 \end{frame}
 
-\begin{frame}[t]{How they were implemented }
-	\begin{itemize}
-		\item \texttt{WeakConnectionRule}
-		\vspace{0.2cm}
-		\
-		\begin{figure}
-			\includegraphics[scale=0.16, center]{images/weakconnectionrule-code.png}
-		\end{figure}
-		\item \texttt{CrossCutRule}
-		\vspace{0.2cm}
-		\begin{figure}
-			\includegraphics[scale=0.2, center]{images/crosscutrule-code.png}
-		\end{figure}
-	\end{itemize}
+\begin{frame}[t]{How the rules were implemented }
+ \begin{itemize}
+  \item \texttt{WeakConnectionRule}
+  \vspace{0.4cm}
+  \
+  \begin{figure}
+   \center\includegraphics[scale=0.19]{images/weak-connection-rule-code.png}
+  \end{figure}
+  \item \texttt{CrossCutRule}
+  \vspace{0.4cm}
+  \begin{figure}
+   \center\includegraphics[scale=0.2]{images/cross-cut-rule-code.png}
+  \end{figure}
+ \end{itemize}
 \end{frame}
 
-\begin{frame}[t]{How they were tested }
-	
-	We implemented \texttt{WeakConnectionRule} and \texttt{CrossCutRule} by following TDD principles based on some examples...\\
-	\vspace{0.1cm}
-	\textbf{Legal moves}
-	\begin{columns}
-		\column{0.5\textwidth}
-		%codice
-		\begin{figure}[t]
-			\includegraphics[scale=0.2]{images/test-legal-weak.png}
-		\end{figure}
-		\column{0.3\textwidth}
-		%esempio
-		\begin{figure}[t]
-			\includegraphics[scale=0.15]{images/legal-move.png}
-		\end{figure}
-		
-	\end{columns}
-	
-	\textbf{Illegal moves}
-	\begin{columns}
-		\column{0.3\textwidth}
-		%codice
-		\begin{figure}[t]
-			\includegraphics[scale=0.2]{images/illegal-move.png}
-		\end{figure}
-		\column{0.5\textwidth}
-		%esempio
-		\begin{figure}
-			\includegraphics[scale=0.2]{images/test-illegal-weak.png}
-		\end{figure}
-		
-	\end{columns}
-	
-	
-	
-	
+\begin{frame}[t]{How the rules were tested }
+ 
+ We implemented \texttt{WeakConnectionRule} and \texttt{CrossCutRule} by following TDD principles based on some examples...\\
+ \vspace{0.1cm}
+ \textbf{Legal moves}
+ \begin{columns}
+  \column{0.5\textwidth}
+  %codice
+  \begin{figure}[t]
+   \includegraphics[scale=0.27]{images/test-legal-weak.png}
+  \end{figure}
+  \column{0.3\textwidth}
+  %esempio
+  \begin{figure}[t]
+   \includegraphics[scale=0.24]{images/legal_weak.png}
+  \end{figure}
+  
+ \end{columns}
+ 
+ \textbf{Illegal moves}
+ \begin{columns}
+  \column{0.3\textwidth}
+  %codice
+  \begin{figure}[t]
+   \includegraphics[scale=0.24]{images/illegal_weak.png}
+  \end{figure}
+  \column{0.5\textwidth}
+  %esempio
+  \begin{figure}
+   \includegraphics[scale=0.27]{images/test-illegal-weak.png}
+  \end{figure}
+  
+ \end{columns}
+ 
+ 
+ 
+ 
 \end{frame}
 
-\begin{frame}{A new entity comes: Referee }
-	\begin{columns}
-		\column{0.5\textwidth}
-		Given the logic of a valid move in \texttt{Rules} package, our aim was to group together all the methods needed to check if:
-		\vspace{0.4cm}
-		\begin{itemize}
-			\item a given move is legal w.r.t. \texttt{WeakConnectionRule} and \texttt{CrossCutRule}
-			\vspace{0.25cm}
-			\item a winning chain is present
-			\vspace{0.25cm}
-			\item the current player has to pass
-		\end{itemize}
-		
-		\column{0.5\textwidth}
-		
-		\includegraphics[scale=0.27]{images/referee-class.jpg}
-		
-	\end{columns}
+\begin{frame}{A new entity comes: \texttt{Referee}}
+ \begin{columns}
+  \column{0.5\textwidth}
+  Given the logic of a valid move in \texttt{Rules} package, our aim was to group together all the methods needed to check if:
+  \vspace{0.4cm}
+  \begin{itemize}
+   \item a given move is legal w.r.t. \texttt{WeakConnectionRule} and \texttt{CrossCutRule}
+   \vspace{0.25cm}
+   \item a winning chain is present
+   \vspace{0.25cm}
+   \item the current player has to pass
+  \end{itemize}
+  
+  \column{0.5\textwidth}
+  
+  \includegraphics[scale=0.27]{images/referee-class.jpg}
+  
+ \end{columns}
 \end{frame}
 
-\begin{frame}{How to find a chain}
-	\texttt{validateChain} method is used to find a chain of a given \texttt{Color} in the game's board.
-	
-	
-	\begin{figure}
-		\includegraphics[scale=0.2, width=7cm]{images/chainsearch-code.png}
-	\end{figure}
-	
-	\textbf{Recursive approach}: starting from all stones already placed on the start edge, we explore the set of their connected stones inside the board until we find a stone in the end edge.
+\begin{frame}{How to find a winning chain}
+ \texttt{isThereaWinningChainFor} method is used to find a chain of a given \texttt{Color}.
+ 
+ 
+ \begin{figure}
+  \includegraphics[scale=0.2, width=7cm]{images/chainsearch-code.png}
+ \end{figure}
+ 
+ \textbf{Recursive approach}: starting from all stones placed on the start edge, we explore the set of their connected stones inside the board until we arrive in the end edge.
 \end{frame}
+
 
 
 \section{InputOutput}
 
-\begin{frame}{InputHandler and Display}
-	Classes \texttt{InputHandler} and \texttt{Display} take care of game I/O.
+\begin{frame}{Handling user interaction: \texttt{InputTerminal} and \texttt{Display}}
+ Classes \texttt{InputTerminal} and \texttt{Display} take care of game I/O.
 
-	\begin{itemize}
-		\item \texttt{Display}: interaction with players
-	 	\item \texttt{InputHandler}: management of player inputs
-	\end{itemize}
-	
-	INSERIRE UML INPUTOUTPUT E EXCEPTIONS
+ \begin{itemize}
+  \item \texttt{Display}: communication with players through messages
+   \item \texttt{InputTerminal}: management of player inputs
+ \end{itemize}
+ 
+   \begin{center}
+       \includegraphics[scale=0.45]{images/inputoutput.png}
+      \end{center}
+\end{frame}
+
+\begin{frame}{Sorting out exceptional events}
+
+ Potential issues with user input:
+ \begin{itemize}
+  \item negative number (board dimension, move coordinates)
+  \item wrong answer (pie rule requires "y" or "n")
+  \item number format (string instead of an integer)
+ \end{itemize}
+ 
+ \vspace{0.7cm}
+ 
+ How to deal with them:
+ \begin{itemize}
+  \item \texttt{throw} (and \texttt{catch}) custom exceptions extending \texttt{Exception} java class
+ \end{itemize}
+ 
 \end{frame}
 
 
 \section{Game dynamics}
 
-\begin{frame}{Overview}
-	  \begin{center}
-     		\includegraphics[scale=0.25]{images/game_uml.png}
-     	\end{center}
+
+\begin{frame}{Building blocks for game dynamics}
+   \begin{center}
+       \includegraphics[scale=0.25]{images/game_uml.png}
+      \end{center}
 
 \end{frame}
 
-\begin{frame}{GameState}
+\begin{frame}{Game flow management: \texttt{GameState}}
      
      \texttt{GameState} class keeps track of current state of the game.
-     
-     METTERE UML DEI METODI PUBBLICI PIUTTOSTO CHE QUESTO DEI MEMBRI.
+     \vspace{0.5cm}
      \begin{center}
-     	\includegraphics[scale=0.32]{images/gamestate.png}
+      \includegraphics[scale=0.42]{images/gamestate.png}
      \end{center}
     
      \vspace{0.4cm}
-   \texttt{GameState} acts as an intermediary between \texttt{Referee} and \texttt{Board} on one side and the higher-level class \texttt{Game} on the other 	side.
+   \texttt{GameState} acts as an intermediary between \texttt{Referee} and \texttt{Board} on one side and the higher-level class \texttt{Game} on the other  side.
      
 \end{frame}
 
-\begin{frame}{Game}	 
-	Based on the directives of \texttt{GameState}, \texttt{Game} manages the interactions with players.
-	\\
-	\vspace{0.5cm}
-     	\pause
-	\includegraphics[scale=0.26]{images/play.png}
-   	\pause
-	\includegraphics[scale=0.26]{images/singleturn.png}
-	\pause
-	\includegraphics[scale=0.26]{images/regularmove.png}
+\begin{frame}{Game execution: core methods}  
+ Based on the directives of \texttt{GameState}, \texttt{Game} manages the interactions with players.
+ \\
+      \pause
+\includegraphics[scale=0.30]{images/play.png}
+    \pause
+ \includegraphics[scale=0.30]{images/singleturn.png}
+ \pause
+ \includegraphics[scale=0.30]{images/regularmove.png}
 \end{frame}
 
-\begin{frame}{GameInitializer}
+\begin{frame}{Preparing the game: \texttt{GameInitializer}}
 
-	\texttt{GameInitializer} abstracts the initialization of the \texttt{Game}.
-	
-	AGGIUNGERE UML METODI DI GAMEINITIALIZER
-
+ \begin{columns}
+  \column{0.6\textwidth}
+    Abstraction for  \texttt{Game} initialization:
+   \begin{itemize}
+    \item welcome message
+    \item receiving input board dimension
+    \item construct players
+    \item construct game
+    \item display player colors
+   \end{itemize}
+  \column{0.5\textwidth}
+        \includegraphics[scale=0.5]{images/gameinitializer.png}
+     \end{columns}
 \end{frame}
-
 
 \section{Running the game}
 
-\begin{frame}{Versions of Konobi}
-INSERT UML HERE
+\begin{frame}{Two versions of Konobi}
 Konobi can be played by the two players on the same terminal or in a Client-Server version, with the two players connecting through \texttt{telnet} to a Server running the game.
+\\ Code duplication between the two versions is avoided by exploiting polymorphism: abstract classes \texttt{Game} and \texttt{GameInitializer} allow for very general code in the form:
+\\
+\center \includegraphics[scale=0.5]{images/gameplay.png}
 \end{frame}
 
-\begin{frame}{Comparison between Console and C/S}
-\begin{columns}
-\column{0.5\linewidth}
-\includegraphics[scale=0.27]{images/mainCo.png}
-\column{0.5\linewidth}
-Console version: a \texttt{Game} is initialized and its \texttt{play} method is called.
-\end{columns}
-\vspace{0.5cm}
-\begin{columns}
-\column{0.5\linewidth}
-\includegraphics[scale=0.21]{images/mainCS.png}
-\column{0.5\linewidth}
-Client-Server version: The server creates the socket and waits for two clients to connect to it. The port number can be decided using command-line arguments.
-\end{columns}\end{frame}
-\begin{frame}{Inheritance in GameInitializer}
+\begin{frame}{Behind the scenes of \texttt{prepareAndConstructGame}}
+\center \includegraphics[scale=0.4]{images/prepareandconstruct.png}
+\begin{columns}\hspace{-0.5cm}
+			\column{0.4\textwidth}
+			\begin{figure}
+				\includegraphics[scale=0.24]{images/constructconsole.png}
+				\caption*{\hspace{-0.2cm}\texttt{GameInitializerConsole}}
+			\end{figure}
+					
+			\column{0.5\textwidth}
+			\begin{figure}
+				\includegraphics[scale=0.24]{images/constructcs.png}
+				\caption*{\texttt{GameInitializerClientServer}}
+			\end{figure}
+		
+	\end{columns}
 
+\end{frame}
+
+\begin{frame}{Comparing \texttt{GameConsole} and \texttt{GameClientServer}}
+Client-Server version has to differentiate the messages for the two players:
+\begin{columns}
+			\column{0.5\textwidth}
+			\begin{figure}
+				\includegraphics[height=5cm, keepaspectratio]{images/gameconsole.png}
+				\caption*{\texttt{GameConsole}}
+			\end{figure}
+					
+			\column{0.5\textwidth}
+			\begin{figure}
+				\includegraphics[height=5cm, keepaspectratio]{images/gamecs.png}
+				\caption*{\texttt{GameClientServer}}
+			\end{figure}
+		
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Testing the game}
+FOTO DEL TEST?
 \end{frame}
 
 
