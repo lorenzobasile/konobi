@@ -478,16 +478,21 @@ Client-Server version has to differentiate the messages for the two players:
 	\end{columns}
 \end{frame}
 
-\begin{frame}{Testing the game}
-FOTO DEL TEST?
+\begin{frame}{Testing Konobi}
+To test the full execution of the game we designed a way to simulate it:
+\begin{itemize}
+
+\item Text files containing the list of inputs for some matches
+\item Standard input redirection on these files
+\item Standard output redirection on a \texttt{ByteArrayOutputStream}, then converted to a \texttt{String}
+\item \texttt{Main} execution
+\item Comparison between expected and actual winner name
+\end{itemize}
 \end{frame}
 
+\section{Now let's connect to a server}
 
-
-
-
-
-
+\section{Thank you for your attention!}
 
 
      
