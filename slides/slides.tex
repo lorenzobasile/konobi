@@ -95,39 +95,29 @@
 \section{Basic entities}
 \begin{frame}{Cell}
 % Lorenzo parla dei pacchetti
-% inizio a parlare delle classi color, position, cell, board (diagramma uml)
+% inizio a parlare delle classi color, position, cell, board che stanno nel pacchetto Entities
 
 \begin{columns}
 \column{0.5\textwidth}
 \texttt{Cell} represents the basic building block of the board 
-% A cell has three fields: the position of the cell in the board, a boolean isOccupied which tells whether the cell contains a stone or not, and a Color which is the color of the stone if present.
-\vspace{0.5cm}
-\begin{itemize}
-    \item \texttt{Position position }
-    % position has two fields x,y
-    \item \texttt{Color color}
-    % color is an enum with two values BLACK, WHITE
-    \item \texttt{boolean isOccupied}
-\end{itemize}
+% A cell has three fields: the position of the cell in the board, a boolean isOccupied which tells whether the cell contains a stone or not, and a Color which is the color of the stone if present. Position is a class with two fields x,y; color is an enum with two values BLACK, WHITE (it's used to mark Players as well as stones, as we will see)
 
 \column{0.5\textwidth}
-% uml con i tre data membri
 \begin{figure}
 	\includegraphics[scale=0.4]{images/cell-class.png}
-	\caption*{Cell class}
 \end{figure}
 
 \end{columns}
 
 
-
-
-
 \end{frame}
 
+
+
 \begin{frame}{Cell}
-	When a cell is constructed it is empty: no color is associated to it and \texttt{isOccupied=False}, when a stone is placed in the cell a color is set and \texttt{isOccupied=True}.
-	
+	% the constructor of Cell creates an empty cell
+	When a cell is constructed it is empty: no color is associated to it and \texttt{isOccupied} is \texttt{False}. When a stone is placed in the cell a color is set and \texttt{isOccupied} becomes \texttt{True}.
+	\vspace{0.5cm}
 	% The methods setColor() and reset() are used for checking the rules, as we will see later. For this reason, Color is not declared as final, even if in the game once a stone is placed it cannot be moved afterwards. The position is final because a cell is associated with a fixed position in the board.
 
 Development history:
@@ -144,24 +134,22 @@ Development history:
 
 \begin{frame}{Board}
 
-A \texttt{Board} is represented by a set of Cells and extends \texttt{HashSet<Cell>} by overriding the \texttt{dimension()} method
+A \texttt{Board} is represented by a set of cells and extends \texttt{HashSet<Cell>} by overriding the \texttt{dimension()} method
 
+\vspace{0.5cm}
 Reasons for this choice of data structure:
 \begin{itemize}
     \item Usage of streams
-    \item \texttt{Position} as field of \texttt{Cell}    
+    \item \texttt{Position} as attribute of \texttt{Cell}    
 \end{itemize}
 
 
 
 % The board is represented by a set of cells. The other option we considered was a 2-dimensional array. In this way we can easily use streams to perform operations on this set of cells (we will see with connections). And in addition, the Position is a property (a field) of a Cell and not a pair of indexes of a matrix.
 
-The constructor of Board creates a set of empty cells
+%The constructor of Board creates a set of empty cells
 
 \end{frame}
-
-
-
 
 
 \section{Connections}
@@ -170,23 +158,72 @@ The constructor of Board creates a set of empty cells
 \begin{frame}{Strong connections}
 	\begin{itemize}
 		\item We implemented a concept of orthogonal adjacency which only depends on the relative positions of two cells: their euclidean distance must be 1
+		% it's a relationship between cells, not stones
 		\item Given the set of stones that are orthogonally adjacent to a given stone, by filtering only those with the same color we obtain the set of strongly connected neighbors
 	\end{itemize}
+
+\begin{columns}
+	\column{0.3\textwidth}
+	in class \texttt{Position}:
+	
+	  \vspace{0.9cm}
+	in class \texttt{Cell}:
+	
+	  \vspace{0.9cm}
+	in class \texttt{Board}:
+
+	\column{0.7\textwidth}
+
+\begin{figure}
+	\includegraphics[scale=0.2]{images/connections-position.png}
+	
+  \vspace{0.2cm}
+	\includegraphics[scale=0.2]{images/connections-cell.png}
+
+  \vspace{0.2cm}
+	\includegraphics[scale=0.2]{images/connections-board.png}
+\end{figure}
+\end{columns}
+
 	
 \end{frame}
 
 \begin{frame}{Weak connections}
+
 	\begin{itemize}
 		\item Same concept applies for weak connections: two cells are diagonally adjacent if their squared euclidean distance is 2	
 		\item To obtain the set of weak neighbors, in this case it is also necessary to filter out diagonally adjacent stones with common strong neighbors
 		% in this case it is not sufficient to filter based on color 
 	\end{itemize}
+	in class \texttt{Board}:
+\begin{figure}
+	\includegraphics[scale=0.25]{images/connections-common.png}
+\end{figure}
+
 \end{frame}
 
 
+
 \begin{frame}{Tests}
-	Different test cases for orthogonal and diagonal adjacency: inner cell, cell on edge, cell on corner\\  % the same for diagonal adjacency
-	\vspace{0.8cm}
+	Different test cases for orthogonal and diagonal adjacency:
+\begin{columns}
+\column{0.33\textwidth}
+	\begin{figure}
+		\includegraphics[scale=0.15]{images/diagonal_inner.png}
+		\\inner cell
+	\end{figure}
+\column{0.33\textwidth}
+	\begin{figure}
+		\includegraphics[scale=0.15]{images/orthogonal_edge.png}
+		\\cell on edge
+	\end{figure}
+\column{0.33\textwidth}
+	\begin{figure}
+	\includegraphics[scale=0.15]{images/diagonal_corner.png}
+    \\cell on corner
+\end{figure}
+\end{columns}
+	\vspace{0.9cm}
 	Example of tests for strong and weak connection: 
 	\begin{columns}
 		\column{0.5\textwidth}
