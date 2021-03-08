@@ -7,15 +7,15 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Referee {
-    WeakConnectionRule ruleOne = new WeakConnectionRule();
-    CrossCutRule ruleTwo = new CrossCutRule();
-    Board board;
+    private final WeakConnectionRule ruleOne = new WeakConnectionRule();
+    private final CrossCutRule ruleTwo = new CrossCutRule();
+    private final Board board;
 
     public Referee(Board board){
         this.board = board;
     }
 
-    public boolean validateMove(Cell cell, Color color){
+    private boolean validateMove(Cell cell, Color color){
         return ruleOne.isValid(board, cell, color) && ruleTwo.isValid(board, cell, color);
     }
 
@@ -29,9 +29,9 @@ public class Referee {
     public boolean isThereAWinningChainFor(Color color) {
         Set<Position> visitedCells = new HashSet<>();
         return board.stream()
+                    .filter(Cell::isOccupied)
                     .filter(c->c.hasColor(color))
                     .filter(c->c.isOnStartEdge(board.dimension()))
-                    .filter(Cell::isOccupied)
                     .filter(c->!visitedCells.contains(c.getPosition()))
                     .filter(c->c.hasColor(color))
                     .anyMatch(c->chainSearch(c, visitedCells));

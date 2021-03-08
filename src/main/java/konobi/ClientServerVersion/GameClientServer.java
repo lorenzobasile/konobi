@@ -11,7 +11,7 @@ public class GameClientServer extends Game {
     }
 
     @Override
-    public void notifyPieRule() {
+    protected void notifyPieRule() {
         getCurrentDisplay().playerColorsMessage(player1, player2);
         getOtherDisplay().pieRuleHasBeenAppliedMessage();
         getOtherDisplay().playerColorsMessage(player1, player2);
@@ -24,14 +24,14 @@ public class GameClientServer extends Game {
     }
 
     @Override
-    public void printBoard(Board board){
+    protected void printBoard(Board board){
         getCurrentDisplay().printBoard(board);
         getOtherDisplay().otherPlayerHasMadeMoveMessage();
         getOtherDisplay().printBoard(board);
     }
 
     @Override
-    public void notifyEndOfMatch() {
+    protected void notifyEndOfMatch() {
         getOtherDisplay().winMessage(getOtherPlayer());
         getCurrentDisplay().lossMessage(getCurrentPlayer());
     }
