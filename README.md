@@ -85,6 +85,7 @@ Then, two clients can connect to the server and play by executing the command:
 telnet <SERVER_IP_ADDRESS> <PORT_NUMBER>
 ```
 
+Note: due to rendering of Windows command prompt, if a player is using a Windows machine, it is recommended that the server runs on Windows as well.
 
 
 ## Authors
