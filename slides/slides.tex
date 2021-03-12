@@ -264,15 +264,15 @@ Reasons for this choice of data structure:
 \begin{frame}[t]{How the rules were implemented }
  \begin{itemize}
   \item \texttt{WeakConnectionRule}
-  \vspace{0.4cm}
+  \vspace{0.2cm}
   \
   \begin{figure}
-   \center\includegraphics[scale=0.19]{images/weak-connection-rule-code.png}
+   \center\includegraphics[scale=0.24]{images/weak-connection-rule-code.png}
   \end{figure}
   \item \texttt{CrossCutRule}
-  \vspace{0.4cm}
+  \vspace{0.2cm}
   \begin{figure}
-   \center\includegraphics[scale=0.2]{images/cross-cut-rule-code.png}
+   \center\includegraphics[scale=0.24]{images/cross-cut-rule-code.png}
   \end{figure}
  \end{itemize}
 \end{frame}
@@ -331,7 +331,7 @@ Reasons for this choice of data structure:
   
   \column{0.5\textwidth}
   
-  \includegraphics[scale=0.27]{images/referee-class.jpg}
+  \includegraphics[scale=0.27]{images/referee-class.png}
   
  \end{columns}
 \end{frame}
@@ -527,7 +527,7 @@ Reasons for this choice of data structure:
 
 \begin{frame}{Building blocks for game dynamics}
    \begin{center}
-       \includegraphics[scale=0.25]{images/game_uml.png}
+       \includegraphics[scale=0.45]{images/game_uml.png}
       \end{center}
 
 \end{frame}
@@ -576,10 +576,18 @@ Reasons for this choice of data structure:
 \section{Running the game}
 
 \begin{frame}{Two versions of Konobi}
-Konobi can be played by the two players on the same terminal or in a Client-Server version, with the two players connecting through \texttt{telnet} to a Server running the game.
-\\ Code duplication between the two versions is avoided by exploiting polymorphism: abstract classes \texttt{Game} and \texttt{GameInitializer} allow for very general code in the form:
+Konobi can be played by the two players on the same terminal or in a client-server version.
+\\In the latter a server hosts the entire logic of the game: it creates a \texttt{ServerSocket} bound to a specified port number and waits for two clients to connect.
+\vspace{0.5cm}
+\\The two clients connect through \texttt{telnet} to the server, hence Java is not needed on the client side.
+\end{frame}
+
+\begin{frame}{Inheritance in \texttt{Game} and \texttt{GameInitializer}}
+Code duplication between the two versions is avoided by exploiting polymorphism: abstract classes \texttt{Game} and \texttt{GameInitializer} allow for very general code in the form:
 \\
-\center \includegraphics[scale=0.5]{images/gameplay.png}
+\begin{center} \includegraphics[scale=0.5]{images/gameplay.png}\end{center}
+
+Depending on the version of Konobi, \texttt{game} is either a \texttt{GameConsole} or a \texttt{GameClientServer} and the method \texttt{play} calls different versions of abstract functions for the two versions.
 \end{frame}
 
 \begin{frame}{Behind the scenes of \texttt{prepareAndConstructGame}}
@@ -625,7 +633,7 @@ To test the full execution of the game we designed a way to simulate it:
 
 \item Text files containing the list of inputs for some matches
 \item Standard input redirection on these files
-\item Standard output redirection on a \texttt{ByteArrayOutputStream}, then converted to a \texttt{String}
+\item Standard output redirection to a \texttt{ByteArrayOutputStream}, then converted to a \texttt{String}
 \item \texttt{Main} execution
 \item Comparison between expected and actual winner name
 \end{itemize}
